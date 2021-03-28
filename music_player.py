@@ -9,7 +9,11 @@ class Player:
         self.root.title("Music Player")
         self.root.geometry("800x290")
 
+        self.timer = Label(self.root,text="0:00:00",bg="black",fg="green",font=("arial","29"),width=10,height=2)
+        self.timer.place(x=15,y=20)
+
         self.root.mainloop()
 
 if __name__=="__main__":
     Player()
+
