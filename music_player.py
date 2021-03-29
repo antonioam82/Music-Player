@@ -20,10 +20,13 @@ class Player:
         self.timer.place(x=9,y=28)
         self.entryFile = Entry(self.root,textvariable=self.filename,width=29,font=("arial",20))
         self.entryFile.place(x=355,y=28)
-        Button(self.root,text="SEARCH",width=61,bg="light gray").place(x=356,y=65)
+        Button(self.root,text="SEARCH",width=61,bg="light gray").place(x=356,y=75)
+        Button(self.root,text="PLAY",width=15,bg="light gray").place(x=356,y=108)
+        Button(self.root,text="STOP",width=15,bg="light gray").place(x=474,y=108)
 
         self.root.mainloop()
 
 if __name__=="__main__":
     Player()
+
 
