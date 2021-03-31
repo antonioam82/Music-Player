@@ -19,6 +19,7 @@ class Player:
         self.filename = StringVar()
         self.currentDir = StringVar()
         self.currentDir.set(os.getcwd())
+        self.file_path = None
         self.playing = True
 
         entryDir = Entry(self.root,textvariable=self.currentDir,width=133)
@@ -49,20 +50,21 @@ class Player:
         self.playing=False
 
     def music(self):
-        self.p = pyaudio.PyAudio()
-        wf = wave.open(self.file_path, 'rb')
-        self.stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()),
-                channels=wf.getnchannels(),
-                rate=wf.getframerate(),
-                output=True)
-        data = wf.readframes(self.CHUNK)
-        while data != '' and self.playing==True:
-            self.stream.write(data)
+        if self.file_path:
+            self.p = pyaudio.PyAudio()
+            wf = wave.open(self.file_path, 'rb')
+            self.stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()),
+                    channels=wf.getnchannels(),
+                    rate=wf.getframerate(),
+                    output=True)
             data = wf.readframes(self.CHUNK)
-        self.stream.stop_stream()
-        self.stream.close()
-        self.p.terminate()
-        self.playing=True
+            while data != '' and self.playing==True:
+                self.stream.write(data)
+                data = wf.readframes(self.CHUNK)
+            self.stream.stop_stream()
+            self.stream.close()
+            self.p.terminate()
+            self.playing=True
             
 if __name__=="__main__":
     Player()
