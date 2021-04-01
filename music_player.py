@@ -23,11 +23,12 @@ class Player:
         entryDir.place(x=0,y=0)
         self.timer = Label(self.root,text="0:00:00",bg="black",fg="green",font=("arial","34"),width=13,height=2)
         self.timer.place(x=9,y=28)
-        self.entryFile = Entry(self.root,textvariable=self.filename,width=29,font=("arial",20))
+        self.entryFile = Entry(self.root,textvariable=self.filename,width=29,font=("arial",20,'bold'))
         self.entryFile.place(x=355,y=28)
         Button(self.root,text="SEARCH",width=61,bg="light gray",command=self.open_file).place(x=356,y=75)
         Button(self.root,text="PLAY",width=15,bg="light gray",command=self.init_task).place(x=356,y=108)
         Button(self.root,text="STOP",width=15,bg="light gray",command=self.stop_music).place(x=474,y=108)
+        Button(self.root,text="ADD/REMOVE",width=27,bg="light gray").place(x=593,y=108)
 
         self.root.mainloop()
 
