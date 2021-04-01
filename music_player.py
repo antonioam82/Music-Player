@@ -38,10 +38,11 @@ class Player:
 
     def open_file(self):
         if self.playing == False:
-            self.file_path = filedialog.askopenfilename(initialdir = "/",
+            fpath = filedialog.askopenfilename(initialdir = "/",
                  title = "Select File",filetypes = (("wav files","*.wav"),
                  ("all files","*.*")))
-            if self.file_path:
+            if fpath:
+                self.file_path = fpath
                 self.filename.set(self.file_path.split("/")[-1])
 
     def stop_music(self):
