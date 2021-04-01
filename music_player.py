@@ -33,7 +33,7 @@ class Player:
         self.root.mainloop()
 
     def init_task(self):
-        if self.file_path and self.playing==False:
+        if self.file_path and self.playing == False:
             t = threading.Thread(target=self.music)
             t.start()
 
@@ -46,22 +46,22 @@ class Player:
                 self.filename.set(self.file_path.split("/")[-1])
 
     def stop_music(self):
-        self.playing=False
+        self.playing = False
 
     def music(self):
-        self.playing=True
+        self.playing = True
         self.p = pyaudio.PyAudio()
         wf = wave.open(self.file_path, 'rb')
         self.stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()),
                     channels=wf.getnchannels(),rate=wf.getframerate(),output=True)
         data = wf.readframes(self.CHUNK)
-        while data and self.playing==True:
+        while data and self.playing == True:
             self.stream.write(data)
             data = wf.readframes(self.CHUNK)
         self.stream.stop_stream()
         self.stream.close()
         self.p.terminate()
-        self.playing=False
+        self.playing = False
             
 if __name__=="__main__":
     Player()
