@@ -28,7 +28,7 @@ class Player:
         Button(self.root,text="SEARCH",width=61,bg="light gray",command=self.open_file).place(x=356,y=75)
         Button(self.root,text="PLAY",width=15,bg="light gray",command=self.init_task).place(x=356,y=108)
         Button(self.root,text="STOP",width=15,bg="light gray",command=self.stop_music).place(x=474,y=108)
-        Button(self.root,text="ADD/REMOVE",width=27,bg="light gray").place(x=593,y=108)
+        Button(self.root,text="ADD/REMOVE",width=27,bg="light gray").place(x=594,y=108)
 
         self.root.mainloop()
 
