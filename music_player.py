@@ -1,5 +1,4 @@
 from tkinter import *
-import tkinter.scrolledtext as sct
 from tkinter import filedialog, messagebox
 import wave
 import pyaudio
