@@ -39,10 +39,11 @@ class Player:
         self.root.mainloop()
 
     def init_task(self):
+        self.clear_counter()###############################################
         if self.file_path and self.playing == False:
             t = threading.Thread(target=self.music)
             t.start()
-
+            
     def open_file(self):
         if self.playing == False:
             fpath = filedialog.askopenfilename(initialdir = "/",
@@ -54,6 +55,28 @@ class Player:
 
     def stop_music(self):
         self.playing = False
+        self.timer.after_cancel(self.process)###################################
+
+    def clear_counter(self):
+        self.sec_counter = 0
+        self.min_counter = 0
+        self.hour_counter = 0
+
+    def counter_format(self,c):
+        if c<10:
+            c="0"+str(c)
+        return c
+
+    def timer_count(self):
+        self.timer['text'] = str(self.hour_counter)+":"+str(self.counter_format(self.min_counter))+":"+str(self.counter_format(self.sec_counter))
+        self.sec_counter+=1
+        if self.sec_counter==60:
+            self.sec_counter=0
+            self.min_counter+=1
+        if self.min_counter==60:
+            self.min_counter=0
+            self.hour_counter+=1
+        self.process=self.timer.after(1000,self.timer_count)
 
     def music(self):
         self.playing = True
@@ -62,13 +85,14 @@ class Player:
         self.stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()),
                     channels=wf.getnchannels(),rate=wf.getframerate(),output=True)
         data = wf.readframes(self.CHUNK)
+        self.timer_count()###############################3
         while data and self.playing == True:
             self.stream.write(data)
             data = wf.readframes(self.CHUNK)
         self.stream.stop_stream()
         self.stream.close()
         self.p.terminate()
-        self.playing = False
+        self.stop_music()#############
             
 if __name__=="__main__":
     Player()
