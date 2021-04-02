@@ -30,8 +30,13 @@ class Player:
         Button(self.root,text="STOP",width=15,bg="light gray",command=self.stop_music).place(x=474,y=108)
         Button(self.root,text="ADD/REMOVE",width=27,bg="light gray").place(x=594,y=108)
         self.canvas = Canvas(self.root)
-        self.canvas.place(x=9,y=135)
-
+        self.canvas.place(x=9,y=142)
+        self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
+        self.scrollbar.pack(side=RIGHT,fill=Y)
+        self.fav_list = Listbox(self.canvas,width=127,height=9)
+        self.fav_list.pack()
+        self.fav_list.config(yscrollcommand = self.scrollbar.set)
+        
         self.root.mainloop()
 
     def init_task(self):
