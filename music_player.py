@@ -11,7 +11,7 @@ class Player:
         self.root = Tk()
         self.root.title("Music Player")
         self.root.configure(bg="light gray")
-        self.root.geometry("803x301")
+        self.root.geometry("803x315")
         self.CHUNK = 1024
         self.audios_list = pickle.load(open('playlist','rb'))
         
@@ -31,6 +31,7 @@ class Player:
         Button(self.root,text="PLAY",width=15,bg="goldenrod1",command=self.init_task).place(x=356,y=108)
         Button(self.root,text="STOP",width=15,bg="goldenrod1",command=self.stop_music).place(x=474,y=108)
         Button(self.root,text="ADD/REMOVE",width=27,bg="goldenrod1").place(x=594,y=108)
+        Button(self.root,text="SELECT",width=110,command=self.list_selection).place(x=10,y=290)
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=142)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
@@ -49,9 +50,18 @@ class Player:
             t = threading.Thread(target=self.music)
             t.start()
 
+    def list_selection(self):
+        try:
+            self.file_path = self.audios_list[self.fav_list.curselection()[0]]
+            self.filename.set(self.file_path.split("\\")[-1])
+        except:
+            messagebox.showwarning("ERROR","No elementselected.")
+
     def show_list(self):
+        c=1
         for i in (self.audios_list):
-            self.fav_list.insert(END,i.split("\\")[-1])
+            self.fav_list.insert(END,(str(c)+"- "+i.split("\\")[-1]))
+            c+=1
             
     def open_file(self):
         if self.playing == False:
