@@ -35,7 +35,7 @@ class Player:
         self.canvas.place(x=9,y=142)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
         self.scrollbar.pack(side=RIGHT,fill=Y)
-        self.fav_list = Listbox(self.canvas,width=127,height=9,font=('arial',15,))
+        self.fav_list = Listbox(self.canvas,width=127,height=9)
         self.fav_list.pack()
         self.fav_list.config(yscrollcommand = self.scrollbar.set)
 
@@ -51,7 +51,7 @@ class Player:
 
     def show_list(self):
         for i in self.audios_list:
-            self.fav_list.insert(END,i)
+            self.fav_list.insert(END,i.split("\\")[-1])
             
     def open_file(self):
         if self.playing == False:
