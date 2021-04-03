@@ -31,7 +31,7 @@ class Player:
         Button(self.root,text="PLAY",width=15,bg="goldenrod1",command=self.init_task).place(x=356,y=108)
         Button(self.root,text="STOP",width=15,bg="goldenrod1",command=self.stop_music).place(x=474,y=108)
         Button(self.root,text="ADD/REMOVE",width=27,bg="goldenrod1").place(x=594,y=108)
-        Button(self.root,text="SELECT",width=110,command=self.list_selection).place(x=10,y=290)
+        Button(self.root,text="SELECT",width=110,command=self.list_selection).place(x=11,y=290)
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=142)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
@@ -51,11 +51,12 @@ class Player:
             t.start()
 
     def list_selection(self):
-        try:
-            self.file_path = self.audios_list[self.fav_list.curselection()[0]]
-            self.filename.set(self.file_path.split("\\")[-1])
-        except:
-            messagebox.showwarning("ERROR","No elementselected.")
+        if len(self.audios_list) > 0:
+            try:
+                self.file_path = self.audios_list[self.fav_list.curselection()[0]]
+                self.filename.set(self.file_path.split("\\")[-1])
+            except:
+                messagebox.showwarning("ERROR","No element selected.")
 
     def show_list(self):
         c=1
@@ -102,7 +103,6 @@ class Player:
         self.playing = True
         self.p = pyaudio.PyAudio()
         wf = wave.open(self.file_path, 'rb')
-        #wf = wave.open(self.audios_list[0], 'rb')
         self.stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()),
                     channels=wf.getnchannels(),rate=wf.getframerate(),output=True)
         data = wf.readframes(self.CHUNK)
