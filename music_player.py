@@ -38,7 +38,9 @@ class Player:
         self.fav_list = Listbox(self.canvas,width=127,height=9)
         self.fav_list.pack()
         self.fav_list.config(yscrollcommand = self.scrollbar.set)
-        
+
+        self.show_list()
+            
         self.root.mainloop()
 
     def init_task(self):
@@ -46,6 +48,10 @@ class Player:
         if self.file_path and self.playing == False:
             t = threading.Thread(target=self.music)
             t.start()
+
+    def show_list(self):
+        for i in self.audios_list:
+            self.fav_list.insert(END,i)
             
     def open_file(self):
         if self.playing == False:
