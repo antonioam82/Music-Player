@@ -3,6 +3,7 @@ from tkinter import filedialog, messagebox
 import wave
 import pyaudio
 import threading
+import pickle
 import os
 
 class Player:
@@ -11,6 +12,8 @@ class Player:
         self.root.title("Music Player")
         self.root.geometry("803x301")
         self.CHUNK = 1024
+        self.audios_list = pickle.load(open('playlist','rb'))
+        print(self.audios_list)
         
         self.filename = StringVar()
         self.currentDir = StringVar()
@@ -83,6 +86,7 @@ class Player:
         self.playing = True
         self.p = pyaudio.PyAudio()
         wf = wave.open(self.file_path, 'rb')
+        #wf = wave.open(self.audios_list[0], 'rb')
         self.stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()),
                     channels=wf.getnchannels(),rate=wf.getframerate(),output=True)
         data = wf.readframes(self.CHUNK)
