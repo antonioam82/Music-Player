@@ -13,7 +13,6 @@ class Player:
         self.root.geometry("803x301")
         self.CHUNK = 1024
         self.audios_list = pickle.load(open('playlist','rb'))
-        print(self.audios_list)
         
         self.filename = StringVar()
         self.currentDir = StringVar()
