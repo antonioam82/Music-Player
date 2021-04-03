@@ -35,7 +35,7 @@ class Player:
         self.canvas.place(x=9,y=142)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
         self.scrollbar.pack(side=RIGHT,fill=Y)
-        self.fav_list = Listbox(self.canvas,width=127,height=9)
+        self.fav_list = Listbox(self.canvas,width=127,height=9,font=('arial',15,))
         self.fav_list.pack()
         self.fav_list.config(yscrollcommand = self.scrollbar.set)
 
