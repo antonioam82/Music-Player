@@ -54,8 +54,9 @@ class Player:
                 self.filename.set(self.file_path.split("/")[-1])
 
     def stop_music(self):
-        self.playing = False
-        self.timer.after_cancel(self.process)###################################
+        if self.playing == True:
+            self.playing = False
+            self.timer.after_cancel(self.process)###################################
 
     def clear_counter(self):
         self.sec_counter = 0
