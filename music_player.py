@@ -10,8 +10,8 @@ class Player:
     def __init__(self):
         self.root = Tk()
         self.root.title("Music Player")
-        self.root.configure(bg="light gray")
-        self.root.geometry("803x315")
+        self.root.configure(bg="gray78")
+        self.root.geometry("803x324")
         self.CHUNK = 1024
         self.audios_list = pickle.load(open('playlist','rb'))
         
@@ -30,13 +30,13 @@ class Player:
         Button(self.root,text="SEARCH",width=61,bg="blue",fg="white",command=self.open_file).place(x=356,y=75)
         Button(self.root,text="PLAY",width=15,bg="goldenrod1",command=self.init_task).place(x=356,y=108)
         Button(self.root,text="STOP",width=15,bg="goldenrod1",command=self.stop_music).place(x=474,y=108)
-        Button(self.root,text="ADD/REMOVE",width=27,bg="goldenrod1").place(x=594,y=108)
+        Button(self.root,text="ADD TO PLAYLIST",width=27,bg="goldenrod1").place(x=594,y=108)
         Button(self.root,text="SELECT",width=110,command=self.list_selection).place(x=11,y=290)
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=142)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
         self.scrollbar.pack(side=RIGHT,fill=Y)
-        self.fav_list = Listbox(self.canvas,width=127,height=9)
+        self.fav_list = Listbox(self.canvas,width=127,height=9,bg="gray96")
         self.fav_list.pack()
         self.fav_list.config(yscrollcommand = self.scrollbar.set)
 
