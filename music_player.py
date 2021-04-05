@@ -15,7 +15,6 @@ class Player:
         self.CHUNK = 1024
         with open("data.json") as f:
             self.audio_list = json.load(f)
-            print(self.audio_list)
         
         self.filename = StringVar()
         self.currentDir = StringVar()
@@ -64,21 +63,23 @@ class Player:
     def list_selection(self):
         if len(self.audio_list) > 0:
             try:
+                #print("SELECTION: ",self.fav_list.curselection()[0])
+                #print("MY_LIST: ",self.my_list)
                 self.file_path = self.my_list[self.fav_list.curselection()[0]]
+                #print("PATH: ",self.file_path)
                 key = self.get_key(self.file_path)
                 self.filename.set(key)
-            except Exception as e:
-                print(str(e))
+            except:
                 messagebox.showwarning("ERROR","No element selected.")
 
     def show_list(self):
         if len(self.audio_list) > 0:
+            self.my_list = []
             c=1
             for i in (self.audio_list):
                 self.fav_list.insert(END,(str(c)+"- "+i))
                 self.my_list.append(self.audio_list[i])
                 c+=1
-            print(self.my_list)
             
     def open_file(self):
         if self.playing == False:
