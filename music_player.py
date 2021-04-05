@@ -54,8 +54,8 @@ class Player:
             t.start()
 
     def add(self):
+        self.fav_list.delete(0,END)
         self.audio_list[self.filename.get()]=self.file_path
-        print(self.audio_list)
         with open("data.json", "w") as f:
             json.dump(self.audio_list, f)
         self.show_list()
