@@ -3,7 +3,7 @@ from tkinter import filedialog, messagebox
 import wave
 import pyaudio
 import threading
-import pickle
+import json
 import os
 
 class Player:
@@ -13,13 +13,16 @@ class Player:
         self.root.configure(bg="gray78")
         self.root.geometry("803x324")
         self.CHUNK = 1024
-        self.audios_list = pickle.load(open('playlist','rb'))
+        with open("data.json") as f:
+            self.audio_list = json.load(f)
+            print(self.audio_list)
         
         self.filename = StringVar()
         self.currentDir = StringVar()
         self.currentDir.set(os.getcwd())
         self.file_path = None
         self.playing = False
+        self.my_list = []
 
         entryDir = Entry(self.root,textvariable=self.currentDir,width=133)
         entryDir.place(x=0,y=0)
@@ -30,7 +33,7 @@ class Player:
         Button(self.root,text="SEARCH",width=61,bg="blue",fg="white",command=self.open_file).place(x=356,y=75)
         Button(self.root,text="PLAY",width=15,bg="goldenrod1",command=self.init_task).place(x=356,y=108)
         Button(self.root,text="STOP",width=15,bg="goldenrod1",command=self.stop_music).place(x=474,y=108)
-        Button(self.root,text="ADD TO PLAYLIST",width=27,bg="goldenrod1").place(x=594,y=108)
+        Button(self.root,text="ADD TO PLAYLIST",width=27,bg="goldenrod1",command=self.add).place(x=594,y=108)
         Button(self.root,text="SELECT",width=110,command=self.list_selection).place(x=11,y=290)
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=142)
@@ -50,21 +53,31 @@ class Player:
             t = threading.Thread(target=self.music)
             t.start()
 
+    def add(self):
+        self.audio_list[self.filename.get()]=self.file_path
+        print(self.audio_list)
+        with open("data.json", "w") as f:
+            json.dump(self.audio_list, f)
+        self.show_list()
+
     def list_selection(self):
-        if len(self.audios_list) > 0:
+        if len(self.audio_list) > 0:
             try:
-                self.file_path = self.audios_list[self.fav_list.curselection()[0]]
-                self.filename.set(self.file_path.split("\\")[-1])
-            except:
+                self.file_path = self.my_list[self.fav_list.curselection()[0]]
+                key = self.get_key(self.file_path)
+                self.filename.set(key)
+            except Exception as e:
+                print(str(e))
                 messagebox.showwarning("ERROR","No element selected.")
 
     def show_list(self):
-        print(self.audios_list)
-        if len(self.audios_list) > 0:
+        if len(self.audio_list) > 0:
             c=1
-            for i in (self.audios_list):
-                self.fav_list.insert(END,(str(c)+"- "+i.split("\\")[-1]))
+            for i in (self.audio_list):
+                self.fav_list.insert(END,(str(c)+"- "+i))
+                self.my_list.append(self.audio_list[i])
                 c+=1
+            print(self.my_list)
             
     def open_file(self):
         if self.playing == False:
@@ -116,6 +129,11 @@ class Player:
         self.stream.close()
         self.p.terminate()
         self.stop_music()#############
+
+    def get_key(self,val):
+        for key, value in self.audio_list.items():
+            if val == value:
+                return key
             
 if __name__=="__main__":
     Player()
