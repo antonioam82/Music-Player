@@ -42,6 +42,7 @@ class Player:
         self.fav_list = Listbox(self.canvas,width=127,height=9,bg="gray96")
         self.fav_list.pack()
         self.fav_list.config(yscrollcommand = self.scrollbar.set)
+        self.scrollbar.config(command = self.fav_list.yview)
 
         self.show_list()
             
