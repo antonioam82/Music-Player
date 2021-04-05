@@ -59,10 +59,12 @@ class Player:
                 messagebox.showwarning("ERROR","No element selected.")
 
     def show_list(self):
-        c=1
-        for i in (self.audios_list):
-            self.fav_list.insert(END,(str(c)+"- "+i.split("\\")[-1]))
-            c+=1
+        print(self.audios_list)
+        if len(self.audios_list) > 0:
+            c=1
+            for i in (self.audios_list):
+                self.fav_list.insert(END,(str(c)+"- "+i.split("\\")[-1]))
+                c+=1
             
     def open_file(self):
         if self.playing == False:
