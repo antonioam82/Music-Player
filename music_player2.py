@@ -11,7 +11,7 @@ class Player:
         self.root = Tk()
         self.root.title("Music Player")
         self.root.configure(bg="gray78")
-        self.root.geometry("803x302")
+        self.root.geometry("803x306")
         self.CHUNK = 1024
         with open("data.json") as f:
             self.audio_list = json.load(f)
@@ -35,11 +35,11 @@ class Player:
         Button(self.root,text="STOP",width=15,bg="goldenrod1",command=self.stop_music).place(x=474,y=108)
         Button(self.root,text="ADD TO PLAYLIST",width=27,bg="goldenrod1",command=self.add).place(x=594,y=108)
         self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=24,bg="black",fg="red")
-        self.items.place(x=594,y=142)
-        Button(self.root,text="SELECT AUDIO",width=27,command=self.list_selection).place(x=594,y=176)
-        Button(self.root,text="REMOVE PLAYLIST",width=27,command=self.remove_playlist).place(x=594,y=210)#176
+        self.items.place(x=594,y=147)
+        Button(self.root,text="SELECT AUDIO",width=27,command=self.list_selection).place(x=594,y=181)
+        Button(self.root,text="REMOVE PLAYLIST",width=27,command=self.remove_playlist).place(x=594,y=215)#176
         self.canvas = Canvas(self.root)
-        self.canvas.place(x=9,y=142)
+        self.canvas.place(x=9,y=147)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
         self.scrollbar.pack(side=RIGHT,fill=Y)
         self.fav_list = Listbox(self.canvas,width=93,height=9,bg="gray96")
