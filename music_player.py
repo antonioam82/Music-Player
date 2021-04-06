@@ -33,7 +33,8 @@ class Player:
         Button(self.root,text="PLAY",width=15,bg="goldenrod1",command=self.init_task).place(x=356,y=108)
         Button(self.root,text="STOP",width=15,bg="goldenrod1",command=self.stop_music).place(x=474,y=108)
         Button(self.root,text="ADD TO PLAYLIST",width=27,bg="goldenrod1",command=self.add).place(x=594,y=108)
-        Button(self.root,text="SELECT",width=110,command=self.list_selection).place(x=11,y=290)
+        Button(self.root,text="SELECT FROM PLAYLIST",width=55,command=self.list_selection).place(x=11,y=290)
+        Button(self.root,text="REMOVE PLAYLIST",width=54,command=self.remove_playlist).place(x=405,y=290)
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=142)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
@@ -52,6 +53,13 @@ class Player:
         if self.file_path and self.playing == False:
             t = threading.Thread(target=self.music)
             t.start()
+
+    def remove_playlist(self):
+        self.my_list = []
+        self.fav_list.delete(0,END)
+        d = {}
+        with open("data.json", "w") as f:
+            json.dump(d, f)    
 
     def add(self):
         self.fav_list.delete(0,END)
