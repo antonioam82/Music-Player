@@ -76,7 +76,7 @@ class Player:
             self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
 
     def list_selection(self):
-        if len(self.audio_list) > 0:
+        if len(self.audio_list) > 0 and self.playing == False:
             try:
                 #print("SELECTION: ",self.fav_list.curselection()[0])
                 #print("MY_LIST: ",self.my_list)
