@@ -55,12 +55,14 @@ class Player:
             t.start()
 
     def remove_playlist(self):
-        self.my_list = []
-        self.fav_list.delete(0,END)
-        self.audio_list = {}
-        d = {}
-        with open("data.json", "w") as f:
-            json.dump(d, f)    
+        message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
+        if message == "yes":
+            self.my_list = []
+            self.fav_list.delete(0,END)
+            self.audio_list = {}
+            d = {}
+            with open("data.json", "w") as f:
+                json.dump(d, f)    
 
     def add(self):
         if self.entryFile.get() != "":
