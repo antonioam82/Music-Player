@@ -67,12 +67,13 @@ class Player:
         self.items.configure(text='0 ITEMS')
 
     def add(self):
-        self.fav_list.delete(0,END)
-        self.audio_list[self.filename.get()]=self.file_path
-        with open("data.json", "w") as f:
-            json.dump(self.audio_list, f)
-        self.show_list()
-        self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
+        if self.entryFile.get() != "":
+            self.fav_list.delete(0,END)
+            self.audio_list[self.filename.get()]=self.file_path
+            with open("data.json", "w") as f:
+                json.dump(self.audio_list, f)
+            self.show_list()
+            self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
 
     def list_selection(self):
         if len(self.audio_list) > 0:
@@ -107,7 +108,7 @@ class Player:
     def stop_music(self):
         if self.playing == True:
             self.playing = False
-            self.timer.after_cancel(self.process)###################################
+            self.timer.after_cancel(self.process)###################################           
             print("STOPPED")
 
     def clear_counter(self):
