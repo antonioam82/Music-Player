@@ -58,13 +58,15 @@ class Player:
             t.start()
             
     def remove_playlist(self):
-        self.my_list = []
-        self.fav_list.delete(0,END)
-        self.audio_list = {}
-        d = {}
-        with open("data.json", "w") as f:
-            json.dump(d, f)
-        self.items.configure(text='0 ITEMS')
+        message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
+        if message == "yes":
+            self.my_list = []
+            self.fav_list.delete(0,END)
+            self.audio_list = {}
+            d = {}
+            with open("data.json", "w") as f:
+                json.dump(d, f)
+            self.items.configure(text='0 ITEMS')
 
     def add(self):
         if self.entryFile.get() != "":
@@ -146,6 +148,7 @@ class Player:
         self.stream.stop_stream()
         self.stream.close()
         self.p.terminate()
+        print("ENDED")
         self.stop_music()#############
 
     def get_key(self,val):
