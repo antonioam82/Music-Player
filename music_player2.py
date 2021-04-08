@@ -38,6 +38,7 @@ class Player:
         self.items.place(x=594,y=147)
         Button(self.root,text="SELECT AUDIO",width=27,command=self.list_selection).place(x=594,y=181)
         Button(self.root,text="REMOVE PLAYLIST",width=27,command=self.remove_playlist).place(x=594,y=215)#176
+        Button(self.root,text="REMOVE FROM PLAYLIST",width=27,command=self.remove_from_list).place(x=594,y=249)
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=147)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
@@ -84,10 +85,21 @@ class Player:
                 #print("MY_LIST: ",self.my_list)
                 self.file_path = self.my_list[self.fav_list.curselection()[0]]
                 #print("PATH: ",self.file_path)
-                key = self.get_key(self.file_path)
-                self.filename.set(key)
+                self.key = self.get_key(self.file_path)
+                self.filename.set(self.key)
             except:
                 messagebox.showwarning("ERROR","No element selected.")
+
+    def remove_from_list(self):
+        #self.my_list = []
+        self.file_path = self.my_list[self.fav_list.curselection()[0]]
+        self.key = self.get_key(self.file_path)
+        del self.audio_list[self.key]
+        with open("data.json", "w") as f:
+            json.dump(self.audio_list, f)
+        self.fav_list.delete(0,END)
+        self.show_list()
+        self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
 
     def show_list(self):
         if len(self.audio_list) > 0:
