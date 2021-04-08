@@ -15,7 +15,6 @@ class Player:
         self.CHUNK = 1024
         with open("data.json") as f:
             self.audio_list = json.load(f)
-            print(len(self.audio_list))
         
         self.filename = StringVar()
         self.currentDir = StringVar()
@@ -122,7 +121,7 @@ class Player:
     def stop_music(self):
         if self.playing == True:
             self.playing = False
-            self.timer.after_cancel(self.process)###################################           
+            self.timer.after_cancel(self.process)###################################
             print("STOPPED")
 
     def clear_counter(self):
