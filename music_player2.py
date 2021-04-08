@@ -121,8 +121,8 @@ class Player:
     def stop_music(self):
         if self.playing == True:
             self.playing = False
-            self.timer.after_cancel(self.process)###################################
-            print("STOPPED")
+        self.timer.after_cancel(self.process)###################################
+        print("STOPPED")
 
     def clear_counter(self):
         self.sec_counter = 0
