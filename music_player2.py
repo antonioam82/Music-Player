@@ -90,15 +90,18 @@ class Player:
                 messagebox.showwarning("ERROR","No element selected.")
 
     def remove_from_list(self):
-        #self.my_list = []
-        self.file_path = self.my_list[self.fav_list.curselection()[0]]
-        self.key = self.get_key(self.file_path)
-        del self.audio_list[self.key]
-        with open("data.json", "w") as f:
-            json.dump(self.audio_list, f)
-        self.fav_list.delete(0,END)
-        self.show_list()
-        self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
+        try:
+            self.file_path = self.my_list[self.fav_list.curselection()[0]]
+            self.key = self.get_key(self.file_path)
+            del self.audio_list[self.key]
+            with open("data.json", "w") as f:
+                json.dump(self.audio_list, f)
+            self.fav_list.delete(0,END)
+            self.show_list()
+            self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
+        except Exception as e:
+            if str(e) == "tuple index out of range":
+                messagebox.showwarning("ERROR","No item selected.")
 
     def show_list(self):
         if len(self.audio_list) > 0:
