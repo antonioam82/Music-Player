@@ -36,7 +36,7 @@ class Player:
         self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=24,bg="black",fg="red")
         self.items.place(x=594,y=147)
         Button(self.root,text="SELECT AUDIO",width=27,command=self.list_selection).place(x=594,y=181)
-        Button(self.root,text="REMOVE PLAYLIST",width=27,command=self.remove_playlist).place(x=594,y=215)#176
+        Button(self.root,text="REMOVE PLAYLIST",width=27,command=self.remove_playlist).place(x=594,y=215)
         Button(self.root,text="REMOVE FROM PLAYLIST",width=27,command=self.remove_from_list).place(x=594,y=249)
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=147)
@@ -54,8 +54,12 @@ class Player:
     def init_task(self):
         self.clear_counter()###############################################
         if self.file_path and self.playing == False:
-            t = threading.Thread(target=self.music)
-            t.start()
+            if os.path.exists(self.file_path):
+                t = threading.Thread(target=self.music)
+                t.start()
+            else:
+                messagebox.showwarning("FILE NOT FOUND",'''Path not found, file may have
+been deleted or moved.''')
             
     def remove_playlist(self):
         message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
@@ -80,10 +84,7 @@ class Player:
     def list_selection(self):
         if len(self.audio_list) > 0: #and self.playing == False:
             try:
-                #print("SELECTION: ",self.fav_list.curselection()[0])
-                #print("MY_LIST: ",self.my_list)
                 self.file_path = self.my_list[self.fav_list.curselection()[0]]
-                #print("PATH: ",self.file_path)
                 self.key = self.get_key(self.file_path)
                 self.filename.set(self.key)
             except:
@@ -125,7 +126,6 @@ class Player:
         self.timer.after_cancel(self.process)###################################
         if self.playing == True:
             self.playing = False
-        
         print("STOPPED")
 
     def clear_counter(self):
