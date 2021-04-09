@@ -51,8 +51,12 @@ class Player:
     def init_task(self):
         self.clear_counter()###############################################
         if self.file_path and self.playing == False:
-            t = threading.Thread(target=self.music)
-            t.start()
+            if os.path.exists(self.file_path):
+                t = threading.Thread(target=self.music)
+                t.start()
+            else:
+                messagebox.showwarning("FILE NOT FOUND",'''Path not found, file may have
+been deleted or moved.''')
 
     def remove_playlist(self):
         message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
@@ -103,10 +107,9 @@ class Player:
                 self.filename.set(self.file_path.split("/")[-1])
 
     def stop_music(self):
-        self.timer.after_cancel(self.process)###################################
         if self.playing == True:
             self.playing = False
-        
+        self.timer.after_cancel(self.process)###################################
 
     def clear_counter(self):
         self.sec_counter = 0
