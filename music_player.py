@@ -103,8 +103,11 @@ been deleted or moved.''')
                  title = "Select File",filetypes = (("wav files","*.wav"),
                  ("all files","*.*")))
             if fpath:
-                self.file_path = fpath
-                self.filename.set(self.file_path.split("/")[-1])
+                if fpath.endswith(".wav"):
+                    self.file_path = fpath
+                    self.filename.set(self.file_path.split("/")[-1])
+                else:
+                    messagebox.showwarning("ERROR","Bad file format.")
 
     def stop_music(self):
         if self.playing == True:
