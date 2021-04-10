@@ -111,8 +111,9 @@ been deleted or moved.''')
 
     def stop_music(self):
         if self.playing == True:
+            self.timer.after_cancel(self.process)###################################
             self.playing = False
-        self.timer.after_cancel(self.process)###################################
+        
 
     def clear_counter(self):
         self.sec_counter = 0
@@ -146,10 +147,12 @@ been deleted or moved.''')
         while data and self.playing == True:
             self.stream.write(data)
             data = wf.readframes(self.CHUNK)
+        self.timer.after_cancel(self.process)###################################
         self.stream.stop_stream()
         self.stream.close()
         self.p.terminate()
-        self.stop_music()#############
+        self.playing = False
+        #self.stop_music()#############
 
     def get_key(self,val):
         for key, value in self.audio_list.items():
