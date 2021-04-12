@@ -6,6 +6,12 @@ import threading
 import json
 import os
 
+if not "data.json" in os.listdir():
+    d = {}
+    with open("data.json", "w") as f:
+        json.dump(d, f)
+        print("created data.json")
+
 class Player:
     def __init__(self):
         self.root = Tk()
@@ -13,6 +19,7 @@ class Player:
         self.root.configure(bg="gray78")
         self.root.geometry("803x306")
         self.CHUNK = 1024
+    
         with open("data.json") as f:
             self.audio_list = json.load(f)
         
