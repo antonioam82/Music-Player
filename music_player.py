@@ -6,6 +6,12 @@ import threading
 import json
 import os
 
+if not "data.json" in os.listdir():
+    d = {}
+    with open("data.json", "w") as f:
+        json.dump(d, f)
+        print("created data.json")
+
 class Player:
     def __init__(self):
         self.root = Tk()
@@ -79,10 +85,7 @@ been deleted or moved.''')
     def list_selection(self):
         if len(self.audio_list) > 0:
             try:
-                #print("SELECTION: ",self.fav_list.curselection()[0])
-                #print("MY_LIST: ",self.my_list)
                 self.file_path = self.my_list[self.fav_list.curselection()[0]]
-                #print("PATH: ",self.file_path)
                 key = self.get_key(self.file_path)
                 self.filename.set(key)
             except:
@@ -152,7 +155,6 @@ been deleted or moved.''')
         self.stream.close()
         self.p.terminate()
         self.playing = False
-        #self.stop_music()#############
 
     def get_key(self,val):
         for key, value in self.audio_list.items():
