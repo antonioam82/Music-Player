@@ -40,11 +40,11 @@ class Player:
         Button(self.root,text="PLAY",width=15,bg="goldenrod1",command=self.init_task).place(x=356,y=108)
         Button(self.root,text="STOP",width=15,bg="goldenrod1",command=self.stop_music).place(x=474,y=108)
         Button(self.root,text="ADD TO PLAYLIST",width=27,bg="goldenrod1",command=self.add).place(x=594,y=108)
-        self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=24,bg="black",fg="red")
+        self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=24,height=2,bg="black",fg="red")
         self.items.place(x=594,y=147)
-        Button(self.root,text="SELECT AUDIO",width=27,command=self.list_selection).place(x=594,y=181)#181
-        Button(self.root,text="REMOVE PLAYLIST",width=27,command=self.remove_playlist).place(x=594,y=215)#215
-        Button(self.root,text="REMOVE FROM PLAYLIST",width=27,command=self.remove_from_list).place(x=594,y=249)#249
+        Button(self.root,text="SELECT AUDIO",width=27,command=self.list_selection).place(x=594,y=201)#181
+        Button(self.root,text="REMOVE PLAYLIST",width=27,command=self.remove_playlist).place(x=594,y=235)#215
+        Button(self.root,text="REMOVE FROM PLAYLIST",width=27,command=self.remove_from_list).place(x=594,y=270)#249
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=147)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
