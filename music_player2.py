@@ -42,7 +42,7 @@ class Player:
         Button(self.root,text="ADD TO PLAYLIST",width=27,bg="goldenrod1",command=self.add).place(x=594,y=108)
         self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=24,height=2,bg="black",fg="red")
         self.items.place(x=594,y=147)
-        Button(self.root,text="SELECT AUDIO",width=27,command=self.list_selection).place(x=594,y=201)#181
+        Button(self.root,text="SELECT AUDIO",width=27,command=self.list_selection).place(x=594,y=200)#181
         Button(self.root,text="REMOVE PLAYLIST",width=27,command=self.remove_playlist).place(x=594,y=235)#215
         Button(self.root,text="REMOVE FROM PLAYLIST",width=27,command=self.remove_from_list).place(x=594,y=270)#249
         self.canvas = Canvas(self.root)
@@ -184,3 +184,6 @@ been deleted or moved.''')
             
 if __name__=="__main__":
     Player()
+
+
+
