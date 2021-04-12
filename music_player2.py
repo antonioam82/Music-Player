@@ -82,7 +82,7 @@ been deleted or moved.''')
             self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
 
     def list_selection(self):
-        if len(self.audio_list) > 0: #and self.playing == False:
+        if len(self.audio_list) > 0:
             try:
                 self.file_path = self.my_list[self.fav_list.curselection()[0]]
                 self.key = self.get_key(self.file_path)
@@ -169,7 +169,6 @@ been deleted or moved.''')
         self.p.terminate()
         print("ENDED")
         self.playing = False
-        #self.stop_music()#############
 
     def get_key(self,val):
         for key, value in self.audio_list.items():
