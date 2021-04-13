@@ -176,9 +176,10 @@ been deleted or moved.''')
             self.stream.close()
             self.p.terminate()
             print("ENDED")
-            self.playing = False
+
         except Exception as e:
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
+        self.playing = False
 
     def get_key(self,val):
         for key, value in self.audio_list.items():
