@@ -160,22 +160,25 @@ been deleted or moved.''')
         self.process=self.timer.after(1000,self.timer_count)
 
     def music(self):
-        self.playing = True
-        self.p = pyaudio.PyAudio()
-        wf = wave.open(self.file_path, 'rb')
-        self.stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()),
-                    channels=wf.getnchannels(),rate=wf.getframerate(),output=True)
-        data = wf.readframes(self.CHUNK)
-        self.timer_count()###############################3
-        while data and self.playing == True:
-            self.stream.write(data)
+        try:
+            self.playing = True
+            self.p = pyaudio.PyAudio()
+            wf = wave.open(self.file_path, 'rb')
+            self.stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()),
+                        channels=wf.getnchannels(),rate=wf.getframerate(),output=True)
             data = wf.readframes(self.CHUNK)
-        self.timer.after_cancel(self.process)
-        self.stream.stop_stream()
-        self.stream.close()
-        self.p.terminate()
-        print("ENDED")
-        self.playing = False
+            self.timer_count()###############################3
+            while data and self.playing == True:
+                self.stream.write(data)
+                data = wf.readframes(self.CHUNK)
+            self.timer.after_cancel(self.process)
+            self.stream.stop_stream()
+            self.stream.close()
+            self.p.terminate()
+            print("ENDED")
+            self.playing = False
+        except Exception as e:
+            messagebox.showwarning("UNEXPECTED ERROR",str(e))
 
     def get_key(self,val):
         for key, value in self.audio_list.items():
