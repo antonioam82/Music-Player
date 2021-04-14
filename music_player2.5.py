@@ -20,7 +20,7 @@ class Player:
         self.root = Tk()
         self.root.title("Music Player")
         self.root.configure(bg="gray78")
-        self.root.geometry("803x306")
+        self.root.geometry("923x306")
         self.CHUNK = 1024
     
         with open("data.json") as f:
@@ -34,21 +34,21 @@ class Player:
         self.my_list = []
         self.any_selected = False
 
-        entryDir = Entry(self.root,textvariable=self.currentDir,width=133)
+        entryDir = Entry(self.root,textvariable=self.currentDir,width=153)
         entryDir.place(x=0,y=0)
         self.timer = Label(self.root,text="0:00:00",bg="black",fg="green",font=("arial","34"),width=13,height=2)
         self.timer.place(x=9,y=28)
-        self.entryFile = Entry(self.root,textvariable=self.filename,width=29,font=("arial",20))
+        self.entryFile = Entry(self.root,textvariable=self.filename,width=37,font=("arial",20))
         self.entryFile.place(x=355,y=28)
-        Button(self.root,text="SEARCH",width=61,bg="blue",fg="white",command=self.open_file).place(x=356,y=75)
+        Button(self.root,text="SEARCH",width=78,bg="blue",fg="white",command=self.open_file).place(x=356,y=75)
         Button(self.root,text="PLAY",width=15,bg="goldenrod1",command=self.init_task).place(x=356,y=108)
         Button(self.root,text="STOP",width=15,bg="goldenrod1",command=self.stop_music).place(x=474,y=108)
-        Button(self.root,text="ADD TO PLAYLIST",width=27,bg="goldenrod1",command=self.add).place(x=594,y=108)
-        self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=24,height=2,bg="black",fg="red")
+        Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1",command=self.add).place(x=594,y=108)
+        self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=39,height=2,bg="black",fg="red")
         self.items.place(x=594,y=147)
         #Button(self.root,text="PLAY ON LIST",width=27,command=self.list_selection).place(x=594,y=200)#181
-        Button(self.root,text="REMOVE PLAYLIST",width=27,height=2,command=self.remove_playlist).place(x=594,y=200)#215
-        Button(self.root,text="REMOVE FROM PLAYLIST",width=27,height=2,command=self.remove_from_list).place(x=594,y=254)#249
+        Button(self.root,text="REMOVE PLAYLIST",width=44,height=2,command=self.remove_playlist).place(x=594,y=200)#215
+        Button(self.root,text="REMOVE FROM PLAYLIST",width=44,height=2,command=self.remove_from_list).place(x=594,y=254)#249
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=147)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
@@ -98,6 +98,19 @@ been deleted or moved.''')
                 json.dump(self.audio_list, f)
             self.show_list()
             self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
+
+    def list_selection(self):
+        all_items = self.fav_list.get(0, END)
+        print(all_items)
+        #self.fav_list.selection_set(3)
+        c = 0
+        for i in all_items:
+            self.fav_list.selection_set(c)
+            time.sleep(3)
+            break
+        self.fav_list.selection_clear(c)
+            #c+=1
+            #time.sleep(3)
 
     def remove_from_list(self):
         try:
