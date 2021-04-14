@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from tkinter import *
 from tkinter import filedialog, messagebox
 import wave
@@ -187,7 +189,7 @@ been deleted or moved.''')
                 return key
             
 if __name__=="__main__":
-    Player()
+    Player() 
 
 
 
