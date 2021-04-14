@@ -31,6 +31,7 @@ class Player:
         self.file_path = None
         self.playing = False
         self.my_list = []
+        self.any_selected = False
 
         entryDir = Entry(self.root,textvariable=self.currentDir,width=133)
         entryDir.place(x=0,y=0)
@@ -62,6 +63,12 @@ class Player:
 
     def init_task(self):
         self.clear_counter()###############################################
+        self.any_selected = self.is_any_selected()
+        if self.any_selected:
+            print("OK")
+            self.file_path = self.my_list[self.fav_list.curselection()[0]]
+            self.key = self.get_key(self.file_path)
+            self.filename.set(self.key)
         if self.file_path and self.playing == False:
             if os.path.exists(self.file_path):
                 t = threading.Thread(target=self.music)
@@ -93,9 +100,10 @@ been deleted or moved.''')
     def list_selection(self):
         if len(self.audio_list) > 0:
             try:
-                self.file_path = self.my_list[self.fav_list.curselection()[0]]
-                self.key = self.get_key(self.file_path)
-                self.filename.set(self.key)
+                if self.any_selected:
+                    self.file_path = self.my_list[self.fav_list.curselection()[0]]
+                    self.key = self.get_key(self.file_path)
+                    self.filename.set(self.key)
                 self.init_task()######################################################################
             except:
                 messagebox.showwarning("ERROR","No element selected.")
@@ -135,8 +143,8 @@ been deleted or moved.''')
             
     def open_file(self):
         if self.playing == False:
-            any_selected = self.is_any_selected()
-            if any_selected:
+            self.any_selected = self.is_any_selected()
+            if self.any_selected:
                 self.fav_list.selection_clear(self.fav_list.curselection()[0])
             fpath = filedialog.askopenfilename(initialdir = "/",
                  title = "Select File",filetypes = (("wav files","*.wav"),
