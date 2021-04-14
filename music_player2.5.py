@@ -122,9 +122,22 @@ been deleted or moved.''')
                 self.fav_list.insert(END,(str(c)+"- "+i))
                 self.my_list.append(self.audio_list[i])
                 c+=1
+
+    def is_any_selected(self):
+        cn = 0
+        sel = False
+        for i in range(0,self.fav_list.size()):
+            if self.fav_list.selection_includes(cn):
+                sel = True
+                break
+            cn+=1
+        return sel
             
     def open_file(self):
         if self.playing == False:
+            any_selected = self.is_any_selected()
+            if any_selected:
+                self.fav_list.selection_clear(self.fav_list.curselection()[0])
             fpath = filedialog.askopenfilename(initialdir = "/",
                  title = "Select File",filetypes = (("wav files","*.wav"),
                  ("all files","*.*")))
