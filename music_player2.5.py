@@ -46,9 +46,9 @@ class Player:
         Button(self.root,text="ADD TO PLAYLIST",width=27,bg="goldenrod1",command=self.add).place(x=594,y=108)
         self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=24,height=2,bg="black",fg="red")
         self.items.place(x=594,y=147)
-        Button(self.root,text="PLAY ON LIST",width=27,command=self.list_selection).place(x=594,y=200)#181
-        Button(self.root,text="REMOVE PLAYLIST",width=27,command=self.remove_playlist).place(x=594,y=235)#215
-        Button(self.root,text="REMOVE FROM PLAYLIST",width=27,command=self.remove_from_list).place(x=594,y=270)#249
+        #Button(self.root,text="PLAY ON LIST",width=27,command=self.list_selection).place(x=594,y=200)#181
+        Button(self.root,text="REMOVE PLAYLIST",width=27,height=2,command=self.remove_playlist).place(x=594,y=200)#215
+        Button(self.root,text="REMOVE FROM PLAYLIST",width=27,height=2,command=self.remove_from_list).place(x=594,y=254)#249
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=147)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
@@ -98,19 +98,6 @@ been deleted or moved.''')
                 json.dump(self.audio_list, f)
             self.show_list()
             self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
-
-    def list_selection(self):
-        all_items = self.fav_list.get(0, END)
-        print(all_items)
-        #self.fav_list.selection_set(3)
-        c = 0
-        for i in all_items:
-            self.fav_list.selection_set(c)
-            time.sleep(3)
-            break
-        self.fav_list.selection_clear(c)
-            #c+=1
-            #time.sleep(3)
 
     def remove_from_list(self):
         try:
