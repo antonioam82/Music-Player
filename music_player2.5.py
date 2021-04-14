@@ -7,6 +7,7 @@ import pyaudio
 import threading
 import json
 import os
+import time
 
 if not "data.json" in os.listdir():
     d = {}
@@ -62,7 +63,7 @@ class Player:
         self.root.mainloop()
 
     def init_task(self):
-        self.clear_counter()###############################################
+        ###############################################
         self.any_selected = self.is_any_selected()
         if self.any_selected:
             print("OK")
@@ -71,6 +72,7 @@ class Player:
             self.filename.set(self.key)
         if self.file_path and self.playing == False:
             if os.path.exists(self.file_path):
+                self.clear_counter()
                 t = threading.Thread(target=self.music)
                 t.start()
             else:
@@ -98,15 +100,17 @@ been deleted or moved.''')
             self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
 
     def list_selection(self):
-        if len(self.audio_list) > 0:
-            try:
-                if self.any_selected:
-                    self.file_path = self.my_list[self.fav_list.curselection()[0]]
-                    self.key = self.get_key(self.file_path)
-                    self.filename.set(self.key)
-                self.init_task()######################################################################
-            except:
-                messagebox.showwarning("ERROR","No element selected.")
+        all_items = self.fav_list.get(0, END)
+        print(all_items)
+        #self.fav_list.selection_set(3)
+        c = 0
+        for i in all_items:
+            self.fav_list.selection_set(c)
+            time.sleep(3)
+            break
+        self.fav_list.selection_clear(c)
+            #c+=1
+            #time.sleep(3)
 
     def remove_from_list(self):
         try:
@@ -146,6 +150,7 @@ been deleted or moved.''')
             self.any_selected = self.is_any_selected()
             if self.any_selected:
                 self.fav_list.selection_clear(self.fav_list.curselection()[0])
+            #self.fav_list.selection_set(2)
             fpath = filedialog.askopenfilename(initialdir = "/",
                  title = "Select File",filetypes = (("wav files","*.wav"),
                  ("all files","*.*")))
@@ -211,4 +216,4 @@ been deleted or moved.''')
                 return key
             
 if __name__=="__main__":
-    Player()
+    Player() 
