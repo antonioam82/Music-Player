@@ -150,7 +150,7 @@ been deleted or moved.''')
 
     def stop_music(self):
         if self.playing == True:
-            self.timer.after_cancel(self.process)###################################
+            #self.timer.after_cancel(self.process)###################################
             self.playing = False
             print("STOPPED")
 
@@ -175,6 +175,8 @@ been deleted or moved.''')
                 self.min_counter=0
                 self.hour_counter+=1
             self.process=self.timer.after(1000,self.timer_count)
+        else:
+            self.timer.after_cancel(self.process)
 
     def music(self):
         try:
@@ -188,7 +190,7 @@ been deleted or moved.''')
             while data and self.playing == True:
                 self.stream.write(data)
                 data = wf.readframes(self.CHUNK)
-            self.timer.after_cancel(self.process)
+            #self.timer.after_cancel(self.process)
             self.stream.stop_stream()
             self.stream.close()
             self.p.terminate()
@@ -204,5 +206,5 @@ been deleted or moved.''')
                 return key
             
 if __name__=="__main__":
-    Player()
+    Player() 
 
