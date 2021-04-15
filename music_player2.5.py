@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+ #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from tkinter import *
 from tkinter import filedialog, messagebox
@@ -99,16 +99,31 @@ been deleted or moved.''')
             self.show_list()
             self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
 
+    def list_selection(self):
+        all_items = self.fav_list.get(0, END)
+        print(all_items)
+        #self.fav_list.selection_set(3)
+        c = 0
+        for i in all_items:
+            self.fav_list.selection_set(c)
+            time.sleep(3)
+            break
+        self.fav_list.selection_clear(c)
+            #c+=1
+            #time.sleep(3)
+
     def remove_from_list(self):
         try:
-            self.file_path = self.my_list[self.fav_list.curselection()[0]]
-            self.key = self.get_key(self.file_path)
-            del self.audio_list[self.key]
-            with open("data.json", "w") as f:
-                json.dump(self.audio_list, f)
-            self.fav_list.delete(0,END)
-            self.show_list()
-            self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
+            message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
+            if message == "yes":
+                self.file_path = self.my_list[self.fav_list.curselection()[0]]
+                self.key = self.get_key(self.file_path)
+                del self.audio_list[self.key]
+                with open("data.json", "w") as f:
+                    json.dump(self.audio_list, f)
+                self.fav_list.delete(0,END)
+                self.show_list()
+                self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
         except Exception as e:
             if str(e) == "tuple index out of range":
                 messagebox.showwarning("ERROR","No item selected.")
@@ -206,5 +221,5 @@ been deleted or moved.''')
                 return key
             
 if __name__=="__main__":
-    Player() 
+    Player()
 
