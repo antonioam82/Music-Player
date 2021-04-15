@@ -99,19 +99,6 @@ been deleted or moved.''')
             self.show_list()
             self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
 
-    def list_selection(self):
-        all_items = self.fav_list.get(0, END)
-        print(all_items)
-        #self.fav_list.selection_set(3)
-        c = 0
-        for i in all_items:
-            self.fav_list.selection_set(c)
-            time.sleep(3)
-            break
-        self.fav_list.selection_clear(c)
-            #c+=1
-            #time.sleep(3)
-
     def remove_from_list(self):
         try:
             self.file_path = self.my_list[self.fav_list.curselection()[0]]
@@ -178,15 +165,16 @@ been deleted or moved.''')
         return c
 
     def timer_count(self):
-        self.timer['text'] = str(self.hour_counter)+":"+str(self.counter_format(self.min_counter))+":"+str(self.counter_format(self.sec_counter))
-        self.sec_counter+=1
-        if self.sec_counter==60:
-            self.sec_counter=0
-            self.min_counter+=1
-        if self.min_counter==60:
-            self.min_counter=0
-            self.hour_counter+=1
-        self.process=self.timer.after(1000,self.timer_count)
+        if self.playing == True:
+            self.timer['text'] = str(self.hour_counter)+":"+str(self.counter_format(self.min_counter))+":"+str(self.counter_format(self.sec_counter))
+            self.sec_counter+=1
+            if self.sec_counter==60:
+                self.sec_counter=0
+                self.min_counter+=1
+            if self.min_counter==60:
+                self.min_counter=0
+                self.hour_counter+=1
+            self.process=self.timer.after(1000,self.timer_count)
 
     def music(self):
         try:
@@ -216,4 +204,5 @@ been deleted or moved.''')
                 return key
             
 if __name__=="__main__":
-    Player() 
+    Player()
+
