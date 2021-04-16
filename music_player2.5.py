@@ -1,4 +1,4 @@
- #!/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from tkinter import *
 from tkinter import filedialog, messagebox
@@ -148,24 +148,22 @@ been deleted or moved.''')
         return sel
             
     def open_file(self):
-        if self.playing == False:
-            self.any_selected = self.is_any_selected()
-            if self.any_selected:
-                self.fav_list.selection_clear(self.fav_list.curselection()[0])
-            #self.fav_list.selection_set(2)
-            fpath = filedialog.askopenfilename(initialdir = "/",
-                 title = "Select File",filetypes = (("wav files","*.wav"),
-                 ("all files","*.*")))
-            if fpath:
-                if fpath.endswith(".wav"):
-                    self.file_path = fpath
-                    self.filename.set(self.file_path.split("/")[-1])
-                else:
-                    messagebox.showwarning("ERROR","Bad file format.")
+        #if self.playing == False:
+        self.stop_music()
+        self.any_selected = self.is_any_selected()
+        if self.any_selected:
+            self.fav_list.selection_clear(self.fav_list.curselection()[0])
+        fpath = filedialog.askopenfilename(initialdir = "/",title = "Select File",
+                        filetypes = (("wav files","*.wav"),("all files","*.*")))
+        if fpath:
+            if fpath.endswith(".wav"):
+                self.file_path = fpath
+                self.filename.set(self.file_path.split("/")[-1])
+            else:
+                messagebox.showwarning("ERROR","Bad file format.")
 
     def stop_music(self):
         if self.playing == True:
-            #self.timer.after_cancel(self.process)###################################
             self.playing = False
             print("STOPPED")
 
