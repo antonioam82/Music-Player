@@ -63,7 +63,6 @@ class Player:
         self.root.mainloop()
 
     def init_task(self):
-        ###############################################
         self.any_selected = self.is_any_selected()
         if self.any_selected:
             print("OK")
@@ -98,19 +97,6 @@ been deleted or moved.''')
                 json.dump(self.audio_list, f)
             self.show_list()
             self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
-
-    def list_selection(self):
-        all_items = self.fav_list.get(0, END)
-        print(all_items)
-        #self.fav_list.selection_set(3)
-        c = 0
-        for i in all_items:
-            self.fav_list.selection_set(c)
-            time.sleep(3)
-            break
-        self.fav_list.selection_clear(c)
-            #c+=1
-            #time.sleep(3)
 
     def remove_from_list(self):
         try:
@@ -199,11 +185,10 @@ been deleted or moved.''')
             self.stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()),
                         channels=wf.getnchannels(),rate=wf.getframerate(),output=True)
             data = wf.readframes(self.CHUNK)
-            self.timer_count()###############################3
+            self.timer_count()
             while data and self.playing == True:
                 self.stream.write(data)
                 data = wf.readframes(self.CHUNK)
-            #self.timer.after_cancel(self.process)
             self.stream.stop_stream()
             self.stream.close()
             self.p.terminate()
