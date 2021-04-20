@@ -7,7 +7,6 @@ import pyaudio
 import threading
 import json
 import os
-import time
 
 if not "data.json" in os.listdir():
     d = {}
@@ -62,6 +61,7 @@ class Player:
             
         self.root.mainloop()
 
+    #INICIA PROCESO EN PARALELO.
     def init_task(self):
         self.any_selected = self.is_any_selected()
         if self.any_selected:
@@ -88,7 +88,8 @@ been deleted or moved.''')
             with open("data.json", "w") as f:
                 json.dump(d, f)
             self.items.configure(text='0 ITEMS')
-
+            
+    #AÑADE ELEMENTO AL LISTBOX.
     def add(self):
         if self.entryFile.get() != "":
             self.fav_list.delete(0,END)
@@ -148,6 +149,7 @@ been deleted or moved.''')
             else:
                 messagebox.showwarning("ERROR","Bad file format.")
 
+    #FINALIZA AUDIO
     def stop_music(self):
         if self.playing == True:
             self.playing = False
@@ -165,7 +167,8 @@ been deleted or moved.''')
 
     def timer_count(self):
         if self.playing == True:
-            self.timer['text'] = str(self.hour_counter)+":"+str(self.counter_format(self.min_counter))+":"+str(self.counter_format(self.sec_counter))
+            self.timer['text'] = str(self.hour_counter)+":"+str(self.counter_format(self.min_counter)
+                                                    )+":"+str(self.counter_format(self.sec_counter))
             self.sec_counter+=1
             if self.sec_counter==60:
                 self.sec_counter=0
@@ -177,6 +180,7 @@ been deleted or moved.''')
         else:
             self.timer.after_cancel(self.process)
 
+    #REPRODUCE AUDIO.
     def music(self):
         try:
             self.playing = True
