@@ -66,6 +66,7 @@ class Player:
         self.any_selected = self.is_any_selected()
         if self.any_selected:
             print("OK")
+            
             self.file_path = self.my_list[self.fav_list.curselection()[0]]
             self.key = self.get_key(self.file_path)
             self.filename.set(self.key)
@@ -100,7 +101,8 @@ been deleted or moved.''')
             self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
 
     def remove_from_list(self):
-        try:
+        self.any_selected = self.is_any_selected()
+        if self.any_selected:
             message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
             if message == "yes":
                 self.file_path = self.my_list[self.fav_list.curselection()[0]]
@@ -111,9 +113,8 @@ been deleted or moved.''')
                 self.fav_list.delete(0,END)
                 self.show_list()
                 self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
-        except Exception as e:
-            if str(e) == "tuple index out of range":
-                messagebox.showwarning("ERROR","No item selected.")
+        else:
+            messagebox.showwarning("NO ITEM SELECTED","Select the item you want to delete.")
 
     def show_list(self):
         if len(self.audio_list) > 0:
