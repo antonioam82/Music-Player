@@ -33,6 +33,7 @@ class Player:
         self.playing = False
         self.my_list = []
         self.any_selected = False
+        self.playall_mode = False
 
         entryDir = Entry(self.root,textvariable=self.currentDir,width=153)
         entryDir.place(x=0,y=0)
@@ -64,6 +65,7 @@ class Player:
 
     #INICIA PROCESO EN PARALELO.
     def init_task(self):
+        self.playall_mode = False
         self.any_selected = self.is_any_selected()
         if self.any_selected:
             print("OK")
@@ -183,6 +185,10 @@ been deleted or moved.''')
             self.timer.after_cancel(self.process)
 
     def init_task2(self):
+        self.any_selected = self.is_any_selected()
+        if self.any_selected:
+            self.fav_list.selection_clear(self.fav_list.curselection()[0])        
+        self.playall_mode = True
         t2 = threading.Thread(target=self.count)
         t2.start()
 
@@ -210,7 +216,8 @@ been deleted or moved.''')
             self.stream.stop_stream()
             self.stream.close()
             self.p.terminate()
-            self.fav_list.selection_clear(self.fav_list.curselection()[0])
+            if self.playall_mode == True:
+                self.fav_list.selection_clear(self.fav_list.curselection()[0])##########################
             print("ENDED")
 
         except Exception as e:
