@@ -197,6 +197,7 @@ been deleted or moved.''')
             self.clear_counter()
             self.fav_list.selection_set(i)
             time.sleep(1)
+            self.filename.set(self.my_list[i].split("/")[-1])
             self.file_path = self.my_list[self.fav_list.curselection()[0]]
             self.music()
         
