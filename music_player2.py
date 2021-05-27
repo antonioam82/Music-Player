@@ -187,13 +187,12 @@ been deleted or moved.''')
         t2.start()
 
     def count(self):
-        #self.fav_list.selection_set(2)
         for i in range(0,self.fav_list.size()):
             self.clear_counter()
             self.fav_list.selection_set(i)
+            time.sleep(1)
             self.file_path = self.my_list[self.fav_list.curselection()[0]]
             self.music()
-            #print(i)
         
     #REPRODUCE AUDIO.
     def music(self):
@@ -204,7 +203,6 @@ been deleted or moved.''')
             self.stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()),
                         channels=wf.getnchannels(),rate=wf.getframerate(),output=True)
             data = wf.readframes(self.CHUNK)
-            print(type(data))##################################################################################################
             self.timer_count()
             while data and self.playing == True:
                 self.stream.write(data)
