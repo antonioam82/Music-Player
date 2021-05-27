@@ -46,9 +46,9 @@ class Player:
         Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1",command=self.add).place(x=594,y=108)#self.add
         self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=39,height=2,bg="black",fg="red")
         self.items.place(x=594,y=147)
-        Button(self.root,text="REMOVE PLAYLIST",width=44,command=self.remove_playlist).place(x=594,y=200)#215
-        Button(self.root,text="REMOVE FROM PLAYLIST",width=44,command=self.remove_from_list).place(x=594,y=234)#249
-        Button(self.root,text="PLAY ALL",width=44,command=self.init_task2).place(x=594,y=269)
+        Button(self.root,text="REMOVE PLAYLIST",width=21,height=2,command=self.remove_playlist).place(x=755,y=200)#215
+        Button(self.root,text="REMOVE FROM PLAYLIST",width=21,height=2,command=self.remove_from_list).place(x=594,y=200)#249
+        Button(self.root,text="PLAY ALL",width=44,height=2,command=self.init_task2).place(x=594,y=254)
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=147)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
