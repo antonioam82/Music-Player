@@ -187,15 +187,14 @@ been deleted or moved.''')
             self.timer.after_cancel(self.process)
 
     def init_task2(self):
-        self.any_selected = self.is_any_selected()
-        if self.any_selected:
-            self.fav_list.selection_clear(self.fav_list.curselection()[0])
         if self.playall_mode == False:####################################################
+            self.any_selected = self.is_any_selected()
+            if self.any_selected:
+                self.fav_list.selection_clear(self.fav_list.curselection()[0])
             if self.fav_list.size() > 0:
                 self.playall_mode = True
                 t2 = threading.Thread(target=self.count)
                 t2.start()
-            
             else:
                 messagebox.showwarning("EMPTY PLAYLIST","No item on playlist.")
 
