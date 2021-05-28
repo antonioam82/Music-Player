@@ -190,12 +190,14 @@ been deleted or moved.''')
         self.any_selected = self.is_any_selected()
         if self.any_selected:
             self.fav_list.selection_clear(self.fav_list.curselection()[0])
-        if self.fav_list.size() > 0:
-            self.playall_mode = True
-            t2 = threading.Thread(target=self.count)
-            t2.start()
-        else:
-            messagebox.showwarning("EMPTY PLAYLIST","No item on playlist.")
+        if self.playall_mode == False:####################################################
+            if self.fav_list.size() > 0:
+                self.playall_mode = True
+                t2 = threading.Thread(target=self.count)
+                t2.start()
+            
+            else:
+                messagebox.showwarning("EMPTY PLAYLIST","No item on playlist.")
 
     def count(self):
         for i in range(0,self.fav_list.size()):
@@ -208,6 +210,7 @@ been deleted or moved.''')
                 self.music()
             else:
                 break
+        self.playall_mode = False#########################################################
         
     #REPRODUCE AUDIO.
     def music(self):
