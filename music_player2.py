@@ -49,7 +49,8 @@ class Player:
         self.items.place(x=594,y=147)
         Button(self.root,text="REMOVE PLAYLIST",width=21,height=2,command=self.remove_playlist).place(x=755,y=200)#215
         Button(self.root,text="REMOVE FROM PLAYLIST",width=21,height=2,command=self.remove_from_list).place(x=594,y=200)#249
-        Button(self.root,text="PLAY ALL",width=44,height=2,command=self.init_task2).place(x=594,y=254)
+        self.btnPlayall = Button(self.root,text="PLAY ALL",width=44,height=2,command=self.init_task2)
+        self.btnPlayall.place(x=594,y=254)
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=147)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
@@ -160,6 +161,7 @@ been deleted or moved.''')
             print("STOPPED")
         if self.playall_mode == True:
             self.playall_mode = False
+            self.btnPlayall.configure(text="PLAY ALL")
 
     def clear_counter(self):
         self.sec_counter = 0
@@ -192,6 +194,7 @@ been deleted or moved.''')
             if self.any_selected:
                 self.fav_list.selection_clear(self.fav_list.curselection()[0])
             if self.fav_list.size() > 0:
+                self.btnPlayall.configure(text="PLAYING ALL...")
                 self.playall_mode = True
                 t2 = threading.Thread(target=self.count)
                 t2.start()
