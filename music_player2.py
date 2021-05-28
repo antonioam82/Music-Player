@@ -84,15 +84,16 @@ class Player:
 been deleted or moved.''')
             
     def remove_playlist(self):
-        message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
-        if message == "yes":
-            self.my_list = []
-            self.fav_list.delete(0,END)
-            self.audio_list = {}
-            d = {}
-            with open("data.json", "w") as f:
-                json.dump(d, f)
-            self.items.configure(text='0 ITEMS')
+        if self.fav_list.size() > 0:
+            message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
+            if message == "yes":
+                self.my_list = []
+                self.fav_list.delete(0,END)
+                self.audio_list = {}
+                d = {}
+                with open("data.json", "w") as f:
+                    json.dump(d, f)
+                self.items.configure(text='0 ITEMS')
             
     #AÑADE ELEMENTO AL LISTBOX.
     def add(self):
@@ -105,20 +106,21 @@ been deleted or moved.''')
             self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
 
     def remove_from_list(self):
-        self.any_selected = self.is_any_selected()
-        if self.any_selected:
-            message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
-            if message == "yes":
-                self.file_path = self.my_list[self.fav_list.curselection()[0]]
-                self.key = self.get_key(self.file_path)
-                del self.audio_list[self.key]
-                with open("data.json", "w") as f:
-                    json.dump(self.audio_list, f)
-                self.fav_list.delete(0,END)
-                self.show_list()
-                self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
-        else:
-            messagebox.showwarning("NO ITEM SELECTED","Select the item you want to delete.")
+        if self.fav_list.size() > 0:
+            self.any_selected = self.is_any_selected()
+            if self.any_selected:
+                message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
+                if message == "yes":
+                    self.file_path = self.my_list[self.fav_list.curselection()[0]]
+                    self.key = self.get_key(self.file_path)
+                    del self.audio_list[self.key]
+                    with open("data.json", "w") as f:
+                        json.dump(self.audio_list, f)
+                    self.fav_list.delete(0,END)
+                    self.show_list()
+                    self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
+            else:
+                messagebox.showwarning("NO ITEM SELECTED","Select the item you want to delete.")
 
     def show_list(self):
         if len(self.audio_list) > 0:
