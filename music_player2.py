@@ -189,7 +189,7 @@ been deleted or moved.''')
             self.timer.after_cancel(self.process)
 
     def init_task2(self):
-        if self.playall_mode == False:####################################################
+        if self.playall_mode == False and self.playing == False:####################################################
             self.any_selected = self.is_any_selected()
             if self.any_selected:
                 self.fav_list.selection_clear(self.fav_list.curselection()[0])
