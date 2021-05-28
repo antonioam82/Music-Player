@@ -213,6 +213,7 @@ been deleted or moved.''')
             else:
                 break
         self.playall_mode = False#########################################################
+        self.btnPlayall.configure(text="PLAY ALL")########################################################
         
     #REPRODUCE AUDIO.
     def music(self):
