@@ -142,7 +142,6 @@ been deleted or moved.''')
         return sel
             
     def open_file(self):
-        #if self.playing == False:
         self.stop_music()
         self.any_selected = self.is_any_selected()
         if self.any_selected:
