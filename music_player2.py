@@ -74,7 +74,7 @@ class Player:
                 self.file_path = self.my_list[self.fav_list.curselection()[0]]
                 self.key = self.get_key(self.file_path)
                 self.filename.set(self.key)
-            if self.file_path and self.playing == False:
+            if self.file_path: #and self.playing == False:
                 if os.path.exists(self.file_path):
                     self.clear_counter()
                     t = threading.Thread(target=self.music)
