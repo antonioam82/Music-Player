@@ -66,7 +66,7 @@ class Player:
 
     #INICIA PROCESO EN PARALELO.
     def init_task(self):
-        if self.playall_mode == False:
+        if self.playall_mode == False and self.playing == False:
             self.any_selected = self.is_any_selected()
             if self.any_selected:
                 print("OK")
