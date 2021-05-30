@@ -210,7 +210,12 @@ been deleted or moved.''')
                 time.sleep(1)
                 self.filename.set(self.my_list[i].split("/")[-1])
                 self.file_path = self.my_list[self.fav_list.curselection()[0]]
-                self.music()
+                if os.path.exists(self.file_path):
+                    self.music()
+                else:
+                    messagebox.showwarning("FILE NOT FOUND",'''Path not found, file may have
+been deleted or moved.''')
+                    self.fav_list.selection_clear(self.fav_list.curselection()[0])
             else:
                 break
         self.playall_mode = False#########################################################
