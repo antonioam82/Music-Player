@@ -63,20 +63,21 @@ class Player:
 
     #INICIA PROCESO EN PARALELO.
     def init_task(self):
-        self.any_selected = self.is_any_selected()
-        if self.any_selected:
-            print("OK")
+        if self.playing == False:
+            self.any_selected = self.is_any_selected()
+            if self.any_selected:
+                print("OK")
             
-            self.file_path = self.my_list[self.fav_list.curselection()[0]]
-            self.key = self.get_key(self.file_path)
-            self.filename.set(self.key)
-        if self.file_path and self.playing == False:
-            if os.path.exists(self.file_path):
-                self.clear_counter()
-                t = threading.Thread(target=self.music)
-                t.start()
-            else:
-                messagebox.showwarning("FILE NOT FOUND",'''Path not found, file may have
+                self.file_path = self.my_list[self.fav_list.curselection()[0]]
+                self.key = self.get_key(self.file_path)
+                self.filename.set(self.key)
+            if self.file_path and self.playing == False:
+                if os.path.exists(self.file_path):
+                    self.clear_counter()
+                    t = threading.Thread(target=self.music)
+                    t.start()
+                else:
+                    messagebox.showwarning("FILE NOT FOUND",'''Path not found, file may have
 been deleted or moved.''')
             
     def remove_playlist(self):
