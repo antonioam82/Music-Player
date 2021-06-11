@@ -203,22 +203,20 @@ been deleted or moved.''')
                 messagebox.showwarning("EMPTY PLAYLIST","No item on playlist.")
 
     def count(self):
-        counting = 0
         while self.playall_mode == True:
-                self.clear_counter()
-                self.fav_list.selection_set(counting)
-                time.sleep(1)
-                self.filename.set(self.my_list[counting].split("/")[-1])
-                self.file_path = self.my_list[self.fav_list.curselection()[0]]
-                if os.path.exists(self.file_path):
-                    self.music()
-                else:
-                    messagebox.showwarning("FILE NOT FOUND",'''Path not found, file may have
+            for i in range(0,self.fav_list.size()):
+                if self.playall_mode == True:
+                    self.clear_counter()
+                    self.fav_list.selection_set(i)
+                    time.sleep(1)
+                    self.filename.set(self.my_list[i].split("/")[-1])
+                    self.file_path = self.my_list[self.fav_list.curselection()[0]]
+                    if os.path.exists(self.file_path):
+                        self.music()
+                    else:
+                        messagebox.showwarning("FILE NOT FOUND",'''Path not found, file may have
 been deleted or moved.''')
-                    self.fav_list.selection_clear(self.fav_list.curselection()[0])
-                counting += 1
-                if counting >= len(self.audio_list):
-                    counting = 0
+                        self.fav_list.selection_clear(self.fav_list.curselection()[0])
         #self.playall_mode = False
         self.btnPlayall.configure(text="PLAY ALL")
         
