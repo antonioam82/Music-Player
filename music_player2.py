@@ -208,10 +208,9 @@ been deleted or moved.''')
 
     def count(self):
         counting = 0
-        
+        self.size_ = len(self.audio_list)
         while self.playall_mode == True:
             print(counting)
-            self.size_ = len(self.audio_list)
             print("SIZE: ",self.size_)
             if self.playall_mode == True:
                 self.clear_counter()
