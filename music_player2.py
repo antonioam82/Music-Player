@@ -110,8 +110,8 @@ been deleted or moved.''')
         if self.fav_list.size() > 0:
             self.any_selected = self.is_any_selected()
             if self.any_selected:
-                #self.playing = False
-                #self.playall_mode = False###################
+                self.playing = False
+                self.playall_mode = False###################
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
                     self.size_ -= 1
