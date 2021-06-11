@@ -34,6 +34,7 @@ class Player:
         self.my_list = []
         self.any_selected = False
         self.playall_mode = False
+        
 
         entryDir = Entry(self.root,textvariable=self.currentDir,width=153)
         entryDir.place(x=0,y=0)
@@ -109,8 +110,11 @@ been deleted or moved.''')
         if self.fav_list.size() > 0:
             self.any_selected = self.is_any_selected()
             if self.any_selected:
+                #self.playing = False
+                #self.playall_mode = False###################
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
+                    self.size_ -= 1
                     self.file_path = self.my_list[self.fav_list.curselection()[0]]
                     self.key = self.get_key(self.file_path)
                     del self.audio_list[self.key]
@@ -118,7 +122,6 @@ been deleted or moved.''')
                         json.dump(self.audio_list, f)
                     self.fav_list.delete(0,END)
                     self.show_list()
-                    self.playall_mode = False###################
                     self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
             else:
                 messagebox.showwarning("NO ITEM SELECTED","Select the item you want to delete.")
@@ -204,21 +207,27 @@ been deleted or moved.''')
                 messagebox.showwarning("EMPTY PLAYLIST","No item on playlist.")
 
     def count(self):
+        counting = 0
+        
         while self.playall_mode == True:
-            for i in range(0,self.fav_list.size()):
-                print(i)
-                if self.playall_mode == True:
-                    self.clear_counter()
-                    self.fav_list.selection_set(i)
-                    time.sleep(1)
-                    self.filename.set(self.my_list[i].split("/")[-1])
-                    self.file_path = self.my_list[self.fav_list.curselection()[0]]
-                    if os.path.exists(self.file_path):
-                        self.music()
-                    else:
-                        messagebox.showwarning("FILE NOT FOUND",'''Path not found, file may have
+            print(counting)
+            self.size_ = len(self.audio_list)
+            print("SIZE: ",self.size_)
+            if self.playall_mode == True:
+                self.clear_counter()
+                self.fav_list.selection_set(counting)
+                time.sleep(1)
+                self.filename.set(self.my_list[counting].split("/")[-1])
+                self.file_path = self.my_list[self.fav_list.curselection()[0]]
+                if os.path.exists(self.file_path):
+                    self.music()
+                else:
+                    messagebox.showwarning("FILE NOT FOUND",'''Path not found, file may have
 been deleted or moved.''')
-                        self.fav_list.selection_clear(self.fav_list.curselection()[0])
+                    self.fav_list.selection_clear(self.fav_list.curselection()[0])
+                counting+=1
+                if counting >= self.size_:
+                    counting = 0
         #self.playall_mode = False
         self.btnPlayall.configure(text="PLAY ALL")
         
