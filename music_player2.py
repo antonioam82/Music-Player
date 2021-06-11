@@ -109,6 +109,7 @@ been deleted or moved.''')
         if self.fav_list.size() > 0:
             self.any_selected = self.is_any_selected()
             if self.any_selected:
+                self.playall_mode = False###################
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
                     self.file_path = self.my_list[self.fav_list.curselection()[0]]
@@ -205,6 +206,7 @@ been deleted or moved.''')
     def count(self):
         while self.playall_mode == True:
             for i in range(0,self.fav_list.size()):
+                print(i)
                 if self.playall_mode == True:
                     self.clear_counter()
                     self.fav_list.selection_set(i)
