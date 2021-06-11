@@ -109,7 +109,6 @@ been deleted or moved.''')
         if self.fav_list.size() > 0:
             self.any_selected = self.is_any_selected()
             if self.any_selected:
-                self.playall_mode = False###################
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
                     self.file_path = self.my_list[self.fav_list.curselection()[0]]
@@ -119,6 +118,7 @@ been deleted or moved.''')
                         json.dump(self.audio_list, f)
                     self.fav_list.delete(0,END)
                     self.show_list()
+                    self.playall_mode = False###################
                     self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
             else:
                 messagebox.showwarning("NO ITEM SELECTED","Select the item you want to delete.")
