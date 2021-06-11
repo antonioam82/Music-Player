@@ -88,6 +88,9 @@ been deleted or moved.''')
         if self.fav_list.size() > 0:
             message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
             if message == "yes":
+                self.playing = False
+                self.playall_mode = False###################
+                self.btnPlayall.configure(text="PLAY ALL")
                 self.my_list = []
                 self.fav_list.delete(0,END)
                 self.audio_list = {}
