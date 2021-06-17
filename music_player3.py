@@ -105,7 +105,7 @@ been deleted or moved.''')
             
     #AÑADE ELEMENTO AL LISTBOX.
     def add(self):
-        if self.entryFile.get() != "":
+        if self.entryFile.get() != "" and self.playall_mode == False:
             self.fav_list.delete(0,END)
             self.audio_list[self.filename.get()]=self.file_path
             with open("data.json", "w") as f:
