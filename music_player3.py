@@ -54,7 +54,7 @@ class Player:
         Button(self.root,text="REMOVE FROM PLAYLIST",width=44,command=self.remove_from_list).place(x=594,y=190)#249
         self.btnPlayall = Button(self.root,text="PLAY ALL",width=21,height=2,command=self.init_task2)
         self.btnPlayall.place(x=594,y=254)
-        self.btnRandom = Button(self.root,text="RANDOM MODE: NO",width=21,height=2,command=self.act_random)
+        self.btnRandom = Button(self.root,text="RANDOM MODE: OFF",width=21,height=2,command=self.act_random)
         self.btnRandom.place(x=755,y=254)
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=147)
@@ -223,10 +223,10 @@ been deleted or moved.''')
     def act_random(self):
         if self.random_mode == True:
             self.random_mode = False
-            self.btnRandom.configure(text="RANDOM MODE: NO")
+            self.btnRandom.configure(text="RANDOM MODE: OFF")
         else:
             self.random_mode = True
-            self.btnRandom.configure(text="RANDOM MODE: YES")
+            self.btnRandom.configure(text="RANDOM MODE: ON")
 
     def count(self):
         self.counting = 0
