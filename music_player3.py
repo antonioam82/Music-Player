@@ -229,9 +229,12 @@ been deleted or moved.''')
             self.btnRandom.configure(text="RANDOM MODE: ON")
 
     def count(self):
-        self.counting = 0
+        #self.counting = 0
         self.size_ = len(self.audio_list)
-        #self.define_index()
+        if self.random_mode == True:
+            self.counting = random.randint(0,self.size_)
+        else:
+            self.counting = 0
         while self.playall_mode == True:
             print(self.counting)
             print("SIZE: ",self.size_)
@@ -248,7 +251,6 @@ been deleted or moved.''')
 been deleted or moved.''')
                     self.fav_list.selection_clear(self.fav_list.curselection()[0])
                 self.define_index()
-        #self.playall_mode = False
         self.btnPlayall.configure(text="PLAY ALL")
         
     #REPRODUCE AUDIO.
