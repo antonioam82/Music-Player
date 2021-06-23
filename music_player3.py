@@ -229,7 +229,6 @@ been deleted or moved.''')
             self.btnRandom.configure(text="RANDOM MODE: ON")
 
     def count(self):
-        #self.counting = 0
         self.size_ = len(self.audio_list)
         if self.random_mode == True:
             self.counting = random.randint(0,self.size_)
