@@ -37,7 +37,6 @@ class Player:
         self.playall_mode = False
         self.random_mode = False
         
-
         entryDir = Entry(self.root,textvariable=self.currentDir,width=153)
         entryDir.place(x=0,y=0)
         self.timer = Label(self.root,text="0:00:00",bg="black",fg="green",font=("arial","34"),width=13,height=2)
