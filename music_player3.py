@@ -142,13 +142,11 @@ been deleted or moved.''')
                 c+=1
 
     def is_any_selected(self):
-        cn = 0
         sel = False
         for i in range(0,self.fav_list.size()):
-            if self.fav_list.selection_includes(cn):
+            if self.fav_list.selection_includes(i):
                 sel = True
                 break
-            cn+=1
         return sel
             
     def open_file(self):
@@ -204,6 +202,7 @@ been deleted or moved.''')
             self.any_selected = self.is_any_selected()
             if self.any_selected:
                 self.fav_list.selection_clear(self.fav_list.curselection()[0])
+                print(self.fav_list.curselection()[0])
             if self.fav_list.size() > 0:
                 self.btnPlayall.configure(text="PLAYING ALL...")
                 self.playall_mode = True
