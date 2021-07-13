@@ -200,9 +200,9 @@ been deleted or moved.''')
     def init_task2(self):
         if self.playall_mode == False and self.playing == False:####################################################
             self.any_selected = self.is_any_selected()[0]
-            if self.any_selected:
-                #self.fav_list.selection_clear(self.fav_list.curselection()[0])
-                print("mmmmmmmmmmmm")
+            if not self.any_selected:
+                self.fav_list.selection_set(0)
+                #print("mmmmmmmmmmmmm")
             if self.fav_list.size() > 0:
                 self.btnPlayall.configure(text="PLAYING ALL...")
                 self.playall_mode = True
