@@ -202,7 +202,7 @@ been deleted or moved.''')
             self.any_selected = self.is_any_selected()[0]
             if self.any_selected:
                 #self.fav_list.selection_clear(self.fav_list.curselection()[0])
-                print("mmmmmmmmmmmmm")
+                print("mmmmmmmmmmmm")
             if self.fav_list.size() > 0:
                 self.btnPlayall.configure(text="PLAYING ALL...")
                 self.playall_mode = True
