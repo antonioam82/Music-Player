@@ -143,13 +143,10 @@ been deleted or moved.''')
 
     def is_any_selected(self):
         sel = False
-        c = 0
-        for i in range(0,self.fav_list.size()-1):
+        for i in range(0,self.fav_list.size()):
             if self.fav_list.selection_includes(i):
-                c = i
                 sel = True
                 break
-        print("C: ",c)
         return sel, i
             
     def open_file(self):
