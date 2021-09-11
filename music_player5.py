@@ -36,6 +36,7 @@ class Player:
         self.any_selected = False
         self.playall_mode = False
         self.random_mode = False
+        self.counting = 0
 
         entryDir = Entry(self.root,textvariable=self.currentDir,width=153)
         entryDir.place(x=0,y=0)
@@ -143,10 +144,13 @@ been deleted or moved.''')
 
     def is_any_selected(self):
         sel = False
+        self.num_selected = 0
         for i in range(0,self.fav_list.size()):
             if self.fav_list.selection_includes(i):
+                self.num_selected += 1
                 sel = True
                 break
+        print("NUmber: ",self.num_selected)
         return sel
 
     def open_file(self):
@@ -199,10 +203,10 @@ been deleted or moved.''')
 
     def init_task2(self):
         if self.playall_mode == False and self.playing == False:####################################################
-            self.any_selected = self.is_any_selected()
-            if self.any_selected:
-                self.fav_list.selection_clear(self.fav_list.curselection()[0])
-                print(self.fav_list.curselection()[0])
+            self.is_any_selected()
+            if self.num_selected > 0:
+                self.fav_list.selection_clear(self.fav_list.curselection()[0])####################################################################
+                #print(self.fav_list.curselection()[0])
             if self.fav_list.size() > 0:
                 self.btnPlayall.configure(text="PLAYING ALL...")
                 self.playall_mode = True
