@@ -23,10 +23,10 @@ class Player:
         self.root.configure(bg="gray78")
         self.root.geometry("923x306")
         self.CHUNK = 1024
-    
+
         with open("data.json") as f:
             self.audio_list = json.load(f)
-        
+
         self.filename = StringVar()
         self.currentDir = StringVar()
         self.currentDir.set(os.getcwd())
@@ -36,7 +36,8 @@ class Player:
         self.any_selected = False
         self.playall_mode = False
         self.random_mode = False
-        
+
+
         entryDir = Entry(self.root,textvariable=self.currentDir,width=153)
         entryDir.place(x=0,y=0)
         self.timer = Label(self.root,text="0:00:00",bg="black",fg="green",font=("arial","34"),width=13,height=2)
@@ -65,14 +66,13 @@ class Player:
         self.scrollbar.config(command = self.fav_list.yview)
 
         self.show_list()
-            
+
         self.root.mainloop()
 
     #INICIA PROCESO EN PARALELO.
     def init_task(self):
         if self.playall_mode == False and self.playing == False:
-            self.any_selected = self.is_any_selected()[0]
-            #print(self.any_selected)
+            self.any_selected = self.is_any_selected()
             if self.any_selected:
                 print("OK")
                 self.file_path = self.my_list[self.fav_list.curselection()[0]]
@@ -86,7 +86,7 @@ class Player:
                 else:
                     messagebox.showwarning("FILE NOT FOUND",'''Path not found, file may have
 been deleted or moved.''')
-            
+
     def remove_playlist(self):
         if self.fav_list.size() > 0:
             message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
@@ -101,7 +101,7 @@ been deleted or moved.''')
                 with open("data.json", "w") as f:
                     json.dump(d, f)
                 self.items.configure(text='0 ITEMS')
-            
+
     #AÑADE ELEMENTO AL LISTBOX.
     def add(self):
         if self.entryFile.get() != "" and self.playall_mode == False:
@@ -114,13 +114,13 @@ been deleted or moved.''')
 
     def remove_from_list(self):
         if self.fav_list.size() > 0:
-            self.any_selected = self.is_any_selected()[0]
+            self.any_selected = self.is_any_selected()
             if self.any_selected:
                 self.playing = False
                 self.playall_mode = False###################
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
-                    self.size_ -= 1
+                    #self.size_ -= 1
                     self.file_path = self.my_list[self.fav_list.curselection()[0]]
                     self.key = self.get_key(self.file_path)
                     del self.audio_list[self.key]
@@ -142,16 +142,18 @@ been deleted or moved.''')
                 c+=1
 
     def is_any_selected(self):
+        cn = 0
         sel = False
         for i in range(0,self.fav_list.size()):
-            if self.fav_list.selection_includes(i):
+            if self.fav_list.selection_includes(cn):
                 sel = True
                 break
-        return sel, i
-            
+            cn+=1
+        return sel
+
     def open_file(self):
         self.stop_music()
-        self.any_selected = self.is_any_selected()[0]
+        self.any_selected = self.is_any_selected()
         if self.any_selected:
             self.fav_list.selection_clear(self.fav_list.curselection()[0])
         fpath = filedialog.askopenfilename(initialdir = "/",title = "Select File",
@@ -199,10 +201,9 @@ been deleted or moved.''')
 
     def init_task2(self):
         if self.playall_mode == False and self.playing == False:####################################################
-            self.any_selected = self.is_any_selected()[0]
-            if not self.any_selected:
-                self.fav_list.selection_set(0)
-                #print("mmmmmmmmmmmmm")
+            self.any_selected = self.is_any_selected()
+            if self.any_selected:
+                self.fav_list.selection_clear(self.fav_list.curselection()[0])
             if self.fav_list.size() > 0:
                 self.btnPlayall.configure(text="PLAYING ALL...")
                 self.playall_mode = True
@@ -213,11 +214,11 @@ been deleted or moved.''')
 
     def define_index(self):
         if self.random_mode == True:
-            self.counting = random.randint(0,self.size_)
+            self.counting = random.randint(0,len(self.audio_list))
         self.counting += 1
-        if self.counting >= self.size_:
+        if self.counting >= len(self.audio_list):
             self.counting = 0
-        
+
     def act_random(self):
         if self.random_mode == True:
             self.random_mode = False
@@ -227,15 +228,12 @@ been deleted or moved.''')
             self.btnRandom.configure(text="RANDOM MODE: ON")
 
     def count(self):
-        self.size_ = len(self.audio_list)
-        if self.random_mode == True:
-            self.counting = random.randint(0,self.size_)
-        else:
-            self.counting = self.is_any_selected()[1]
-            print("Counter: ",self.counting)
+        self.counting = 0
+        #self.size_ = len(self.audio_list)
+        #self.define_index()
         while self.playall_mode == True:
-            #print(self.counting)
-            #print("SIZE: ",self.size_)
+            print(self.counting)
+            print("SIZE: ",len(self.audio_list))
             if self.playall_mode == True:
                 self.clear_counter()
                 self.fav_list.selection_set(self.counting)
@@ -249,8 +247,9 @@ been deleted or moved.''')
 been deleted or moved.''')
                     self.fav_list.selection_clear(self.fav_list.curselection()[0])
                 self.define_index()
+        #self.playall_mode = False
         self.btnPlayall.configure(text="PLAY ALL")
-        
+
     #REPRODUCE AUDIO.
     def music(self):
         try:
@@ -279,6 +278,6 @@ been deleted or moved.''')
         for key, value in self.audio_list.items():
             if val == value:
                 return key
-            
+
 if __name__=="__main__":
     Player()
