@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
 from tkinter import filedialog, messagebox
-import random
 import wave
 import pyaudio
 import threading
@@ -23,10 +22,10 @@ class Player:
         self.root.configure(bg="gray78")
         self.root.geometry("923x306")
         self.CHUNK = 1024
-    
+
         with open("data.json") as f:
             self.audio_list = json.load(f)
-        
+
         self.filename = StringVar()
         self.currentDir = StringVar()
         self.currentDir.set(os.getcwd())
@@ -35,8 +34,8 @@ class Player:
         self.my_list = []
         self.any_selected = False
         self.playall_mode = False
-        self.random_mode = False
-        
+
+
         entryDir = Entry(self.root,textvariable=self.currentDir,width=153)
         entryDir.place(x=0,y=0)
         self.timer = Label(self.root,text="0:00:00",bg="black",fg="green",font=("arial","34"),width=13,height=2)
@@ -49,12 +48,10 @@ class Player:
         Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1",command=self.add).place(x=594,y=108)#self.add
         self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=39,height=2,bg="black",fg="red")
         self.items.place(x=594,y=147)
-        Button(self.root,text="REMOVE PLAYLIST",width=44,command=self.remove_playlist).place(x=594,y=220)#215
-        Button(self.root,text="REMOVE FROM PLAYLIST",width=44,command=self.remove_from_list).place(x=594,y=190)#249
-        self.btnPlayall = Button(self.root,text="PLAY ALL",width=21,height=2,command=self.init_task2)
+        Button(self.root,text="REMOVE PLAYLIST",width=21,height=2,command=self.remove_playlist).place(x=755,y=200)#215
+        Button(self.root,text="REMOVE FROM PLAYLIST",width=21,height=2,command=self.remove_from_list).place(x=594,y=200)#249
+        self.btnPlayall = Button(self.root,text="PLAY ALL",width=44,height=2,command=self.init_task2)
         self.btnPlayall.place(x=594,y=254)
-        self.btnRandom = Button(self.root,text="RANDOM MODE: OFF",width=21,height=2,command=self.act_random)
-        self.btnRandom.place(x=755,y=254)
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=147)
         self.scrollbar = Scrollbar(self.canvas,orient=VERTICAL)
@@ -65,7 +62,7 @@ class Player:
         self.scrollbar.config(command = self.fav_list.yview)
 
         self.show_list()
-            
+
         self.root.mainloop()
 
     #INICIA PROCESO EN PARALELO.
@@ -74,7 +71,7 @@ class Player:
             self.any_selected = self.is_any_selected()
             if self.any_selected:
                 print("OK")
-            
+
                 self.file_path = self.my_list[self.fav_list.curselection()[0]]
                 self.key = self.get_key(self.file_path)
                 self.filename.set(self.key)
@@ -86,7 +83,7 @@ class Player:
                 else:
                     messagebox.showwarning("FILE NOT FOUND",'''Path not found, file may have
 been deleted or moved.''')
-            
+
     def remove_playlist(self):
         if self.fav_list.size() > 0:
             message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
@@ -101,10 +98,10 @@ been deleted or moved.''')
                 with open("data.json", "w") as f:
                     json.dump(d, f)
                 self.items.configure(text='0 ITEMS')
-            
+
     #AÑADE ELEMENTO AL LISTBOX.
     def add(self):
-        if self.entryFile.get() != "" and self.playall_mode == False:
+        if self.entryFile.get() != "":
             self.fav_list.delete(0,END)
             self.audio_list[self.filename.get()]=self.file_path
             with open("data.json", "w") as f:
@@ -120,7 +117,7 @@ been deleted or moved.''')
                 self.playall_mode = False###################
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
-                    self.size_ -= 1
+                    #self.size_ -= 1
                     self.file_path = self.my_list[self.fav_list.curselection()[0]]
                     self.key = self.get_key(self.file_path)
                     del self.audio_list[self.key]
@@ -142,13 +139,15 @@ been deleted or moved.''')
                 c+=1
 
     def is_any_selected(self):
+        cn = 0
         sel = False
         for i in range(0,self.fav_list.size()):
-            if self.fav_list.selection_includes(i):
+            if self.fav_list.selection_includes(cn):
                 sel = True
                 break
+            cn+=1
         return sel
-            
+
     def open_file(self):
         self.stop_music()
         self.any_selected = self.is_any_selected()
@@ -202,7 +201,6 @@ been deleted or moved.''')
             self.any_selected = self.is_any_selected()
             if self.any_selected:
                 self.fav_list.selection_clear(self.fav_list.curselection()[0])
-                print(self.fav_list.curselection()[0])
             if self.fav_list.size() > 0:
                 self.btnPlayall.configure(text="PLAYING ALL...")
                 self.playall_mode = True
@@ -211,35 +209,17 @@ been deleted or moved.''')
             else:
                 messagebox.showwarning("EMPTY PLAYLIST","No item on playlist.")
 
-    def define_index(self):
-        if self.random_mode == True:
-            self.counting = random.randint(0,self.size_)
-        self.counting += 1
-        if self.counting >= self.size_:
-            self.counting = 0
-        
-    def act_random(self):
-        if self.random_mode == True:
-            self.random_mode = False
-            self.btnRandom.configure(text="RANDOM MODE: OFF")
-        else:
-            self.random_mode = True
-            self.btnRandom.configure(text="RANDOM MODE: ON")
-
     def count(self):
-        self.size_ = len(self.audio_list)
-        if self.random_mode == True:
-            self.counting = random.randint(0,self.size_)
-        else:
-            self.counting = 0
+        counting = 0
+        #self.size_ = len(self.audio_list)
         while self.playall_mode == True:
-            print(self.counting)
-            print("SIZE: ",self.size_)
+            print(counting)
+            print("SIZE: ",len(self.audio_list))
             if self.playall_mode == True:
                 self.clear_counter()
-                self.fav_list.selection_set(self.counting)
+                self.fav_list.selection_set(counting)
                 time.sleep(1)
-                self.filename.set(self.my_list[self.counting].split("/")[-1])
+                self.filename.set(self.my_list[counting].split("/")[-1])
                 self.file_path = self.my_list[self.fav_list.curselection()[0]]
                 if os.path.exists(self.file_path):
                     self.music()
@@ -247,9 +227,12 @@ been deleted or moved.''')
                     messagebox.showwarning("FILE NOT FOUND",'''Path not found, file may have
 been deleted or moved.''')
                     self.fav_list.selection_clear(self.fav_list.curselection()[0])
-                self.define_index()
+                counting+=1
+                if counting >= len(self.audio_list):
+                    counting = 0
+        #self.playall_mode = False
         self.btnPlayall.configure(text="PLAY ALL")
-        
+
     #REPRODUCE AUDIO.
     def music(self):
         try:
@@ -278,6 +261,6 @@ been deleted or moved.''')
         for key, value in self.audio_list.items():
             if val == value:
                 return key
-            
+
 if __name__=="__main__":
     Player()
