@@ -233,7 +233,7 @@ been deleted or moved.''')
     def count(self):
         #self.size_ = len(self.audio_list)
         if self.random_mode == True:
-            self.counting = random.randint(0,len(self.audio_list))
+            self.counting = random.randint(0,(len(self.audio_list))-1)
         else:
             self.counting = 0
         while self.playall_mode == True:
@@ -242,8 +242,8 @@ been deleted or moved.''')
             if self.playall_mode == True:
                 self.clear_counter()
                 self.fav_list.selection_set(self.counting)
-
                 time.sleep(1)
+                print("COUNTING: ",self.counting)
                 self.filename.set(self.my_list[self.counting].split("/")[-1])
                 self.file_path = self.my_list[self.fav_list.curselection()[0]]
                 if os.path.exists(self.file_path):
