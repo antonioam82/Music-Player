@@ -214,6 +214,8 @@ been deleted or moved.''')
                 t2.start()
             else:
                 messagebox.showwarning("EMPTY PLAYLIST","No item on playlist.")
+        else:
+            messagebox.showwarning("CAN'T ACTVATE","You must stop current audio to use this function.")
 
     def define_index(self):
         if self.random_mode == True:
