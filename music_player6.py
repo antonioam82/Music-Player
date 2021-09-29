@@ -155,18 +155,18 @@ been deleted or moved.''')
         return sel
 
     def open_file(self):
-        self.stop_music()
+        #self.stop_music()
         self.any_selected = self.is_any_selected()
         if self.any_selected:
             self.fav_list.selection_clear(self.fav_list.curselection()[0])
         fpath = filedialog.askopenfilename(initialdir = "/",title = "Select File",
-                        filetypes = (("wav files","*.wav"),("all files","*.*")))
+                        filetypes = (("mp3 files","*.mp3"),("all files","*.*")))
         if fpath:
-            if fpath.endswith(".wav"):
-                self.file_path = fpath
-                self.filename.set(self.file_path.split("/")[-1])
-            else:
-                messagebox.showwarning("ERROR","Bad file format.")
+            #if fpath.endswith(".wav"):
+            self.file_path = fpath
+            self.filename.set(self.file_path.split("/")[-1])
+            #else:
+                #messagebox.showwarning("ERROR","Bad file format.")
 
     #FINALIZA AUDIO
     def stop_music(self):
