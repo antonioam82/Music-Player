@@ -5,6 +5,7 @@ from tkinter import filedialog, messagebox
 import random
 import wave
 import pyaudio
+from pygame import mixer#####################################
 import threading
 import json
 import time
