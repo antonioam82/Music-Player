@@ -47,7 +47,7 @@ class Player:
         self.entryFile.place(x=358,y=28)
         Button(self.root,text="SEARCH",width=79,bg="blue",fg="white",command=self.open_file).place(x=356,y=75)
         Button(self.root,text="PLAY",width=10,bg="goldenrod1",command=self.init_task).place(x=356,y=108)
-        Button(self.root,text="PAUSE",width=10,bg="goldenrod1").place(x=437,y=108)
+        Button(self.root,text="PAUSE",width=10,bg="goldenrod1",command=self.pause).place(x=437,y=108)
         Button(self.root,text="STOP",width=10,bg="goldenrod1",command=self.stop_music).place(x=518,y=108)
         Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1",command=self.add).place(x=601,y=108)#self.add
         self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=39,height=2,bg="black",fg="red")
@@ -257,6 +257,10 @@ been deleted or moved.''')
                 self.define_index()
         self.btnPlayall.configure(text="PLAY ALL")
 
+    def pause(self):
+        mixer.music.pause()
+
+
     #REPRODUCE AUDIO.
     def music(self):
         try:
@@ -279,6 +283,10 @@ been deleted or moved.''')
 
         except Exception as e:
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
+            mixer.init()
+            mixer.music.load(self.file_path)
+            mixer.music.play()
+            print("perfect")
         self.playing = False
 
     def get_key(self,val):
