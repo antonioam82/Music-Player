@@ -76,7 +76,7 @@ class Player:
             if self.any_selected:
                 print("OK")
 
-                self.file_path = self.my_list[self.fav_list.curselection()[0]]
+                self.file_path = self.my_list[self.fav_list.curselection() [ 0 ] ]
                 self.key = self.get_key(self.file_path)
                 self.filename.set(self.key)
             if self.file_path: #and self.playing == False:
@@ -122,7 +122,7 @@ been deleted or moved.''')
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
                     #self.size_ -= 1
-                    self.file_path = self.my_list[self.fav_list.curselection()[0]]
+                    self.file_path = self.my_list[self.fav_list.curselection()[ 0 ] ]
                     self.key = self.get_key(self.file_path)
                     del self.audio_list[self.key]
                     with open("data.json", "w") as f:
@@ -157,7 +157,7 @@ been deleted or moved.''')
         self.stop_music()
         self.any_selected = self.is_any_selected()
         if self.any_selected:
-            self.fav_list.selection_clear(self.fav_list.curselection()[0])
+            self.fav_list.selection_clear(self.fav_list.curselection() [ 0 ] )
         fpath = filedialog.askopenfilename(initialdir = "/",title = "Select File",
                         filetypes = (("wav files","*.wav"),("all files","*.*")))
         if fpath:
@@ -205,8 +205,8 @@ been deleted or moved.''')
         if self.playall_mode == False and self.playing == False:####################################################
             self.is_any_selected()
             if self.num_selected > 0:
-                self.fav_list.selection_clear(self.fav_list.curselection()[0])####################################################################
-                #print(self.fav_list.curselection()[0])
+                self.fav_list.selection_clear(self.fav_list.curselection() [ 0 ] )####################################################################
+                #print(self.fav_list.curselection())
             if self.fav_list.size() > 0:
                 self.btnPlayall.configure(text="PLAYING ALL...")
                 self.playall_mode = True
@@ -214,6 +214,8 @@ been deleted or moved.''')
                 t2.start()
             else:
                 messagebox.showwarning("EMPTY PLAYLIST","No item on playlist.")
+        else:
+            messagebox.showwarning("CAN'T ACTVATE","You must stop current audio to use this function.")
 
     def define_index(self):
         if self.random_mode == True:
@@ -242,16 +244,17 @@ been deleted or moved.''')
             if self.playall_mode == True:
                 self.clear_counter()
                 self.fav_list.selection_set(self.counting)
+                self.fav_list.see(self.counting)
                 time.sleep(1)
                 print("COUNTING: ",self.counting)
                 self.filename.set(self.my_list[self.counting].split("/")[-1])
-                self.file_path = self.my_list[self.fav_list.curselection()[0]]
+                self.file_path = self.my_list[self.fav_list.curselection() [ 0 ] ]
                 if os.path.exists(self.file_path):
                     self.music()
                 else:
                     messagebox.showwarning("FILE NOT FOUND",'''Path not found, file may have
 been deleted or moved.''')
-                    self.fav_list.selection_clear(self.fav_list.curselection()[0])
+                    self.fav_list.selection_clear(self.fav_list.curselection() [ 0 ] )
                 self.define_index()
         self.btnPlayall.configure(text="PLAY ALL")
 
@@ -272,7 +275,7 @@ been deleted or moved.''')
             self.stream.close()
             self.p.terminate()
             if self.playall_mode == True:
-                self.fav_list.selection_clear(self.fav_list.curselection()[0])
+                self.fav_list.selection_clear(self.fav_list.curselection() [ 0 ] )
             print("ENDED")
 
         except Exception as e:
