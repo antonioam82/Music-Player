@@ -5,6 +5,7 @@ from tkinter import filedialog, messagebox
 import random
 import wave
 import pyaudio
+import pygame
 from pygame import mixer#####################################
 import threading
 import json
@@ -38,6 +39,7 @@ class Player:
         self.playall_mode = False
         self.random_mode = False
         self.counting = 0
+        mixer.init()
 
         entryDir = Entry(self.root,textvariable=self.currentDir,width=154)
         entryDir.place(x=0,y=0)
@@ -161,7 +163,7 @@ been deleted or moved.''')
         if self.any_selected:
             self.fav_list.selection_clear(self.fav_list.curselection()[0])
         fpath = filedialog.askopenfilename(initialdir = "/",title = "Select File",
-                        filetypes = (("mp3 files","*.mp3"),("all files","*.*")))
+                        filetypes = (("mp3 files","*.mp3"),("ogg files","*.ogg"),("all files","*.*")))
         if fpath:
             #if fpath.endswith(".wav"):
             self.file_path = fpath
@@ -190,6 +192,7 @@ been deleted or moved.''')
 
     def timer_count(self):
         if self.playing == True:
+                
             self.timer['text'] = str(self.hour_counter)+":"+str(self.counter_format(self.min_counter)
                                                     )+":"+str(self.counter_format(self.sec_counter))
             self.sec_counter+=1
@@ -265,28 +268,27 @@ been deleted or moved.''')
     def music(self):
         try:
             self.playing = True
-            self.p = pyaudio.PyAudio()
-            wf = wave.open(self.file_path, 'rb')
-            self.stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()),
-                        channels=wf.getnchannels(),rate=wf.getframerate(),output=True)
-            data = wf.readframes(self.CHUNK)
-            self.timer_count()
-            while data and self.playing == True:
-                self.stream.write(data)
-                data = wf.readframes(self.CHUNK)
-            self.stream.stop_stream()
-            self.stream.close()
-            self.p.terminate()
+            #self.p = pyaudio.PyAudio()
+            #wf = wave.open(self.file_path, 'rb')
+            #self.stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()),
+                        #channels=wf.getnchannels(),rate=wf.getframerate(),output=True)
+            #data = wf.readframes(self.CHUNK)
+            #self.timer_count()
+            #while data and self.playing == True:
+                #self.stream.write(data)
+                #data = wf.readframes(self.CHUNK)
+            #self.stream.stop_stream()
+            #self.stream.close()
+            #self.p.terminate()
+            
+            mixer.music.load(self.file_path)
+            mixer.music.play()
             if self.playall_mode == True:
                 self.fav_list.selection_clear(self.fav_list.curselection()[0])
             print("ENDED")
 
         except Exception as e:
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
-            mixer.init()
-            mixer.music.load(self.file_path)
-            mixer.music.play()
-            print("perfect")
         self.playing = False
 
     def get_key(self,val):
