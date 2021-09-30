@@ -175,6 +175,7 @@ been deleted or moved.''')
     def stop_music(self):
         if self.playing == True:
             self.playing = False
+            mixer.music.stop()
             print("STOPPED")
         if self.playall_mode == True:
             self.playall_mode = False
@@ -289,7 +290,7 @@ been deleted or moved.''')
 
         except Exception as e:
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
-        self.playing = False
+        #self.playing = False
 
     def get_key(self,val):
         for key, value in self.audio_list.items():
