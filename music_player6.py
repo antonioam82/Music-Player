@@ -40,7 +40,7 @@ class Player:
         self.timer.place(x=9,y=28)
         self.entryFile = Entry(self.root,textvariable=self.filename,width=37,font=("arial",20))
         self.entryFile.place(x=358,y=28)
-        Button(self.root,text="SEARCH",width=79,bg="blue",fg="white").place(x=356,y=75)
+        Button(self.root,text="SEARCH",width=79,bg="blue",fg="white",command=self.open_file).place(x=356,y=75)
         Button(self.root,text="PLAY",width=10,bg="goldenrod1").place(x=356,y=108)
         self.btnPause = Button(self.root,text="PAUSE",width=10,bg="goldenrod1")
         self.btnPause.place(x=437,y=108)
@@ -67,6 +67,14 @@ class Player:
 
         self.root.mainloop()
 
+    def open_file(self):
+        fpath = filedialog.askopenfilename(initialdir = "/",title = "Select File",
+                filetypes = (("mp3 files","*.mp3"),("ogg files",".ogg"),("all files","*.*")))
+        
+        if fpath:
+            self.file_path = fpath
+            self.filename.set(self.file_path.split("/")[-1])
 
 if __name__=="__main__":
     Player()
+
