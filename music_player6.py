@@ -4,6 +4,8 @@ from tkinter import *
 from tkinter import filedialog, messagebox
 import random
 import mutagen
+#import wave
+#import pyaudio
 import pygame
 from pygame import mixer#####################################
 import threading
@@ -11,11 +13,11 @@ import json
 import time
 import os
 
-if not "data.json" in os.listdir():
+if not "music_favs.json" in os.listdir():
     d = {}
-    with open("data.json", "w") as f:
+    with open("music_favs.json", "w") as f:
         json.dump(d, f)
-        print("created data.json")
+        print("created music_favs.json")
 
 class Player:
     def __init__(self):
