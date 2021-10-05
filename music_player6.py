@@ -6,7 +6,7 @@ import random
 import mutagen
 #import wave
 #import pyaudio
-#import pygame
+import pygame
 from pygame import mixer#####################################
 import threading
 import json
@@ -40,6 +40,7 @@ class Player:
         self.playall_mode = False
         self.random_mode = False
         self.counting = 0
+        pygame.init()
         mixer.init()
 
         entryDir = Entry(self.root,textvariable=self.currentDir,width=154)
@@ -50,7 +51,8 @@ class Player:
         self.entryFile.place(x=358,y=28)
         Button(self.root,text="SEARCH",width=79,bg="blue",fg="white",command=self.open_file).place(x=356,y=75)
         Button(self.root,text="PLAY",width=10,bg="goldenrod1",command=self.init_task).place(x=356,y=108)
-        Button(self.root,text="PAUSE",width=10,bg="goldenrod1",command=self.pause).place(x=437,y=108)
+        self.btnPause = Button(self.root,text="PAUSE",width=10,bg="goldenrod1",command=self.pause)
+        self.btnPause.place(x=437,y=108)
         Button(self.root,text="STOP",width=10,bg="goldenrod1",command=self.stop_music).place(x=518,y=108)
         Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1",command=self.add).place(x=601,y=108)#self.add
         self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=39,height=2,bg="black",fg="red")
@@ -169,6 +171,7 @@ been deleted or moved.''')
             #if fpath.endswith(".wav"):
             self.file_path = fpath
             self.filename.set(self.file_path.split("/")[-1])
+            
             #else:
                 #messagebox.showwarning("ERROR","Bad file format.")
 
@@ -263,26 +266,22 @@ been deleted or moved.''')
         self.btnPlayall.configure(text="PLAY ALL")
 
     def pause(self):
-        mixer.music.pause()
+        if self.playing == True:
+            mixer.music.pause()
+            self.playing = False
+            self.btnPause.configure(text="RESUME")
+        else:
+            mixer.music.unpause()
+            self.playing = True
+            self.btnPause.configure(text="PAUSE")
+            
 
 
     #REPRODUCE AUDIO.
     def music(self):
         try:
             self.playing = True
-            #self.p = pyaudio.PyAudio()
-            #wf = wave.open(self.file_path, 'rb')
-            #self.stream = self.p.open(format=self.p.get_format_from_width(wf.getsampwidth()),
-                        #channels=wf.getnchannels(),rate=wf.getframerate(),output=True)
-            #data = wf.readframes(self.CHUNK)
-            #self.timer_count()
-            #while data and self.playing == True:
-                #self.stream.write(data)
-                #data = wf.readframes(self.CHUNK)
-            #self.stream.stop_stream()
-            #self.stream.close()
-            #self.p.terminate()
-            
+            self.pos_time = mixer.music.get_pos()
             mixer.music.load(self.file_path)
             mixer.music.play()
             if self.playall_mode == True:
