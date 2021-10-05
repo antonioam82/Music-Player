@@ -29,7 +29,7 @@ class Player:
         self.currentDir.set(os.getcwd())
         self.filename = StringVar()
 
-        #with open("data.json") as f:
+        #with open("music_favs.json") as f:
             #self.audio_list = json.load(f)
 
         entryDir = Entry(self.root,textvariable=self.currentDir,width=154)
