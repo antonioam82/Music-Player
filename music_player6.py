@@ -4,8 +4,6 @@ from tkinter import *
 from tkinter import filedialog, messagebox
 import random
 import mutagen
-#import wave
-#import pyaudio
 import pygame
 from pygame import mixer#####################################
 import threading
@@ -39,6 +37,7 @@ class Player:
         self.any_selected = False
         self.playall_mode = False
         self.random_mode = False
+        self.paused = True
         self.counting = 0
         pygame.init()
         mixer.init()
@@ -267,13 +266,14 @@ been deleted or moved.''')
 
     def pause(self):
         if self.playing == True:
-            mixer.music.pause()
-            self.playing = False
-            self.btnPause.configure(text="RESUME")
-        else:
-            mixer.music.unpause()
-            self.playing = True
-            self.btnPause.configure(text="PAUSE")
+            if self.paused == True:
+                mixer.music.pause()
+                self.paused = False
+                self.btnPause.configure(text="RESUME")
+            else:
+                mixer.music.unpause()
+                self.paused = True
+                self.btnPause.configure(text="PAUSE")
             
 
 
