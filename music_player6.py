@@ -4,8 +4,6 @@ from tkinter import *
 from tkinter import filedialog, messagebox
 import random
 import mutagen
-#import wave
-#import pyaudio
 import pygame
 from pygame import mixer#####################################
 import threading
