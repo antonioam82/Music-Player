@@ -4,8 +4,7 @@ from tkinter import *
 from tkinter import filedialog, messagebox
 import random
 import mutagen
-import pygame
-from pygame import mixer
+from pygame import mixer#####################################
 import threading
 import json
 import time
@@ -28,8 +27,11 @@ class Player:
         self.currentDir = StringVar()
         self.currentDir.set(os.getcwd())
         self.filename = StringVar()
+        self.playing = False
+        self.file_path = ""
+        mixer.init()
 
-        #with open("music_favs.json") as f:
+        #with open("data.json") as f:
             #self.audio_list = json.load(f)
 
         entryDir = Entry(self.root,textvariable=self.currentDir,width=154)
@@ -39,10 +41,10 @@ class Player:
         self.entryFile = Entry(self.root,textvariable=self.filename,width=37,font=("arial",20))
         self.entryFile.place(x=358,y=28)
         Button(self.root,text="SEARCH",width=79,bg="blue",fg="white",command=self.open_file).place(x=356,y=75)
-        Button(self.root,text="PLAY",width=10,bg="goldenrod1").place(x=356,y=108)
+        Button(self.root,text="PLAY",width=10,bg="goldenrod1",command=self.init_task).place(x=356,y=108)
         self.btnPause = Button(self.root,text="PAUSE",width=10,bg="goldenrod1")
         self.btnPause.place(x=437,y=108)
-        Button(self.root,text="STOP",width=10,bg="goldenrod1").place(x=518,y=108)
+        Button(self.root,text="STOP",width=10,bg="goldenrod1",command=self.stop).place(x=518,y=108)
         Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1").place(x=601,y=108)#self.add
         self.items = Label(self.root,font=("arial",10),width=39,height=2,bg="black",fg="red")
         self.items.place(x=601,y=147)
@@ -73,6 +75,25 @@ class Player:
             self.file_path = fpath
             self.filename.set(self.file_path.split("/")[-1])
 
+
+    def play(self):
+        if self.file_path != "":
+            print("PLAYING")
+            mixer.music.load(self.file_path)
+            mixer.music.play()
+
+    def stop(self):
+        mixer.music.stop()
+
+    def pause(self):
+        mixer.music.pause()
+
+    def init_task(self):
+        t = threading.Thread(target=self.play)
+        t.start()
+            
+
 if __name__=="__main__":
     Player()
+
 
