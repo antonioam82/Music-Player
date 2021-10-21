@@ -75,12 +75,21 @@ class Player:
             self.file_path = fpath
             self.filename.set(self.file_path.split("/")[-1])
 
+    def update_timer(self):
+        pos_time = mixer.music.get_pos()
+        print(pos_time)
+        self.root.after(500, self.update_timer)
+
 
     def play(self):
         if self.file_path != "":
+            #audio = mutagen.File(self.file_path)
+            #total_length = audio.info.length
+            #print(total_length)
             print("PLAYING")
             mixer.music.load(self.file_path)
             mixer.music.play()
+            self.update_timer()
 
     def stop(self):
         mixer.music.stop()
@@ -101,5 +110,6 @@ class Player:
 
 if __name__=="__main__":
     Player()
+
 
 
