@@ -42,7 +42,7 @@ class Player:
         self.entryFile.place(x=358,y=28)
         Button(self.root,text="SEARCH",width=79,bg="blue",fg="white",command=self.open_file).place(x=356,y=75)
         Button(self.root,text="PLAY",width=10,bg="goldenrod1",command=self.init_task).place(x=356,y=108)
-        self.btnPause = Button(self.root,text="PAUSE",width=10,bg="goldenrod1")
+        self.btnPause = Button(self.root,text="PAUSE",width=10,bg="goldenrod1",command=self.pause)
         self.btnPause.place(x=437,y=108)
         Button(self.root,text="STOP",width=10,bg="goldenrod1",command=self.stop).place(x=518,y=108)
         Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1").place(x=601,y=108)#self.add
@@ -84,9 +84,15 @@ class Player:
 
     def stop(self):
         mixer.music.stop()
+        #self.btnPause.configure(text="PAUSE")
 
     def pause(self):
         mixer.music.pause()
+        self.btnPause.configure(text="RESTART",command=self.unpause)
+
+    def unpause(self):
+        mixer.music.unpause()
+        self.btnPause.configure(text="PAUSE",command=self.pause)
 
     def init_task(self):
         t = threading.Thread(target=self.play)
