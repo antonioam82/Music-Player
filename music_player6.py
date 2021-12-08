@@ -77,11 +77,15 @@ class Player:
 
     def update_timer(self):
         pos_time = mixer.music.get_pos()
+        print(pos_time)
         s = pos_time//1000
         m, s = divmod(s, 60)
         h, m = divmod(m, 60)
         h, m, s = int(h), int(m), int(s)
-        self.timer['text']=f"{h:01}:{m:02}:{s:02}"
+        if h != -1:
+            self.timer['text']=f"{h:01}:{m:02}:{s:02}"
+        else:
+            self.timer['text']="0:00:00"
         self.root.after(500, self.update_timer)
 
 
