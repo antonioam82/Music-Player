@@ -82,11 +82,12 @@ class Player:
         m, s = divmod(s, 60)
         h, m = divmod(m, 60)
         h, m, s = int(h), int(m), int(s)
-        if h != -1:
-            self.timer['text']=f"{h:01}:{m:02}:{s:02}"
-        else:
+        self.timer['text']=f"{h:01}:{m:02}:{s:02}"
+            
+        self.process = self.root.after(500, self.update_timer)
+        if h == -1:
             self.timer['text']="0:00:00"
-        self.root.after(500, self.update_timer)
+            self.root.after_cancel(self.process)
 
 
     def play(self):
