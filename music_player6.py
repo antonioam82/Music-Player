@@ -77,13 +77,19 @@ class Player:
 
     def update_timer(self):
         pos_time = mixer.music.get_pos()
-        time = pos_time//1000
-        self.timer['text']=f"{time:02}"
+        s = pos_time//1000
+        m, s = divmod(s, 60)
+        h, m = divmod(m, 60)
+        h, m, s = int(h), int(m), int(s)
+        self.timer['text']=f"{h:01}:{m:02}:{s:02}"
         self.root.after(500, self.update_timer)
 
 
     def play(self):
         if self.file_path != "":
+            #audio = mutagen.File(self.file_path)
+            #total_length = audio.info.length
+            #print(total_length)
             print("PLAYING")
             mixer.music.load(self.file_path)
             mixer.music.play()
