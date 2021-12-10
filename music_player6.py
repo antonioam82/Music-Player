@@ -77,7 +77,7 @@ class Player:
 
     def update_timer(self):
         pos_time = mixer.music.get_pos()
-        print(pos_time)
+        #print(pos_time)
         s = pos_time//1000
         m, s = divmod(s, 60)
         h, m = divmod(m, 60)
@@ -88,10 +88,13 @@ class Player:
         if h == -1:
             self.timer['text']="0:00:00"
             self.root.after_cancel(self.process)
+            self.btnPause.configure(text="PAUSE",command=self.pause)############
+            self.playing = False
 
 
     def play(self):
-        if self.file_path != "":
+        if self.file_path != "" and self.playing == False:
+            self.playing = True
             #audio = mutagen.File(self.file_path)
             #total_length = audio.info.length
             #print(total_length)
@@ -105,8 +108,9 @@ class Player:
         #self.btnPause.configure(text="PAUSE")
 
     def pause(self):
-        mixer.music.pause()
-        self.btnPause.configure(text="RESTART",command=self.unpause)
+        if self.playing == True:
+            mixer.music.pause()
+            self.btnPause.configure(text="RESTART",command=self.unpause)
 
     def unpause(self):
         mixer.music.unpause()
