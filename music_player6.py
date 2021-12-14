@@ -45,8 +45,8 @@ class Player:
         self.btnPause = Button(self.root,text="PAUSE",width=10,bg="goldenrod1",command=self.pause)
         self.btnPause.place(x=437,y=108)
         Button(self.root,text="STOP",width=10,bg="goldenrod1",command=self.stop).place(x=518,y=108)
-        Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1").place(x=601,y=108)#self.add
-        self.items = Label(self.root,font=("arial",10),width=39,height=2,bg="black",fg="red")
+        Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1",command=self.add).place(x=601,y=108)#self.add
+        self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=39,height=2,bg="black",fg="red")
         self.items.place(x=601,y=147)
         Button(self.root,text="REMOVE PLAYLIST",width=44).place(x=601,y=220)#215
         Button(self.root,text="REMOVE FROM PLAYLIST",width=44).place(x=601,y=190)#249
@@ -74,6 +74,16 @@ class Player:
         if fpath:
             self.file_path = fpath
             self.filename.set(self.file_path.split("/")[-1])
+            
+    def add(self):
+        if self.entryFile.get() != "": #and self.playall_mode == False:
+            self.fav_list.delete(0,END)
+            self.audio_list[self.filename.get()]=self.file_path
+            with open("music_favs.json", "w") as f:
+                json.dump(self.audio_list, f)
+            self.show_list()
+            self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
+    
 
     def update_timer(self):
         pos_time = mixer.music.get_pos()
