@@ -31,8 +31,8 @@ class Player:
         self.file_path = ""
         mixer.init()
 
-        #with open("data.json") as f:
-            #self.audio_list = json.load(f)
+        with open("music_favs.json") as f:
+            self.audio_list = json.load(f)
 
         entryDir = Entry(self.root,textvariable=self.currentDir,width=154)
         entryDir.place(x=0,y=0)
@@ -63,7 +63,7 @@ class Player:
         self.fav_list.config(yscrollcommand = self.scrollbar.set)
         self.scrollbar.config(command = self.fav_list.yview)
 
-        #self.show_list()
+        self.show_list()
 
         self.root.mainloop()
 
@@ -91,6 +91,14 @@ class Player:
             self.btnPause.configure(text="PAUSE",command=self.pause)############
             self.playing = False
 
+    def show_list(self):
+        if len(self.audio_list) > 0:
+            self.my_list = []
+            c = 1
+            for i in (self.audio_list):
+                self.fav_list.insert(END,(str(c)+"- "+i))
+                self.my_list.append(self.audio_list[i])
+                c+=1
 
     def play(self):
         if self.file_path != "" and self.playing == False:
@@ -102,6 +110,7 @@ class Player:
             mixer.music.load(self.file_path)
             mixer.music.play()
             self.update_timer()
+            
 
     def stop(self):
         mixer.music.stop()
