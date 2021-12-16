@@ -3,7 +3,7 @@
 from tkinter import *
 from tkinter import filedialog, messagebox
 import random
-import mutagen
+#import mutagen
 from pygame import mixer#####################################
 import threading
 import json
@@ -157,16 +157,27 @@ class Player:
         return sel
  
     def play(self):
-        if self.file_path != "" and self.playing == False:
-            self.playing = True
-            #audio = mutagen.File(self.file_path)
-            #total_length = audio.info.length
-            #print(total_length)
-            print("PLAYING")
-            mixer.music.load(self.file_path)
-            mixer.music.play()
-            self.update_timer()
-            
+        self.playing = True
+        print("PLAYING")
+        mixer.music.load(self.file_path)
+        mixer.music.play()
+        self.update_timer()
+
+    def init_task(self):
+        if self.playing == False:
+            self.any_selected = self.is_any_selected()
+            if self.any_selected:
+                self.file_path = self.my_list[self.fav_list.curselection() [ 0 ] ]
+                self.key = self.get_key(self.file_path)
+                self.filename.set(self.key)
+            if self.file_path:
+                if os.path.exists(self.file_path):
+                    self.timer['text']="0:00:00"
+                    t = threading.Thread(target=self.play)
+                    t.start()
+                else:
+                    messagebox.showwarning("ERROR",'''Path not found, file may have
+been deleted or moved.''')
 
     def stop(self):
         mixer.music.stop()
@@ -180,10 +191,6 @@ class Player:
     def unpause(self):
         mixer.music.unpause()
         self.btnPause.configure(text="PAUSE",command=self.pause)
-
-    def init_task(self):
-        t = threading.Thread(target=self.play)
-        t.start()
 
     def get_key(self,val):
         for key, value in self.audio_list.items():
