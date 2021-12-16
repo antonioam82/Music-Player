@@ -49,7 +49,7 @@ class Player:
         self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=39,height=2,bg="black",fg="red")
         self.items.place(x=601,y=147)
         Button(self.root,text="REMOVE PLAYLIST",width=44,command=self.remove_playlist).place(x=601,y=220)#215
-        Button(self.root,text="REMOVE FROM PLAYLIST",width=44).place(x=601,y=190)#249
+        Button(self.root,text="REMOVE FROM PLAYLIST",width=44,command=self.remove_from_list).place(x=601,y=190)#249
         self.btnPlayall = Button(self.root,text="PLAY ALL",width=21,height=2)
         self.btnPlayall.place(x=601,y=254)
         self.btnRandom = Button(self.root,text="RANDOM MODE: OFF",width=21,height=2)
@@ -125,6 +125,37 @@ class Player:
                     json.dump(d, f)
                 self.items.configure(text='0 ITEMS')
 
+    def remove_from_list(self):
+        if self.fav_list.size() > 0:
+            self.any_selected = self.is_any_selected()
+            if self.any_selected:
+                self.playing = False
+                #self.playall_mode = False###################
+                message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
+                if message == "yes":
+                    #self.size_ -= 1
+                    self.file_path = self.my_list[self.fav_list.curselection()[ 0 ] ]
+                    self.key = self.get_key(self.file_path)
+                    del self.audio_list[self.key]
+                    with open("music_favs.json", "w") as f:
+                        json.dump(self.audio_list, f)
+                    self.fav_list.delete(0,END)
+                    self.show_list()
+                    self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
+            else:
+                messagebox.showwarning("NO ITEM SELECTED","Select the item you want to delete.")
+
+    def is_any_selected(self):
+        sel = False
+        self.num_selected = 0
+        for i in range(0,self.fav_list.size()):
+            if self.fav_list.selection_includes(i):
+                self.num_selected += 1
+                sel = True
+                break
+        print("NUmber: ",self.num_selected)
+        return sel
+ 
     def play(self):
         if self.file_path != "" and self.playing == False:
             self.playing = True
@@ -153,6 +184,11 @@ class Player:
     def init_task(self):
         t = threading.Thread(target=self.play)
         t.start()
+
+    def get_key(self,val):
+        for key, value in self.audio_list.items():
+            if val == value:
+                return key
             
 
 if __name__=="__main__":
