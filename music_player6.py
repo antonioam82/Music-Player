@@ -125,8 +125,6 @@ class Player:
                     json.dump(d, f)
                 self.items.configure(text='0 ITEMS')
 
-    
-
     def play(self):
         if self.file_path != "" and self.playing == False:
             self.playing = True
