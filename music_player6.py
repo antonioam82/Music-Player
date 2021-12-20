@@ -3,6 +3,7 @@
 from tkinter import *
 from tkinter import filedialog, messagebox
 import random
+import time
 #import mutagen
 from pygame import mixer#####################################
 import threading
@@ -96,6 +97,7 @@ class Player:
             
         self.process = self.root.after(500, self.update_timer)
         if h == -1:
+            time.sleep(1)
             self.timer['text']="0:00:00"
             self.root.after_cancel(self.process)
             self.btnPause.configure(text="PAUSE",command=self.pause)############
@@ -200,6 +202,7 @@ been deleted or moved.''')
 
 if __name__=="__main__":
     Player()
+
 
 
 
