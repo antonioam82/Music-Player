@@ -5,7 +5,8 @@ from tkinter import filedialog, messagebox
 import random
 import time
 #import mutagen
-from pygame import mixer, display#####################################
+import pygame
+#from pygame import mixer#####################################
 import threading
 import json
 import time
@@ -25,12 +26,14 @@ class Player:
         self.root.geometry("928x306")
         self.CHUNK = 1024
 
+        pygame.display.init()
+        pygame.mixer.init()
+
         self.currentDir = StringVar()
         self.currentDir.set(os.getcwd())
         self.filename = StringVar()
         self.playing = False
         self.file_path = ""
-        mixer.init()
 
         with open("music_favs.json") as f:
             self.audio_list = json.load(f)
@@ -51,7 +54,7 @@ class Player:
         self.items.place(x=601,y=147)
         Button(self.root,text="REMOVE PLAYLIST",width=44,command=self.remove_playlist).place(x=601,y=220)#215
         Button(self.root,text="REMOVE FROM PLAYLIST",width=44,command=self.remove_from_list).place(x=601,y=190)#249
-        self.btnPlayall = Button(self.root,text="PLAY ALL",width=21,height=2,command=self.play_loop)
+        self.btnPlayall = Button(self.root,text="PLAY ALL",width=21,height=2,command=self.init_task2)
         self.btnPlayall.place(x=601,y=254)
         self.btnRandom = Button(self.root,text="RANDOM MODE: OFF",width=21,height=2)
         self.btnRandom.place(x=762,y=254)
@@ -87,7 +90,7 @@ class Player:
     
 
     def update_timer(self):
-        pos_time = mixer.music.get_pos()
+        pos_time = pygame.mixer.music.get_pos()
         #print(pos_time)
         s = pos_time//1000
         m, s = divmod(s, 60)
@@ -162,25 +165,31 @@ class Player:
         playlist = self.my_list[::-1]
         print('Original: ',playlist)
 
-        mixer.music.load(playlist.pop())
-        mixer.music.queue(playlist.pop())#################
-        print('Actual: ',playlist)
-        mixer.music.play()
+        pygame.mixer.music.load(playlist.pop())
+        pygame.mixer.music.queue(playlist.pop())#################
+        pygame.mixer.music.set_endevent(pygame.USEREVENT)
+        pygame.mixer.music.play()
         self.update_timer()
         
         
         running = True
         while running:
-            if len(playlist)>0:
-                mixer.music.queue(playlist.pop())
-            else:
-                running = False
+            for event in pygame.event.get():
+                if event.type == pygame.USEREVENT:
+                    if len(playlist)>0:
+                        pygame.mixer.music.queue(playlist.pop())
+                    else:
+                        running = False
+
+    def init_task2(self):
+        t2 = threading.Thread(target=self.play_loop)
+        t2.start()
  
     def play(self):
         self.playing = True
         print("PLAYING")
-        mixer.music.load(self.file_path)
-        mixer.music.play()
+        pygame.mixer.music.load(self.file_path)
+        pygame.mixer.music.play()
         self.update_timer()
 
     def init_task(self):
@@ -200,16 +209,16 @@ class Player:
 been deleted or moved.''')
 
     def stop(self):
-        mixer.music.stop()
+        pygame.mixer.music.stop()
         #self.btnPause.configure(text="PAUSE")
 
     def pause(self):
         if self.playing == True:
-            mixer.music.pause()
+            pygame.mixer.music.pause()
             self.btnPause.configure(text="RESTART",command=self.unpause)
 
     def unpause(self):
-        mixer.music.unpause()
+        pygame.mixer.music.unpause()
         self.btnPause.configure(text="PAUSE",command=self.pause)
 
     def get_key(self,val):
