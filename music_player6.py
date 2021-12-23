@@ -161,6 +161,7 @@ class Player:
         return sel
 
     def play_loop(self):
+        self.playing = True
         playlist = self.my_list[::-1]
         print(playlist)
 
