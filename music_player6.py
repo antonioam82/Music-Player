@@ -5,7 +5,7 @@ from tkinter import filedialog, messagebox
 import random
 import time
 #import mutagen
-from pygame import mixer#####################################
+from pygame import mixer, display#####################################
 import threading
 import json
 import time
@@ -51,7 +51,7 @@ class Player:
         self.items.place(x=601,y=147)
         Button(self.root,text="REMOVE PLAYLIST",width=44,command=self.remove_playlist).place(x=601,y=220)#215
         Button(self.root,text="REMOVE FROM PLAYLIST",width=44,command=self.remove_from_list).place(x=601,y=190)#249
-        self.btnPlayall = Button(self.root,text="PLAY ALL",width=21,height=2)
+        self.btnPlayall = Button(self.root,text="PLAY ALL",width=21,height=2,command=self.play_loop)
         self.btnPlayall.place(x=601,y=254)
         self.btnRandom = Button(self.root,text="RANDOM MODE: OFF",width=21,height=2)
         self.btnRandom.place(x=762,y=254)
@@ -157,6 +157,10 @@ class Player:
                 break
         print("NUmber: ",self.num_selected)
         return sel
+
+    def play_loop(self):
+        playlist = self.my_list[::-1]
+        print(playlist)
  
     def play(self):
         self.playing = True
