@@ -160,7 +160,19 @@ class Player:
 
     def play_loop(self):
         playlist = self.my_list[::-1]
-        print(playlist)
+
+        mixer.music.load(playlist.pop())
+        mixer.music.queue(playlist.pop())
+        mixer.music.play()
+        self.update_timer()
+        
+        
+        running = True
+        while running:
+            if len(playlist)>0:
+                mixer.music.queue(playlist.pop())
+            else:
+                running = False
  
     def play(self):
         self.playing = True
