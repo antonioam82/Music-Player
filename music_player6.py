@@ -179,33 +179,6 @@ class Player:
                 running = False
                 playlist = []#######################################
                 print("LOOP ENDED")
-            #running = False
-            #time.sleep(3)
-            #print(mixer.music.get_busy())
-            #break
-        '''print(playlist)
-
-        ther = playlist.pop()
-        mixer.music.load(ther)
-        mixer.music.queue(ther)
-        mixer.music.set_endevent(USEREVENT)
-        mixer.music.play()
-        self.update_timer()
-        
-        
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.USEREVENT:
-                    if len(playlist)>0:
-                        next_audio = playlist.pop()
-                        previous = next_audio
-                        if next_audio != next_audio:
-                            mixer.music.queue(next_audio)
-                    else:
-                        running = False
-        print("FIN")
-        #playlist = self.my_list[::-1]'''
 
     def init_task2(self):
         t2 = threading.Thread(target=self.play_loop)
