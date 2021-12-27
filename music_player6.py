@@ -33,6 +33,8 @@ class Player:
         self.file_path = ""
         mixer.init()
         display.init()##########################################################
+        self.paused = False
+        self.stopped = False
 
         with open("music_favs.json") as f:
             self.audio_list = json.load(f)
@@ -162,21 +164,49 @@ class Player:
 
     def play_loop(self):
         self.playing = True
-
+        self.stopped = False
         playlist = self.my_list[::-1]
 
         running = True
         while running:
             print(len(playlist))
-            if len(playlist) > 0:
-                if mixer.music.get_busy() == 0:
+            if len(playlist) > 0 and self.stopped == False:
+                if mixer.music.get_busy() == 0 and self.paused == False:
                     mixer.music.load(playlist.pop())
                     mixer.music.play()
                     self.update_timer()
             else:
                 running = False
+                playlist = []#######################################
                 print("LOOP ENDED")
-                
+            #running = False
+            #time.sleep(3)
+            #print(mixer.music.get_busy())
+            #break
+        '''print(playlist)
+
+        ther = playlist.pop()
+        mixer.music.load(ther)
+        mixer.music.queue(ther)
+        mixer.music.set_endevent(USEREVENT)
+        mixer.music.play()
+        self.update_timer()
+        
+        
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.USEREVENT:
+                    if len(playlist)>0:
+                        next_audio = playlist.pop()
+                        previous = next_audio
+                        if next_audio != next_audio:
+                            mixer.music.queue(next_audio)
+                    else:
+                        running = False
+        print("FIN")
+        #playlist = self.my_list[::-1]'''
+
     def init_task2(self):
         t2 = threading.Thread(target=self.play_loop)
         t2.start()
@@ -206,15 +236,18 @@ been deleted or moved.''')
 
     def stop(self):
         mixer.music.stop()
+        self.stopped = True
         #self.btnPause.configure(text="PAUSE")
 
     def pause(self):
         if self.playing == True:
             mixer.music.pause()
+            self.paused = True
             self.btnPause.configure(text="RESTART",command=self.unpause)
 
     def unpause(self):
         mixer.music.unpause()
+        self.paused = False
         self.btnPause.configure(text="PAUSE",command=self.pause)
 
     def get_key(self,val):
