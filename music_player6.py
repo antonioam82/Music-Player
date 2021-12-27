@@ -164,7 +164,23 @@ class Player:
         self.playing = True
 
         playlist = self.my_list[::-1]
-        print(playlist)
+
+        running = True
+        while running:
+            print(len(playlist))
+            if len(playlist) > 0:
+                if mixer.music.get_busy() == 0:
+                    mixer.music.load(playlist.pop())
+                    mixer.music.play()
+                    self.update_timer()
+            else:
+                running = False
+                print("LOOP ENDED")
+            #running = False
+            #time.sleep(3)
+            #print(mixer.music.get_busy())
+            #break
+        '''print(playlist)
 
         ther = playlist.pop()
         mixer.music.load(ther)
@@ -179,7 +195,10 @@ class Player:
             for event in pygame.event.get():
                 if event.type == pygame.USEREVENT:
                     if len(playlist)>0:
-                        mixer.music.queue(playlist.pop())
+                        next_audio = playlist.pop()
+                        previous = next_audio
+                        if next_audio != next_audio:
+                            mixer.music.queue(next_audio)
                     else:
                         running = False
         print("FIN")
