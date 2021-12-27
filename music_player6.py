@@ -162,11 +162,13 @@ class Player:
 
     def play_loop(self):
         self.playing = True
+
         playlist = self.my_list[::-1]
         print(playlist)
 
-        mixer.music.load(playlist.pop())
-        mixer.music.queue(playlist.pop())
+        ther = playlist.pop()
+        mixer.music.load(ther)
+        mixer.music.queue(ther)
         mixer.music.set_endevent(USEREVENT)
         mixer.music.play()
         self.update_timer()
@@ -180,7 +182,8 @@ class Player:
                         mixer.music.queue(playlist.pop())
                     else:
                         running = False
-        print(playlist)
+        print("FIN")
+        #playlist = self.my_list[::-1]'''
 
     def init_task2(self):
         t2 = threading.Thread(target=self.play_loop)
