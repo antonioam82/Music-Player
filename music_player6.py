@@ -80,6 +80,7 @@ class Player:
             self.any_selected = self.is_any_selected()
             if self.any_selected:
                 self.fav_list.selection_clear(self.fav_list.curselection()[0])########################
+                self.stop()####################
             self.file_path = fpath
             self.filename.set(self.file_path.split("/")[-1])
             
@@ -182,10 +183,6 @@ class Player:
                 running = False
                 playlist = []#######################################
                 print("LOOP ENDED")
-            #running = False
-            #time.sleep(3)
-            #print(mixer.music.get_busy())
-            #break
 
     def init_task2(self):
         t2 = threading.Thread(target=self.play_loop)
