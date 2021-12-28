@@ -6,7 +6,7 @@ import random
 import time
 #import mutagen
 import pygame#############################################
-from pygame import mixer, display, USEREVENT#####################################
+from pygame import mixer, display#####################################
 import threading
 import json
 import time
@@ -77,6 +77,9 @@ class Player:
                 filetypes = (("mp3 files","*.mp3"),("wav files","*.wav"),("ogg files",".ogg")))#,("all files","*.*")))
         
         if fpath:
+            self.any_selected = self.is_any_selected()
+            if self.any_selected:
+                self.fav_list.selection_clear(self.fav_list.curselection()[0])########################
             self.file_path = fpath
             self.filename.set(self.file_path.split("/")[-1])
             
@@ -161,7 +164,7 @@ class Player:
                 break
         print("NUmber: ",self.num_selected)
         return sel
-
+    
     def play_loop(self):
         self.playing = True
         self.stopped = False
@@ -179,6 +182,33 @@ class Player:
                 running = False
                 playlist = []#######################################
                 print("LOOP ENDED")
+            #running = False
+            #time.sleep(3)
+            #print(mixer.music.get_busy())
+            #break
+        '''print(playlist)
+
+        ther = playlist.pop()
+        mixer.music.load(ther)
+        mixer.music.queue(ther)
+        mixer.music.set_endevent(USEREVENT)
+        mixer.music.play()
+        self.update_timer()
+        
+        
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.USEREVENT:
+                    if len(playlist)>0:
+                        next_audio = playlist.pop()
+                        previous = next_audio
+                        if next_audio != next_audio:
+                            mixer.music.queue(next_audio)
+                    else:
+                        running = False
+        print("FIN")
+        #playlist = self.my_list[::-1]'''
 
     def init_task2(self):
         t2 = threading.Thread(target=self.play_loop)
@@ -231,7 +261,6 @@ been deleted or moved.''')
 
 if __name__=="__main__":
     Player()
-
 
 
 
