@@ -191,9 +191,13 @@ class Player:
     def play(self):
         self.playing = True
         print("PLAYING")
-        mixer.music.load(self.file_path)
-        mixer.music.play()
-        self.update_timer()
+        try:
+            mixer.music.load(self.file_path)
+            mixer.music.play()
+            self.update_timer()
+        except:
+            messagebox.showwarning("ERROR","Can't open the file '{}'.".format(self.entryFile.get()))
+            self.playing = False
 
     def init_task(self):
         if self.playing == False:
