@@ -32,7 +32,7 @@ class Player:
         self.playing = False
         self.file_path = ""
         mixer.init()
-        display.init()##########################################################
+        display.init()
         self.paused = False
         self.stopped = False
 
@@ -75,12 +75,12 @@ class Player:
     def open_file(self):
         fpath = filedialog.askopenfilename(initialdir = "/",title = "Select File",
                 filetypes = (("mp3 files","*.mp3"),("wav files","*.wav"),("ogg files",".ogg")))#,("all files","*.*")))
-        
+ 
         if fpath:
             self.any_selected = self.is_any_selected()
             if self.any_selected:
-                self.fav_list.selection_clear(self.fav_list.curselection()[0])########################
-                self.stop()####################
+                self.fav_list.selection_clear(self.fav_list.curselection()[0])
+                self.stop()
             self.file_path = fpath
             self.filename.set(self.file_path.split("/")[-1])
             
@@ -172,11 +172,17 @@ class Player:
         playlist = self.my_list[::-1]
 
         running = True
+        c = 0
         while running:
             print(len(playlist))
             if len(playlist) > 0 and self.stopped == False:
                 if mixer.music.get_busy() == 0 and self.paused == False:
                     mixer.music.load(playlist.pop())
+                    any_selected = self.is_any_selected()
+                    if any_selected:#############################################################
+                        self.fav_list.selection_clear(self.fav_list.curselection()[0])###########                    
+                    self.fav_list.selection_set(c)
+                    c+=1
                     mixer.music.play()
                     self.update_timer()
             else:
@@ -186,7 +192,7 @@ class Player:
 
     def init_task2(self):
         t2 = threading.Thread(target=self.play_loop)
-        t2.start()
+        t2.start()#self.fav_list.selection_set(self.counting)
  
     def play(self):
         self.playing = True
