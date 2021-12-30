@@ -190,7 +190,7 @@ class Player:
 
     def init_task2(self):
         t2 = threading.Thread(target=self.play_loop)
-        t2.start()#self.fav_list.selection_set(self.counting)
+        t2.start()
  
     def play(self):
         self.playing = True
