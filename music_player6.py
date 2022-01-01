@@ -33,6 +33,7 @@ class Player:
         display.init()
         self.paused = False
         self.stopped = False
+        self.running = True
 
         with open("music_favs.json") as f:
             self.audio_list = json.load(f)
@@ -103,7 +104,7 @@ class Player:
             
         self.process = self.root.after(500, self.update_timer)
         if h == -1:
-            time.sleep(1)
+            #time.sleep(1)
             self.timer['text']="0:00:00"
             self.root.after_cancel(self.process)
             self.btnPause.configure(text="PAUSE",command=self.pause)############
@@ -169,9 +170,9 @@ class Player:
         self.stopped = False
         playlist = self.my_list[::-1]
 
-        running = True
+        self.running = True
         c = 0
-        while running:
+        while self.running:
             print(len(playlist))
             if len(playlist) > 0 and self.stopped == False:
                 if mixer.music.get_busy() == 0 and self.paused == False:
@@ -184,13 +185,15 @@ class Player:
                     mixer.music.play()
                     self.update_timer()
             else:
-                running = False
-                playlist = []#######################################
+                #running = False
+                #playlist = []#######################################
+                c = 0
+                playlist = self.my_list[::-1]
                 print("LOOP ENDED")
 
     def init_task2(self):
         t2 = threading.Thread(target=self.play_loop)
-        t2.start()
+        t2.start()#self.fav_list.selection_set(self.counting)
  
     def play(self):
         self.playing = True
@@ -222,6 +225,7 @@ been deleted or moved.''')
     def stop(self):
         mixer.music.stop()
         self.stopped = True
+        self.running = False
         #self.btnPause.configure(text="PAUSE")
 
     def pause(self):
