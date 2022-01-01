@@ -232,7 +232,7 @@ been deleted or moved.''')
         if self.playing == True:
             mixer.music.pause()
             self.paused = True
-            self.btnPause.configure(text="RESTART",command=self.unpause)
+            self.btnPause.configure(text="CONTINUE",command=self.unpause)
 
     def unpause(self):
         mixer.music.unpause()
