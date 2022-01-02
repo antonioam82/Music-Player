@@ -50,7 +50,7 @@ class Player:
         self.btnPause.place(x=437,y=108)
         Button(self.root,text="STOP",width=10,bg="goldenrod1",command=self.stop).place(x=518,y=108)
         Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1",command=self.add).place(x=601,y=108)#self.add
-        self.items = Label(self.root,text=('{} ITEMS'.format(len(self.audio_list))),font=("arial",10),width=39,height=2,bg="black",fg="red")
+        self.items = Label(self.root,text=('{} ITEMS ON PLAYLIST'.format(len(self.audio_list))),font=("arial",10),width=39,height=2,bg="black",fg="red")
         self.items.place(x=601,y=147)
         Button(self.root,text="REMOVE PLAYLIST",width=44,command=self.remove_playlist).place(x=601,y=220)#215
         Button(self.root,text="REMOVE FROM PLAYLIST",width=44,command=self.remove_from_list).place(x=601,y=190)#249
@@ -90,7 +90,7 @@ class Player:
             with open("music_favs.json", "w") as f:
                 json.dump(self.audio_list, f)
             self.show_list()
-            self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
+            self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
     
 
     def update_timer(self):
@@ -132,7 +132,7 @@ class Player:
                 d = {}
                 with open("music_favs.json", "w") as f:
                     json.dump(d, f)
-                self.items.configure(text='0 ITEMS')
+                self.items.configure(text='0 ITEMS ON PLAYLIST')
 
     def remove_from_list(self):
         if self.fav_list.size() > 0:
@@ -150,7 +150,7 @@ class Player:
                         json.dump(self.audio_list, f)
                     self.fav_list.delete(0,END)
                     self.show_list()
-                    self.items.configure(text='{} ITEMS'.format(len(self.audio_list)))
+                    self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
             else:
                 messagebox.showwarning("NO ITEM SELECTED","Select the item you want to delete.")
 
