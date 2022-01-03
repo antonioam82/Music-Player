@@ -192,6 +192,7 @@ class Player:
                 c = 0
                 playlist = self.my_list[::-1]
                 print("LOOP ENDED")
+        print("TERMINATED LOOP")
 
     def init_task2(self):
         t2 = threading.Thread(target=self.play_loop)
