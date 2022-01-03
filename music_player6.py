@@ -33,7 +33,7 @@ class Player:
         display.init()
         self.paused = False
         self.stopped = False
-        self.running = True######
+        #self.running = True######
 
         with open("music_favs.json") as f:
             self.audio_list = json.load(f)
@@ -196,8 +196,9 @@ class Player:
         print("TERMINATED LOOP")
 
     def init_task2(self):
-        t2 = threading.Thread(target=self.play_loop)
-        t2.start()
+        if len(self.audio_list)>0:
+            t2 = threading.Thread(target=self.play_loop)
+            t2.start()
  
     def play(self):
         self.playing = True
