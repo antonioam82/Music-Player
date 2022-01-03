@@ -196,7 +196,7 @@ class Player:
         print("TERMINATED LOOP")
 
     def init_task2(self):
-        if len(self.audio_list)>0:
+        if len(self.audio_list)>0 and self.playing == False:
             t2 = threading.Thread(target=self.play_loop)
             t2.start()
  
