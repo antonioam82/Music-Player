@@ -176,7 +176,9 @@ class Player:
             print(len(playlist))
             if len(playlist) > 0 and self.stopped == False:
                 if mixer.music.get_busy() == 0 and self.paused == False:
-                    mixer.music.load(playlist.pop())
+                    current = playlist.pop()
+                    mixer.music.load(current)
+                    self.filename.set(self.get_key(current))
                     any_selected = self.is_any_selected()
                     if any_selected:#############################################################
                         self.fav_list.selection_clear(self.fav_list.curselection()[0])###########                    
@@ -193,7 +195,7 @@ class Player:
 
     def init_task2(self):
         t2 = threading.Thread(target=self.play_loop)
-        t2.start()#self.fav_list.selection_set(self.counting)
+        t2.start()
  
     def play(self):
         self.playing = True
@@ -246,8 +248,7 @@ been deleted or moved.''')
 
     def __del__(self):
         self.stop()
-
-            
+        
 
 if __name__=="__main__":
     Player()
