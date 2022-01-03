@@ -33,7 +33,7 @@ class Player:
         display.init()
         self.paused = False
         self.stopped = False
-        self.running = True
+        self.running = True######
 
         with open("music_favs.json") as f:
             self.audio_list = json.load(f)
@@ -124,6 +124,7 @@ class Player:
             message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
             if message == "yes":
                 self.playing = False
+                self.running = False#########################
                 #self.playall_mode = False###################
                 self.btnPlayall.configure(text="PLAY ALL")
                 self.my_list = []
@@ -192,6 +193,7 @@ class Player:
                 c = 0
                 playlist = self.my_list[::-1]
                 print("LOOP ENDED")
+        print("TERMINATED LOOP")
 
     def init_task2(self):
         t2 = threading.Thread(target=self.play_loop)
