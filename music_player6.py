@@ -243,6 +243,10 @@ been deleted or moved.''')
         for key, value in self.audio_list.items():
             if val == value:
                 return key
+
+    def __del__(self):
+        self.stop()
+
             
 
 if __name__=="__main__":
