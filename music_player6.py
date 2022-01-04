@@ -126,7 +126,7 @@ class Player:
                 self.playing = False
                 self.running = False#########################
                 #self.playall_mode = False###################
-                self.btnPlayall.configure(text="PLAY ALL")
+                self.btnPlayall.configure(text="PLAY ALL")##########################PALYING ALL?
                 self.my_list = []
                 self.fav_list.delete(0,END)
                 self.audio_list = {}
@@ -197,6 +197,7 @@ class Player:
 
     def init_task2(self):
         if len(self.audio_list)>0 and self.playing == False:
+            self.btnPlayall.configure(state="disabled")
             t2 = threading.Thread(target=self.play_loop)
             t2.start()
  
@@ -231,6 +232,7 @@ been deleted or moved.''')
         mixer.music.stop()
         self.stopped = True
         self.running = False
+        self.btnPlayall.configure(state="normal")
         #self.btnPause.configure(text="PAUSE")
 
     def pause(self):
@@ -250,8 +252,9 @@ been deleted or moved.''')
                 return key
 
     def __del__(self):
-        self.stop()
-        
+        mixer.music.stop()
+        self.stopped = True
+        self.running = False
 
 if __name__=="__main__":
     Player()
