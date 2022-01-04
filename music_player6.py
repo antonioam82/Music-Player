@@ -126,7 +126,7 @@ class Player:
                 self.playing = False
                 self.running = False#########################
                 #self.playall_mode = False###################
-                self.btnPlayall.configure(text="PLAY ALL")##########################PALYING ALL?
+                #self.btnPlayall.configure(text="PLAY ALL")
                 self.my_list = []
                 self.fav_list.delete(0,END)
                 self.audio_list = {}
