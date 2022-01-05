@@ -3,7 +3,6 @@
 from tkinter import *
 from tkinter import filedialog, messagebox
 import random
-#import time
 from pygame import mixer, display
 import threading
 import json
