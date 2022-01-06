@@ -3,6 +3,7 @@
 from tkinter import *
 from tkinter import filedialog, messagebox
 import random
+#import time
 from pygame import mixer, display
 import threading
 import json
@@ -181,6 +182,7 @@ class Player:
                         self.fav_list.selection_clear(self.fav_list.curselection()[0])###########                    
                     self.fav_list.selection_set(c)
                     c+=1
+                    self.playing = True#
                     mixer.music.play()
                     self.update_timer()
             else:
