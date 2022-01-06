@@ -3,6 +3,7 @@
 from tkinter import *
 from tkinter import filedialog, messagebox
 import random
+#import time
 from pygame import mixer, display
 import threading
 import json
@@ -139,7 +140,9 @@ class Player:
                 #self.playall_mode = False###################
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
-                    self.stop()###########################prov
+                    #self.stop()###########################prov
+                    mixer.music.stop()
+                    
                     self.file_path = self.my_list[self.fav_list.curselection()[ 0 ] ]
                     self.key = self.get_key(self.file_path)
                     del self.audio_list[self.key]
