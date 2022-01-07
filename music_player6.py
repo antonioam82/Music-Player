@@ -3,6 +3,7 @@
 from tkinter import *
 from tkinter import filedialog, messagebox
 import random
+#import time
 from pygame import mixer, display
 import threading
 import json
@@ -92,7 +93,7 @@ class Player:
             self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
 
     def random(self):
-        print("Nothing yet")
+        self.stop()
     
 
     def update_timer(self):
