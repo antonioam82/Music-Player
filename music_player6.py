@@ -100,8 +100,6 @@ class Player:
         else:
             self.random_mode = False
         
-    
-
     def update_timer(self):
         pos_time = mixer.music.get_pos()
         s = pos_time//1000
