@@ -32,6 +32,7 @@ class Player:
         display.init()
         self.paused = False
         self.stopped = False
+        self.random_mode = False
         #self.running = True######
 
         with open("music_favs.json") as f:
@@ -92,7 +93,13 @@ class Player:
             self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
 
     def random(self):
-        self.stop()
+        #self.stop()
+        if self.random_mode == False:
+            self.random_mode = True
+            print("RANDOM")
+        else:
+            self.random_mode = False
+        
     
 
     def update_timer(self):
