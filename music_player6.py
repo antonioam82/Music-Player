@@ -56,7 +56,7 @@ class Player:
         Button(self.root,text="REMOVE FROM PLAYLIST",width=44,command=self.remove_from_list).place(x=601,y=190)#249
         self.btnPlayall = Button(self.root,text="PLAY ALL",width=21,height=2,command=self.init_task2)
         self.btnPlayall.place(x=601,y=254)
-        self.btnRandom = Button(self.root,text="RANDOM",width=21,height=2,command=self.random_mod)
+        self.btnRandom = Button(self.root,text="RANDOM (OFF)",width=21,height=2,command=self.random_mod)
         self.btnRandom.place(x=762,y=254)
         self.canvas = Canvas(self.root)
         self.canvas.place(x=9,y=147)
@@ -93,13 +93,14 @@ class Player:
             self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
 
     def random_mod(self):
-        #self.stop()
+        self.stop()
         if self.random_mode == False:
             self.random_mode = True
-            print("RANDOM")
+            self.btnRandom.configure(text="RANDOM (ON)")
         else:
             self.random_mode = False
-            
+            self.btnRandom.configure(text="RANDOM (OFF)")
+        
     def update_timer(self):
         pos_time = mixer.music.get_pos()
         s = pos_time//1000
