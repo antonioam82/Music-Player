@@ -270,7 +270,7 @@ been deleted or moved.''')
         self.running = False
 
 if __name__=="__main__":
-    Player()
+    Player() 
 
 
 
