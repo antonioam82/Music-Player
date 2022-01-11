@@ -100,6 +100,8 @@ class Player:
         else:
             self.random_mode = False
         
+    
+
     def update_timer(self):
         pos_time = mixer.music.get_pos()
         s = pos_time//1000
@@ -174,7 +176,10 @@ class Player:
     def play_loop(self):
         self.playing = True
         self.stopped = False
-        playlist = self.my_list[::-1]
+        if self.random_mode == False:
+            playlist = self.my_list[::-1]
+        else:
+            playlist = self.my_list
 
         self.running = True
         c = 0
@@ -182,14 +187,20 @@ class Player:
             print(len(playlist))
             if len(playlist) > 0 and self.stopped == False:
                 if mixer.music.get_busy() == 0 and self.paused == False:
-                    current = playlist.pop()
+                    if self.random_mode == False:
+                        current = playlist.pop()
+                    else:
+                        current = playlist[c]
                     mixer.music.load(current)
                     self.filename.set(self.get_key(current))
                     any_selected = self.is_any_selected()
                     if any_selected:#############################################################
-                        self.fav_list.selection_clear(self.fav_list.curselection()[0])###########                    
+                        self.fav_list.selection_clear(self.fav_list.curselection()[0])###########
                     self.fav_list.selection_set(c)
-                    c+=1
+                    if self.random_mode == False:
+                        c+=1
+                    else:
+                        c = random.randint(0,len(playlist)-1)
                     self.playing = True#
                     mixer.music.play()
                     self.update_timer()
