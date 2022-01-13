@@ -177,11 +177,12 @@ class Player:
         self.stopped = False
         if self.random_mode == False:
             playlist = self.my_list[::-1]
+            c = 0
         else:
             playlist = self.my_list
-
+            c = random.randint(0,len(playlist)-1)
         self.running = True
-        c = 0
+        
         while self.running:
             print(len(playlist))
             if len(playlist) > 0 and self.stopped == False:
@@ -270,7 +271,7 @@ been deleted or moved.''')
         self.running = False
 
 if __name__=="__main__":
-    Player() 
+    Player()
 
 
 
