@@ -191,19 +191,26 @@ class Player:
                         current = playlist.pop()
                     else:
                         current = playlist[c]
-                    mixer.music.load(current)
-                    self.filename.set(self.get_key(current))
-                    any_selected = self.is_any_selected()
-                    if any_selected:#############################################################
-                        self.fav_list.selection_clear(self.fav_list.curselection()[0])###########
-                    self.fav_list.selection_set(c)
-                    if self.random_mode == False:
-                        c+=1
+                    if os.path.exists(current):
+                        mixer.music.load(current)
+                        self.filename.set(self.get_key(current))
+                        any_selected = self.is_any_selected()
+                        if any_selected:#############################################################
+                            self.fav_list.selection_clear(self.fav_list.curselection()[0])###########
+                        self.fav_list.selection_set(c)
+                        if self.random_mode == False:
+                            c+=1
+                        else:
+                            c = random.randint(0,len(playlist)-1)
+                        self.playing = True#
+                        mixer.music.play()
+                        self.update_timer()
                     else:
-                        c = random.randint(0,len(playlist)-1)
-                    self.playing = True#
-                    mixer.music.play()
-                    self.update_timer()
+                        if self.random_mode == False:
+                            c+=1
+                        else:
+                            c = random.randint(0,len(playlist)-1)
+                        pass
             else:
                 c = 0
                 playlist = self.my_list[::-1]
@@ -241,7 +248,7 @@ class Player:
                     t.start()
                 else:
                     question = messagebox.askquestion("ERROR",'''Path not found, file may have been deleted or moved.
-Do you want tomo remove it now?''')
+Do you want to remove it now?''')
                     if question == "yes":
                         #self.remove_from_list()
                         self.file_path = self.my_list[self.fav_list.curselection()[ 0 ] ]
