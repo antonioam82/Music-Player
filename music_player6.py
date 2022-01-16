@@ -113,7 +113,7 @@ class Player:
         if h == -1:
             self.timer['text']="0:00:00"
             self.root.after_cancel(self.process)
-            self.btnPause.configure(text="PAUSE",command=self.pause)############
+            self.btnPause.configure(text="PAUSE",command=self.pause)
             self.playing = False
 
     def show_list(self):
@@ -130,7 +130,7 @@ class Player:
             message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
             if message == "yes":
                 self.playing = False
-                self.running = False#########################
+                self.running = False
                 self.btnPlayall.configure(state='normal')
                 self.my_list = []
                 self.fav_list.delete(0,END)
@@ -289,6 +289,7 @@ Do you want to remove it now?''')
 
 if __name__=="__main__":
     Player()
+
 
 
 
