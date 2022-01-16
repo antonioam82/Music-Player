@@ -6,7 +6,6 @@ import random
 from pygame import mixer, display
 import threading
 import json
-import time
 import os
 
 if not "music_favs.json" in os.listdir():
