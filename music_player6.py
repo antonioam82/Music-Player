@@ -191,7 +191,8 @@ class Player:
                         current = playlist.pop()
                     else:
                         current = playlist[c]
-                    if os.path.exists(current):
+                    #if os.path.exists(current):
+                    try:
                         mixer.music.load(current)
                         self.filename.set(self.get_key(current))
                         any_selected = self.is_any_selected()
@@ -205,7 +206,7 @@ class Player:
                         self.playing = True#
                         mixer.music.play()
                         self.update_timer()
-                    else:
+                    except:
                         if self.random_mode == False:
                             c+=1
                         else:
