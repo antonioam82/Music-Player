@@ -247,19 +247,9 @@ class Player:
                     t = threading.Thread(target=self.play)
                     t.start()
                 else:
-                    question = messagebox.askquestion("ERROR",'''Path not found, file may have been deleted or moved.
-Do you want to remove it now?''')
-                    if question == "yes":
-                        #self.remove_from_list()
-                        self.file_path = self.my_list[self.fav_list.curselection()[ 0 ] ]
-                        self.key = self.get_key(self.file_path)
-                        del self.audio_list[self.key]
-                        with open("music_favs.json", "w") as f:
-                            json.dump(self.audio_list, f)
-                        self.fav_list.delete(0,END)
-                        self.show_list()
-                        self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))                        
-
+                    messagebox.showwarning("NO FILE",'''Path not found, file may have
+been deleted or moved.''')
+                 
     def stop(self):
         mixer.music.stop()
         self.stopped = True
