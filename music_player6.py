@@ -32,7 +32,6 @@ class Player:
         self.paused = False
         self.stopped = False
         self.random_mode = False
-        #self.running = True######
 
         with open("music_favs.json") as f:
             self.audio_list = json.load(f)
@@ -83,7 +82,7 @@ class Player:
             self.filename.set(self.file_path.split("/")[-1])
             
     def add(self):
-        if self.entryFile.get() != "": #and self.playall_mode == False:
+        if self.entryFile.get() != "": 
             self.fav_list.delete(0,END)
             self.audio_list[self.filename.get()]=self.file_path
             with open("music_favs.json", "w") as f:
@@ -143,8 +142,6 @@ class Player:
         if self.fav_list.size() > 0:
             self.any_selected = self.is_any_selected()
             if self.any_selected:
-                #self.playing = False
-                #self.playall_mode = False###################
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
                     mixer.music.stop()
@@ -190,13 +187,12 @@ class Player:
                         current = playlist.pop()
                     else:
                         current = playlist[c]
-                    #if os.path.exists(current):
                     try:
                         mixer.music.load(current)
                         self.filename.set(self.get_key(current))
                         any_selected = self.is_any_selected()
-                        if any_selected:#############################################################
-                            self.fav_list.selection_clear(self.fav_list.curselection()[0])###########
+                        if any_selected:
+                            self.fav_list.selection_clear(self.fav_list.curselection()[0])
                         self.fav_list.selection_set(c)
                         if self.random_mode == False:
                             c+=1
@@ -257,7 +253,7 @@ been deleted or moved.''')
         self.btnPlayall.configure(state="normal")
 
     def pause(self):
-        if self.playing == True:#######
+        if self.playing == True:
             mixer.music.pause()
             self.paused = True
             self.btnPause.configure(text="CONTINUE",command=self.unpause)
