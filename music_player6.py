@@ -181,10 +181,9 @@ class Player:
         random.shuffle(listado)
         if self.random_mode == False:
             playlist = self.my_list[::-1]
-            c = 0
         else:
             playlist = self.my_list
-            c = 0
+        c = 0
         self.running = True
         
         while self.running:
