@@ -167,16 +167,24 @@ class Player:
                 break
         print("NUmber: ",self.num_selected)
         return sel
+
+    def create_list(self,p):
+        lista = []
+        for i in range(len(p)):
+            lista.append(i)
+        return lista
     
     def play_loop(self):
         self.playing = True
         self.stopped = False
+        listado = self.create_list(self.my_list)
+        random.shuffle(listado)
         if self.random_mode == False:
             playlist = self.my_list[::-1]
             c = 0
         else:
             playlist = self.my_list
-            c = random.randint(0,len(playlist)-1)
+            c = 0
         self.running = True
         
         while self.running:
@@ -186,18 +194,25 @@ class Player:
                     if self.random_mode == False:
                         current = playlist.pop()
                     else:
-                        current = playlist[c]
+                        current = playlist[listado[c]]
                     try:
                         mixer.music.load(current)
                         self.filename.set(self.get_key(current))
                         any_selected = self.is_any_selected()
                         if any_selected:
                             self.fav_list.selection_clear(self.fav_list.curselection()[0])
-                        self.fav_list.selection_set(c)
+                        
                         if self.random_mode == False:
+                            self.fav_list.selection_set(c)
                             c+=1
                         else:
-                            c = random.randint(0,len(playlist)-1)
+                            self.fav_list.selection_set(listado[c])
+                            if c < len(listado)-1:
+                                c+=1
+                            else:
+                                c = 0
+                                listado = self.create_list(self.my_list)
+                                random.shuffle(listado)
                         self.playing = True#
                         mixer.music.play()
                         self.update_timer()
@@ -205,7 +220,12 @@ class Player:
                         if self.random_mode == False:
                             c+=1
                         else:
-                            c = random.randint(0,len(playlist)-1)
+                            if c < len(listado)-1:
+                                c+=1
+                            else:
+                                c = 0
+                                listado = self.create_list(self.my_list)
+                                random.shuffle(listado) 
                         pass
             else:
                 c = 0
@@ -275,6 +295,7 @@ been deleted or moved.''')
 
 if __name__=="__main__":
     Player()
+
 
 
 
