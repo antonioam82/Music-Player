@@ -177,11 +177,12 @@ class Player:
     def play_loop(self):
         self.playing = True
         self.stopped = False
-        listado = self.create_list(self.my_list)
-        random.shuffle(listado)
+
         if self.random_mode == False:
             playlist = self.my_list[::-1]
         else:
+            listado = self.create_list(self.my_list)
+            random.shuffle(listado)
             playlist = self.my_list
         c = 0
         self.running = True
