@@ -203,9 +203,11 @@ class Player:
                         
                         if self.random_mode == False:
                             self.fav_list.selection_set(c)
+                            self.fav_list.see(c)
                             c+=1
                         else:
                             self.fav_list.selection_set(listado[c])
+                            self.fav_list.see(listado[c])
                             if c < len(listado)-1:
                                 c+=1
                             else:
