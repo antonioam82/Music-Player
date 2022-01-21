@@ -177,6 +177,7 @@ class Player:
     def play_loop(self):
         self.playing = True
         self.stopped = False
+        self.paused = False
 
         if self.random_mode == False:
             playlist = self.my_list[::-1]
