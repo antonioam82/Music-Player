@@ -71,7 +71,7 @@ class Player:
 
     def open_file(self):
         fpath = filedialog.askopenfilename(initialdir = "/",title = "Select File",
-                filetypes = (("mp3 files","*.mp3"),("wav files","*.wav"),("ogg files",".ogg")))#,("all files","*.*")))
+                filetypes = (("mp3 files","*.mp3"),("wav files","*.wav"),("ogg files",".ogg")))
  
         if fpath:
             self.any_selected = self.is_any_selected()
