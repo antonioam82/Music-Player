@@ -8,6 +8,8 @@ import threading
 import json
 import os
 
+#ERROR: No se reproduce audio si este se ha añadido a la lista, cuando ya estaba.
+
 if not "music_favs.json" in os.listdir():
     d = {}
     with open("music_favs.json", "w") as f:
@@ -144,14 +146,19 @@ class Player:
             if self.any_selected:
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
-                    mixer.music.stop()
+                    if self.running == False:
+                        mixer.music.stop()
+                    else:
+                        self.running = False
+                        self.btnPlayall.configure(state='normal')
                     
                     self.file_path = self.my_list[self.fav_list.curselection()[ 0 ] ]
                     self.key = self.get_key(self.file_path)
                     del self.audio_list[self.key]
+                    self.fav_list.delete(0,END)#
                     with open("music_favs.json", "w") as f:
                         json.dump(self.audio_list, f)
-                    self.fav_list.delete(0,END)
+                    self.fav_list.delete(0,END)#
                     self.show_list()
                     self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
             else:
