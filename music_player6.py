@@ -8,8 +8,6 @@ import threading
 import json
 import os
 
-#ERROR: No se reproduce audio si este se ha añadido a la lista, cuando ya estaba.
-
 if not "music_favs.json" in os.listdir():
     d = {}
     with open("music_favs.json", "w") as f:
