@@ -179,6 +179,7 @@ class Player:
             lista.append(i)
         random.shuffle(lista)
         if c == lista[0]:
+            print("2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222")
             lista.append(lista.pop(lista.index(c)))
         return lista
     
@@ -219,7 +220,7 @@ class Player:
                             if c < len(listado)-1:
                                 c+=1
                             else:
-                                listado = self.create_list(self.my_list,c)
+                                listado = self.create_list(self.my_list,listado[c])
                                 c = 0
                         self.playing = True#
                         mixer.music.play()
@@ -231,7 +232,7 @@ class Player:
                             if c < len(listado)-1:
                                 c+=1
                             else:
-                                listado = self.create_list(self.my_list,c)
+                                listado = self.create_list(self.my_list,listado[c])
                                 c = 0
                         pass
             else:
