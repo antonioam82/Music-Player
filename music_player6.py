@@ -8,6 +8,8 @@ import threading
 import json
 import os
 
+#ERROR: No se reproduce audio si este se ha añadido a la lista, cuando ya estaba.
+
 if not "music_favs.json" in os.listdir():
     d = {}
     with open("music_favs.json", "w") as f:
@@ -71,7 +73,7 @@ class Player:
 
     def open_file(self):
         fpath = filedialog.askopenfilename(initialdir = "/",title = "Select File",
-                filetypes = (("mp3 files","*.mp3"),("wav files","*.wav"),("ogg files",".ogg")))
+                filetypes = (("mp3 files","*.mp3"),("wav files","*.wav"),("ogg files",".ogg")))#,("all files","*.*")))
  
         if fpath:
             self.any_selected = self.is_any_selected()
@@ -173,24 +175,26 @@ class Player:
         print("NUmber: ",self.num_selected)
         return sel
 
-    def create_list(self,p):
+    def create_list(self,p,c):
         lista = []
         for i in range(len(p)):
             lista.append(i)
+        random.shuffle(lista)
+        if c == lista[0]:
+            print("2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222")
+            lista.append(lista.pop(lista.index(c)))
         return lista
     
     def play_loop(self):
         self.playing = True
         self.stopped = False
         self.paused = False
-
+        c = 0
         if self.random_mode == False:
             playlist = self.my_list[::-1]
         else:
-            listado = self.create_list(self.my_list)
-            random.shuffle(listado)
+            listado = self.create_list(self.my_list,c)
             playlist = self.my_list
-        c = 0
         self.running = True
         
         while self.running:
@@ -218,9 +222,8 @@ class Player:
                             if c < len(listado)-1:
                                 c+=1
                             else:
+                                listado = self.create_list(self.my_list,c)
                                 c = 0
-                                listado = self.create_list(self.my_list)
-                                random.shuffle(listado)
                         self.playing = True#
                         mixer.music.play()
                         self.update_timer()
@@ -231,9 +234,8 @@ class Player:
                             if c < len(listado)-1:
                                 c+=1
                             else:
+                                listado = self.create_list(self.my_list,c)
                                 c = 0
-                                listado = self.create_list(self.my_list)
-                                random.shuffle(listado) 
                         pass
             else:
                 c = 0
