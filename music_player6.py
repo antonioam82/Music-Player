@@ -234,8 +234,9 @@ class Player:
                                 c = 0
                         pass
             else:
-                c = 0
-                playlist = self.my_list[::-1]
+                #c = 0
+                #playlist = self.my_list[::-1]
+                print("ncncn")
 
     def init_task2(self):
         if len(self.audio_list)>0 and self.playing == False:
@@ -278,14 +279,14 @@ been deleted or moved.''')
     def pause(self):
         if self.playing == True:
             mixer.music.pause()
-            self.stopped = True
             self.paused = True
+            self.stopped = True
             self.btnPause.configure(text="CONTINUE",command=self.unpause)
 
     def unpause(self):
         mixer.music.unpause()
-        self.paused = False
         self.stopped = False
+        self.paused = False
         self.btnPause.configure(text="PAUSE",command=self.pause)
 
     def get_key(self,val):
@@ -300,6 +301,7 @@ been deleted or moved.''')
 
 if __name__=="__main__":
     Player()
+
 
 
 
