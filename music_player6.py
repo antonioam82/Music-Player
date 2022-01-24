@@ -170,7 +170,6 @@ class Player:
                 self.num_selected += 1
                 sel = True
                 break
-        print("NUmber: ",self.num_selected)
         return sel
 
     def create_list(self,p,c):
@@ -195,9 +194,9 @@ class Player:
         self.running = True
         
         while self.running:
-            print(len(playlist))
+            print("RUNNING")
             if len(playlist) > 0 and self.stopped == False:
-                if mixer.music.get_busy() == 0 and self.paused == False:
+                if mixer.music.get_busy() ==0 and self.paused == False:
                     if self.random_mode == False:
                         current = playlist.pop()
                     else:
@@ -237,8 +236,6 @@ class Player:
             else:
                 c = 0
                 playlist = self.my_list[::-1]
-                print("LOOP ENDED")
-        print("TERMINATED LOOP")
 
     def init_task2(self):
         if len(self.audio_list)>0 and self.playing == False:
@@ -248,7 +245,6 @@ class Player:
  
     def play(self):
         self.playing = True
-        print("PLAYING")
         try:
             mixer.music.load(self.file_path)
             mixer.music.play()
@@ -282,6 +278,7 @@ been deleted or moved.''')
     def pause(self):
         if self.playing == True:
             mixer.music.pause()
+            self.stopped = True
             self.paused = True
             self.btnPause.configure(text="CONTINUE",command=self.unpause)
 
