@@ -285,6 +285,7 @@ been deleted or moved.''')
     def unpause(self):
         mixer.music.unpause()
         self.paused = False
+        self.stopped = False
         self.btnPause.configure(text="PAUSE",command=self.pause)
 
     def get_key(self,val):
