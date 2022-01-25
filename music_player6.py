@@ -234,9 +234,8 @@ class Player:
                                 c = 0
                         pass
             else:
-                #c = 0
-                #playlist = self.my_list[::-1]
-                print("ncncn")
+                c = 0
+                playlist = self.my_list[::-1]
 
     def init_task2(self):
         if len(self.audio_list)>0 and self.playing == False:
@@ -280,7 +279,7 @@ been deleted or moved.''')
         if self.playing == True:
             mixer.music.pause()
             self.paused = True
-            self.stopped = True
+            #self.stopped = True
             self.btnPause.configure(text="CONTINUE",command=self.unpause)
 
     def unpause(self):
