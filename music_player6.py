@@ -234,8 +234,9 @@ class Player:
                                 c = 0
                         pass
             else:
-                c = 0
-                playlist = self.my_list[::-1]
+                if c != 0:
+                    c = 0
+                    playlist = self.my_list[::-1]
 
     def init_task2(self):
         if len(self.audio_list)>0 and self.playing == False:
