@@ -194,7 +194,7 @@ class Player:
         self.running = True
         
         while self.running:
-            #print("RUNNING")
+            print("RUNNING")
             if len(playlist) > 0 and self.stopped == False:
                 if mixer.music.get_busy() ==0 and self.paused == False:
                     if self.random_mode == False:
