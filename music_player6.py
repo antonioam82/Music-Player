@@ -80,6 +80,7 @@ class Player:
                 self.stop()
             self.file_path = fpath
             self.filename.set(self.file_path.split("/")[-1])
+            self.move_text()#########################################
             
     def add(self):
         if self.entryFile.get() != "": 
@@ -162,6 +163,9 @@ class Player:
             else:
                 messagebox.showwarning("NO ITEM SELECTED","Select the item you want to delete.")
 
+    def move_text(self):
+        print("Length: ",len(self.entryFile.get()))
+
     def is_any_selected(self):
         sel = False
         self.num_selected = 0
@@ -194,9 +198,9 @@ class Player:
         self.running = True
         
         while self.running:
-            print("RUNNING")
+            print("-->")
             if len(playlist) > 0 and self.stopped == False:
-                if mixer.music.get_busy() ==0 and self.paused == False:
+                if mixer.music.get_busy() == 0 and self.paused == False:
                     if self.random_mode == False:
                         current = playlist.pop()
                     else:
@@ -233,6 +237,7 @@ class Player:
                                 listado = self.create_list(self.my_list,listado[c])
                                 c = 0
                         pass
+                    
             else:
                 if c != 0:
                     c = 0
@@ -280,7 +285,6 @@ been deleted or moved.''')
         if self.playing == True:
             mixer.music.pause()
             self.paused = True
-            #self.stopped = True
             self.btnPause.configure(text="CONTINUE",command=self.unpause)
 
     def unpause(self):
