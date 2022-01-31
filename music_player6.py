@@ -80,7 +80,6 @@ class Player:
                 self.stop()
             self.file_path = fpath
             self.filename.set(self.file_path.split("/")[-1])
-            self.move_text()#########################################
             
     def add(self):
         if self.entryFile.get() != "": 
@@ -162,9 +161,6 @@ class Player:
                     self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
             else:
                 messagebox.showwarning("NO ITEM SELECTED","Select the item you want to delete.")
-
-    def move_text(self):
-        print("Length: ",len(self.entryFile.get()))
 
     def is_any_selected(self):
         sel = False
