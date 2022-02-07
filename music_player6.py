@@ -83,7 +83,8 @@ class Player:
             self.filename.set(self.file_path.split("/")[-1])
             
     def add(self):
-        if self.entryFile.get() != "" and self.running == False: 
+        self.any_selected = self.is_any_selected()
+        if self.entryFile.get() != "" and self.running == False and self.any_selected == False:
             self.fav_list.delete(0,END)
             self.audio_list[self.filename.get()]=self.file_path
             with open("music_favs.json", "w") as f:
