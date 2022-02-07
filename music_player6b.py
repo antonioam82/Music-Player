@@ -84,7 +84,7 @@ class Player:
             self.move_text()#########################################
             
     def add(self):
-        if self.entryFile.get() != "": 
+        if self.entryFile.get() != "" and self.running == False: 
             self.fav_list.delete(0,END)
             self.audio_list[self.filename.get()]=self.file_path
             with open("music_favs.json", "w") as f:
