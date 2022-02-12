@@ -236,7 +236,6 @@ class Player:
                             else:
                                 listado = self.create_list(self.my_list,listado[c])
                                 c = 0
-                        #pass
             else:
                 if c != 0:
                     c = 0
