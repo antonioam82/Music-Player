@@ -238,6 +238,7 @@ class Player:
                             if c < len(listado)-1:
                                 c+=1
                             else:
+                                c-=1
                                 listado = self.create_list(self.my_list,listado[c])
                                 c = 0
             else:
