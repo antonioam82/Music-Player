@@ -167,6 +167,7 @@ class Player:
                 messagebox.showwarning("NO ITEM SELECTED","Select the item you want to delete.")
 
     def is_any_selected(self):
+        #sel = False
         self.num_selected = 0
         for i in range(0,self.fav_list.size()):
             if self.fav_list.selection_includes(i):
@@ -233,9 +234,9 @@ class Player:
                             c+=1
                         else:
                             if c < len(listado)-1:
-                                c+=1
+                                #listado.pop(c)##############################################
+                                c += 1
                             else:
-                                c-=1 ###################################################
                                 listado = self.create_list(self.my_list,listado[c])
                                 c = 0
             else:
