@@ -79,7 +79,7 @@ class Player:
             if self.any_selected:
                 self.fav_list.selection_clear(self.fav_list.curselection()[0])
                 self.stop()
-            if self.playing == True:###########################################################################
+            if self.playing == True:
                 self.stop()
             self.file_path = fpath
             self.filename.set(self.file_path.split("/")[-1])
@@ -191,6 +191,7 @@ class Player:
         self.playing = True
         self.stopped = False
         self.paused = False
+
         c = 0
         if self.random_mode == False:
             playlist = self.my_list[::-1]
@@ -224,19 +225,21 @@ class Player:
                             if c < len(listado)-1:
                                 c+=1
                             else:
+                                #c = last#################
                                 listado = self.create_list(self.my_list,listado[c])
                                 c = 0
-                        self.playing = True#
+                        self.playing = True
                         mixer.music.play()
                         self.update_timer()
+                        #last = c
                     except:
                         if self.random_mode == False:
                             c+=1
                         else:
                             if c < len(listado)-1:
-                                #listado.pop(c)##############################################
                                 c += 1
                             else:
+                                #c = last
                                 listado = self.create_list(self.my_list,listado[c])
                                 c = 0
             else:
