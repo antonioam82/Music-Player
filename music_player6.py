@@ -160,14 +160,13 @@ class Player:
                     self.fav_list.delete(0,END)#
                     with open("music_favs.json", "w") as f:
                         json.dump(self.audio_list, f)
-                    self.fav_list.delete(0,END)#
+                    #self.fav_list.delete(0,END)#
                     self.show_list()
                     self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
             else:
                 messagebox.showwarning("NO ITEM SELECTED","Select the item you want to delete.")
 
     def is_any_selected(self):
-        #sel = False
         self.num_selected = 0
         for i in range(0,self.fav_list.size()):
             if self.fav_list.selection_includes(i):
@@ -201,7 +200,7 @@ class Player:
         self.running = True
         
         while self.running:
-            print("-->")
+            print("-->"+str(c))
             if len(playlist) > 0 and self.stopped == False:
                 if mixer.music.get_busy() == 0 and self.paused == False:
                     if self.random_mode == False:
@@ -225,13 +224,11 @@ class Player:
                             if c < len(listado)-1:
                                 c+=1
                             else:
-                                #c = last#################
                                 listado = self.create_list(self.my_list,listado[c])
                                 c = 0
                         self.playing = True
                         mixer.music.play()
                         self.update_timer()
-                        #last = c
                     except:
                         if self.random_mode == False:
                             c+=1
@@ -239,7 +236,6 @@ class Player:
                             if c < len(listado)-1:
                                 c += 1
                             else:
-                                #c = last
                                 listado = self.create_list(self.my_list,listado[c])
                                 c = 0
             else:
