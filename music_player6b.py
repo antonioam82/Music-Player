@@ -161,7 +161,7 @@ class Player:
                     self.fav_list.delete(0,END)#
                     with open("music_favs.json", "w") as f:
                         json.dump(self.audio_list, f)
-                    self.fav_list.delete(0,END)#
+                    #self.fav_list.delete(0,END)#
                     self.show_list()
                     self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
             else:
