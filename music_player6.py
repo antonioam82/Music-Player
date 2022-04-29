@@ -246,6 +246,7 @@ class Player:
                 if c != 0:
                     c = 0
                     playlist = self.my_list[::-1]
+        self.playing = False
 
     def init_task2(self):
         if len(self.audio_list)>0 and self.playing == False:
@@ -256,6 +257,7 @@ class Player:
     def play(self):
         self.playing = True
         try:
+            print("tryng")
             mixer.music.load(self.file_path)
             mixer.music.play()
             self.update_timer()
