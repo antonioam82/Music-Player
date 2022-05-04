@@ -91,20 +91,27 @@ class Player:
     def add(self):
         self.any_selected = self.is_any_selected()
         if self.entryFile.get() != "" and self.running == False and self.any_selected == False:
-            self.fav_list.delete(0,END)
-            self.audio_list[self.filename.get()]=self.file_path
-            with open("music_favs.json", "w") as f:
-                json.dump(self.audio_list, f)
-            self.show_list()
-            self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
+            if not self.file_path in self.audio_list.values():
+                self.fav_list.delete(0,END)
+                self.audio_list[self.filename.get()]=self.file_path
+                with open("music_favs.json", "w") as f:
+                    json.dump(self.audio_list, f)
+                self.show_list()
+                self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
+            else:
+                messagebox.showwarning("ALREADY SAVED","Selected item is already saved on playlist.")
 
     def random_mod(self):
-        self.stop()
         if self.random_mode == False:
             self.random_mode = True
+            self.listado = self.create_list(self.my_list,self.c)
+            self.playlist = self.my_list
             self.btnRandom.configure(text="RANDOM (ON)")
+            
         else:
             self.random_mode = False
+            self.c = 0
+            self.playlist = self.my_list[::-1]
             self.btnRandom.configure(text="RANDOM (OFF)")
         
     def update_timer(self):
@@ -161,10 +168,9 @@ class Player:
                     self.file_path = self.my_list[self.fav_list.curselection()[ 0 ] ]
                     self.key = self.get_key(self.file_path)
                     del self.audio_list[self.key]
-                    self.fav_list.delete(0,END)#
+                    self.fav_list.delete(0,END)
                     with open("music_favs.json", "w") as f:
                         json.dump(self.audio_list, f)
-                    #self.fav_list.delete(0,END)#
                     self.show_list()
                     self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
             else:
@@ -195,22 +201,23 @@ class Player:
         self.stopped = False
         self.paused = False
 
-        c = 0
+        self.c = 0
         if self.random_mode == False:
-            playlist = self.my_list[::-1]
+            self.playlist = self.my_list[::-1]
         else:
-            listado = self.create_list(self.my_list,c)
-            playlist = self.my_list
+            self.listado = self.create_list(self.my_list,self.c)
+            self.playlist = self.my_list
         self.running = True
         
         while self.running:
-            print("-->"+str(c))
-            if len(playlist) > 0 and self.stopped == False:
+            print("-->"+str(self.c))
+            if len(self.playlist) > 0 and self.stopped == False:
                 if mixer.music.get_busy() == 0 and self.paused == False:
                     if self.random_mode == False:
-                        current = playlist.pop()
+                        current = self.playlist.pop()
                     else:
-                        current = playlist[listado[c]]
+                        current = self.playlist[self.listado[self.c]]
+                        
                     try:
                         mixer.music.load(current)
                         self.filename.set(self.get_key(current))
@@ -219,33 +226,33 @@ class Player:
                             self.fav_list.selection_clear(self.fav_list.curselection()[0])
                         
                         if self.random_mode == False:
-                            self.fav_list.selection_set(c)
-                            self.fav_list.see(c)
-                            c+=1
+                            self.fav_list.selection_set(self.c)
+                            self.fav_list.see(self.c)
+                            self.c+=1
                         else:
-                            self.fav_list.selection_set(listado[c])
-                            self.fav_list.see(listado[c])
-                            if c < len(listado)-1:
-                                c+=1
+                            self.fav_list.selection_set(self.listado[self.c])
+                            self.fav_list.see(self.listado[self.c])
+                            if self.c < len(self.listado)-1:
+                                self.c+=1
                             else:
-                                listado = self.create_list(self.my_list,listado[c])
-                                c = 0
+                                self.listado = self.create_list(self.my_list,self.listado[self.c])
+                                self.c = 0
                         self.playing = True
                         mixer.music.play()
                         self.update_timer()
                     except:
                         if self.random_mode == False:
-                            c+=1
+                            self.c+=1
                         else:
-                            if c < len(listado)-1:
-                                c += 1
+                            if self.c < len(self.listado)-1:
+                                self.c += 1
                             else:
-                                listado = self.create_list(self.my_list,listado[c])
-                                c = 0
+                                self.listado = self.create_list(self.my_list,self.listado[self.c])
+                                self.c = 0
             else:
-                if c != 0:
-                    c = 0
-                    playlist = self.my_list[::-1]
+                if self.c != 0:
+                    self.c = 0
+                    self.playlist = self.my_list[::-1]
         self.playing = False
 
     def init_task2(self):
@@ -257,7 +264,6 @@ class Player:
     def play(self):
         self.playing = True
         try:
-            print("tryng")
             mixer.music.load(self.file_path)
             mixer.music.play()
             self.update_timer()
