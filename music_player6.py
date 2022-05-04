@@ -33,6 +33,7 @@ class Player:
         self.stopped = False
         self.random_mode = False
         self.running = False
+        self.c = 0
 
         with open("music_favs.json") as f:
             self.audio_list = json.load(f)
