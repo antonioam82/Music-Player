@@ -220,7 +220,7 @@ class Player:
                         current = self.playlist[self.listado[self.c]]
                         
                     try:
-                        #mixer.music.load(current)
+                        mixer.music.load(current)
                         self.filename.set(self.get_key(current))
                         any_selected = self.is_any_selected()
                         if any_selected:
@@ -238,7 +238,6 @@ class Player:
                             else:
                                 self.listado = self.create_list(self.my_list,self.listado[self.c])
                                 self.c = 0
-                        mixer.music.load(current)##################
                         self.playing = True
                         mixer.music.play()
                         self.update_timer()
