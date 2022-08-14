@@ -5,6 +5,7 @@ from tkinter import filedialog, messagebox
 import random
 from pygame import mixer, display
 import threading
+import pathlib
 import json
 import os
 
@@ -134,9 +135,12 @@ class Player:
         if len(self.audio_list) > 0:
             self.my_list = []
             c = 1
-            for i in (self.audio_list):
-                self.fav_list.insert(tk.END,(str(c)+"- "+i))
-                self.my_list.append(self.audio_list[i])
+            #self.get_keys()
+            for key, value in (self.audio_list.items()):
+                if os.path.isfile(value):
+                    print("OK")
+                self.fav_list.insert(tk.END,(str(c)+"- "+key))
+                self.my_list.append(self.audio_list[key])
                 c+=1
 
     def remove_playlist(self):
@@ -306,7 +310,11 @@ been deleted or moved.''')
         self.paused = False
         self.btnPause.configure(text="PAUSE",command=self.pause)
 
-    def get_key(self,val):
+    def get_keys(self):
+        for value in self.audio_list.values():
+            print(value)
+
+    def get_key(self):
         for key, value in self.audio_list.items():
             if val == value:
                 return key
