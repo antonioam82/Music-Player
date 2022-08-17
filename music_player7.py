@@ -3,6 +3,7 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import random
+import ntpath
 from pygame import mixer, display
 import threading
 import pathlib
@@ -138,10 +139,10 @@ class Player:
             #self.get_keys()
             for key, value in (self.audio_list.items()):
                 if os.path.isfile(value):
-                    print("OK")
-                self.fav_list.insert(tk.END,(str(c)+"- "+key))
-                self.my_list.append(self.audio_list[key])
-                c+=1
+                    self.fav_list.insert(tk.END,(str(c)+"- "+key))
+                    #print(key)
+                    self.my_list.append(key)#self.audio_list[key])########################################
+                    c+=1
 
     def remove_playlist(self):
         if self.fav_list.size() > 0:
@@ -278,10 +279,13 @@ class Player:
 
     def init_task(self):
         if self.playing == False:
+            print(self.my_list)
             self.any_selected = self.is_any_selected()
             if self.any_selected:
-                self.file_path = self.my_list[self.fav_list.curselection() [ 0 ] ]
-                self.key = self.get_key(self.file_path)
+                self.file_path = self.my_list[self.fav_list.curselection()[0]]
+                print(self.file_path)
+                self.key = self.file_path#self.get_key(self.file_path)
+                
                 self.filename.set(self.key)
             if self.file_path:
                 if os.path.exists(self.file_path):
