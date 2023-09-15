@@ -45,8 +45,8 @@ class Player:
         entryDir.place(x=0, y=0)
         self.timer = Label(self.root, text="0:00:00", bg="black", fg="green", font=("arial", "34"), width=13, height=2)
         self.timer.place(x=9, y=28)
-        self.entryFile = Entry(self.root, textvariable=self.filename, width=37, font=("arial", 20))
-        self.entryFile.place(x=358, y=28)
+        #self.entryFile = Entry(self.root, textvariable=self.filename, width=37, font=("arial", 20))
+        #self.entryFile.place(x=358, y=28)
         Button(self.root, text="SEARCH", width=79, bg="blue", fg="white").place(x=356, y=75)
         Button(self.root, text="PLAY", width=10, bg="goldenrod1").place(x=356, y=108)
         self.btnPause = Button(self.root, text="PAUSE", width=10, bg="goldenrod1")
@@ -72,11 +72,12 @@ class Player:
         self.scrollbar.config(command=self.fav_list.yview)
 
         # Crear una etiqueta para mostrar el texto que se moverá
-        self.display_text = Label(self.root, text="", bg="white", fg="black", font=("arial", 80))
+        self.display_text = Label(self.root, text="", bg="white", fg="black", font=("arial", 25))
+        self.display_text = Label(self.root, text="", bg="white", fg="black", width = 79, height = 2)
         self.display_text.place(x=358, y=28)
 
         # Crear un Canvas para la animación del texto dentro de entryFile
-        self.canvas_text = Canvas(self.root, width=370, height=30, bg="gray78", highlightthickness=0)
+        self.canvas_text = Canvas(self.root, width=79, height=2, bg="white", highlightthickness=0)
         self.canvas_text.place(x=358, y=28)
 
         # Iniciar la función para mover el texto dentro de entryFile
@@ -114,3 +115,4 @@ class Player:
 
 if __name__ == "__main__":
     Player()
+
