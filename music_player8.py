@@ -352,7 +352,7 @@ been deleted or moved.''')
 
         # Si el texto ha alcanzado el final del Canvas, reinicie la posición
         if self.text_x >= canvas_width:
-            self.text_x = -text_width  # Empiece desde fuera del área visible del Canvas
+            self.text_x = - text_width  # Empiece desde fuera del área visible del Canvas
 
         # Vuelva a llamar a esta función después de un cierto tiempo para crear una animación continua
         self.root.after(100, self.move_text)
