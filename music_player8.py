@@ -347,7 +347,7 @@ been deleted or moved.''')
 
             # Si el texto ha desaparecido completamente por la izquierda, reinicia su posición
             #if self.text_x <= - (text_width/2):
-            if self.text_x <= - text_width
+            if self.text_x <= - text_width:
                 self.text_x = canvas_width
                 
         else:
@@ -357,6 +357,7 @@ been deleted or moved.''')
 
         # Vuelve a llamar a esta función después de un cierto tiempo para crear una animación continua
         self.root.after(100, self.move_text)
+
 
     def __del__(self):
         mixer.music.stop()
