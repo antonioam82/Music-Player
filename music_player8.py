@@ -348,6 +348,11 @@ been deleted or moved.''')
             # Si el texto ha desaparecido completamente por la izquierda, reinicia su posición
             if self.text_x <= -text_width:
                 self.text_x = canvas_width
+                
+        else:
+            self.canvas_text.delete("all")
+            self.canvas_text.create_text(self.text_x, 15, text=text, anchor="w", fill="black", font=("arial", 20))
+            self.text_x = 0
 
         # Vuelve a llamar a esta función después de un cierto tiempo para crear una animación continua
         self.root.after(100, self.move_text)
@@ -360,4 +365,3 @@ been deleted or moved.''')
 
 if __name__ == "__main__":
     Player()
-
