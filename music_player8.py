@@ -330,22 +330,15 @@ been deleted or moved.''')
 
     def move_text(self):
         text = self.entryFile.get()
-
-        # Obtén el ancho del Canvas
         canvas_width = self.canvas_text.winfo_width()
-
-        # Calcula el ancho del texto
         text_bbox = self.canvas_text.bbox(self.canvas_text.create_text(0, 0, text=text, anchor="w", font=("arial", 20)))
         text_width = text_bbox[2] - text_bbox[0]
 
-        # Si el texto es más ancho que el Canvas, muévelo hacia la izquierda
         if text_width > canvas_width:
-            # Mueve el texto dentro de entryFile
             self.canvas_text.delete("all")  # Borra el texto actual en el Canvas
             self.canvas_text.create_text(self.text_x, 15, text=text, anchor="w", fill="black", font=("arial", 20))
             self.text_x -= 5
 
-            # Si el texto ha desaparecido completamente por la izquierda, reinicia su posición
             if self.text_x <= -text_width:
                 self.text_x = canvas_width
                 
@@ -354,7 +347,6 @@ been deleted or moved.''')
             self.canvas_text.create_text(self.text_x, 15, text=text, anchor="w", fill="black", font=("arial", 20))
             self.text_x = 0
 
-        # Vuelve a llamar a esta función después de un cierto tiempo para crear una animación continua
         self.root.after(100, self.move_text)
 
 
