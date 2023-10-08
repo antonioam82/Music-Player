@@ -72,14 +72,9 @@ class Player:
         self.fav_list.config(yscrollcommand=self.scrollbar.set)
         self.scrollbar.config(command=self.fav_list.yview)
 
-        # Crear una etiqueta para mostrar el texto que se moverá
-        self.display_text = Label(self.root, text="", bg="gray78", fg="black", font=("arial", 20))
-        self.display_text.place(x=10, y=150)
-
         # Crear un Canvas para la animación del texto dentro de entryFile
-        self.canvas_text = Canvas(self.root, width=559, height=36, bg="white", highlightthickness=0)
+        self.canvas_text = Canvas(self.root, width=559, height=36, bg="white", highlightthickness=0)#width=559,
         self.canvas_text.place(x=358, y=28)
-        #self.canvas_width = self.canvas_text.winfo_width()##############
         
         # Iniciar la función para mover el texto dentro de entryFile:
         self.move_text()
@@ -92,7 +87,6 @@ class Player:
             fpath = filedialog.askopenfilename(initialdir="/", title="Select File",
                                                filetypes=(("mp3 files", "*.mp3"), ("wav files", "*.wav"),
                                                           ("ogg files", ".ogg")))  # ,("all files","*.*")))
-
             if fpath:
                 self.any_selected = self.is_any_selected()
                 if self.any_selected:
@@ -349,8 +343,7 @@ been deleted or moved.''')
             self.text_x = 0
 
         self.root.after(100, self.move_text)
-
-
+        
     def __del__(self):
         mixer.music.stop()
         self.stopped = True
