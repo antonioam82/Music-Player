@@ -221,9 +221,11 @@ class Player:
             self.listado = self.create_list(self.my_list, self.c)
             self.playlist = self.my_list
         self.running = True
-
+        counter = 0 ##########################################3
         while self.running:
-            print("-->" + str(self.c))
+            #print("-->" + str(self.c))
+            print("-->" + str(counter))
+            counter += 1
             if len(self.playlist) > 0 and self.stopped == False:
                 if mixer.music.get_busy() == 0 and self.paused == False:
                     if self.random_mode == False:
@@ -289,7 +291,9 @@ class Player:
         if self.playing == True:
             self.playing = False
             self.running = False
+            self.btnPlayall.configure(state="normal")
             self.btnPause.configure(text="PAUSE")
+            
         self.any_selected = self.is_any_selected()
         if self.any_selected:
             self.file_path = self.my_list[self.fav_list.curselection()[0]]
