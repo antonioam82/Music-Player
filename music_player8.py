@@ -353,7 +353,6 @@ been deleted or moved.''')
 
         self.root.after(100, self.move_text)
 
-
     def __del__(self):
         mixer.music.stop()
         self.stopped = True
