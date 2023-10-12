@@ -291,6 +291,7 @@ class Player:
         if self.playing == True:
             self.playing = False
             self.running = False
+            self.stopped = True
             self.btnPlayall.configure(state="normal")
             self.btnPause.configure(text="PAUSE")
             
