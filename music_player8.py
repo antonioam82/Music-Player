@@ -285,19 +285,22 @@ class Player:
             self.playing = False
 
     def init_task(self):
-        if self.playing == False:
-            self.any_selected = self.is_any_selected()
-            if self.any_selected:
-                self.file_path = self.my_list[self.fav_list.curselection()[0]]
-                self.key = self.get_key(self.file_path)
-                self.filename.set(self.key)
-            if self.file_path:
-                if os.path.exists(self.file_path):
-                    self.timer['text'] = "0:00:00"
-                    t = threading.Thread(target=self.play)
-                    t.start()
-                else:
-                    messagebox.showwarning("NO FILE", '''Path not found, file may have
+        #if self.playing == False:
+        if self.playing == True:
+            self.playing = False
+            self.running = False
+        self.any_selected = self.is_any_selected()
+        if self.any_selected:
+            self.file_path = self.my_list[self.fav_list.curselection()[0]]
+            self.key = self.get_key(self.file_path)
+            self.filename.set(self.key)
+        if self.file_path:
+            if os.path.exists(self.file_path):
+                self.timer['text'] = "0:00:00"
+                t = threading.Thread(target=self.play)
+                t.start()
+            else:
+                messagebox.showwarning("NO FILE", '''Path not found, file may have
 been deleted or moved.''')
 
     def stop(self):
@@ -343,7 +346,8 @@ been deleted or moved.''')
             self.text_x = 0
 
         self.root.after(100, self.move_text)
-        
+
+
     def __del__(self):
         mixer.music.stop()
         self.stopped = True
