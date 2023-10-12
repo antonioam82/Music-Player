@@ -289,6 +289,7 @@ class Player:
         if self.playing == True:
             self.playing = False
             self.running = False
+            self.btnPause.configure(text="PAUSE")
         self.any_selected = self.is_any_selected()
         if self.any_selected:
             self.file_path = self.my_list[self.fav_list.curselection()[0]]
