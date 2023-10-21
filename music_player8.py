@@ -27,6 +27,7 @@ class Player:
         self.currentDir.set(os.getcwd())
         self.filename = StringVar()
         self.playing = False
+        #self.playing_loop = False
         self.file_path = ""
         mixer.init()
         display.init()
@@ -210,9 +211,13 @@ class Player:
         return lista
 
     def play_loop(self):
+        self.stop()
+        self.paused = False
         self.playing = True
         self.stopped = False
         self.paused = False
+        self.btnPause.configure(text="PAUSE", command=self.pause)
+        #self.playing_loop = True
 
         self.c = 0
         if self.random_mode == False:
@@ -271,7 +276,7 @@ class Player:
         self.playing = False
 
     def init_task2(self):
-        if len(self.audio_list) > 0 and self.playing == False:
+        if len(self.audio_list) > 0: #and self.playing == False:
             self.btnPlayall.configure(state="disabled")
             t2 = threading.Thread(target=self.play_loop)
             t2.start()
@@ -352,6 +357,7 @@ been deleted or moved.''')
             self.text_x = 0
 
         self.root.after(100, self.move_text)
+
 
     def __del__(self):
         mixer.music.stop()
