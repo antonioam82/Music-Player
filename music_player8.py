@@ -14,7 +14,6 @@ if not "music_favs.json" in os.listdir():
         json.dump(d, f)
         print("created music_favs.json")
 
-
 class Player:
     def __init__(self):
         self.root = Tk()
@@ -106,11 +105,12 @@ class Player:
             if self.any_selected:
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
-                    if self.running == False:
+                    
+                    '''if self.running == False:
                         mixer.music.stop()
                     else:
                         self.running = False
-                        self.btnPlayall.configure(state='normal')
+                        self.btnPlayall.configure(state='normal')'''
  
                     self.file_path = self.my_list[self.fav_list.curselection()[ 0 ] ]
                     self.key = self.get_key(self.file_path)
@@ -125,7 +125,8 @@ class Player:
 
     def add(self):
         self.any_selected = self.is_any_selected()
-        if self.entryFile.get() != "" and self.running == False and self.any_selected == False:
+        #if self.entryFile.get() != "" and self.running == False and self.any_selected == False:
+        if self.entryFile.get() != "" and self.any_selected == False:
             if not self.file_path in self.audio_list.values():
                 self.fav_list.delete(0,END)
                 self.audio_list[self.filename.get()]=self.file_path
