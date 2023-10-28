@@ -27,14 +27,16 @@ class Player:
         self.currentDir = StringVar()
         self.currentDir.set(os.getcwd())
         self.filename = StringVar()
-        self.playing = False
         self.file_path = ""
         mixer.init()
         display.init()
+        
+        self.playing = False
         self.paused = False
         self.stopped = False
         self.random_mode = False
         self.running = False
+        
         self.c = 0
  
         with open("music_favs.json") as f:
@@ -55,7 +57,7 @@ class Player:
         self.items = Label(self.root,text=('{} ITEMS ON PLAYLIST'.format(len(self.audio_list))),font=("arial",10),width=39,height=2,bg="black",fg="red")
         self.items.place(x=601,y=147)
         Button(self.root,text="REMOVE PLAYLIST",width=44).place(x=601,y=220)#215
-        Button(self.root,text="REMOVE FROM PLAYLIST",width=44).place(x=601,y=190)#249
+        Button(self.root,text="REMOVE FROM PLAYLIST",command=self.remove_from_list,width=44).place(x=601,y=190)#249
         self.btnPlayall = Button(self.root,text="PLAY ALL",width=21,height=2)
         self.btnPlayall.place(x=601,y=254)
         self.btnRandom = Button(self.root,text="RANDOM (OFF)",width=21,height=2)
@@ -92,6 +94,34 @@ class Player:
         else:
             sel = False
         return sel
+
+    def get_key(self,val):
+        for key, value in self.audio_list.items():
+            if val == value:
+                return key
+
+    def remove_from_list(self):
+        if self.fav_list.size() > 0:
+            self.any_selected = self.is_any_selected()
+            if self.any_selected:
+                message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
+                if message == "yes":
+                    if self.running == False:
+                        mixer.music.stop()
+                    else:
+                        self.running = False
+                        self.btnPlayall.configure(state='normal')
+ 
+                    self.file_path = self.my_list[self.fav_list.curselection()[ 0 ] ]
+                    self.key = self.get_key(self.file_path)
+                    del self.audio_list[self.key]
+                    self.fav_list.delete(0,END)
+                    with open("music_favs.json", "w") as f:
+                        json.dump(self.audio_list, f)
+                    self.show_list()
+                    self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
+            else:
+                messagebox.showwarning("NO ITEM SELECTED","Select the item you want to delete.")
 
     def add(self):
         self.any_selected = self.is_any_selected()
