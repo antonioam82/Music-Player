@@ -46,12 +46,12 @@ class Player:
         self.timer.place(x=9,y=28)
         self.entryFile = Entry(self.root,textvariable=self.filename,width=37,font=("arial",20))
         self.entryFile.place(x=358,y=28)
-        Button(self.root,text="SEARCH",width=79,bg="blue",fg="white").place(x=356,y=75)
+        Button(self.root,text="SEARCH",width=79,bg="blue",fg="white",command=self.open_file).place(x=356,y=75)
         Button(self.root,text="PLAY",width=10,bg="goldenrod1").place(x=356,y=108)
         self.btnPause = Button(self.root,text="PAUSE",width=10,bg="goldenrod1")
         self.btnPause.place(x=437,y=108)
         Button(self.root,text="STOP",width=10,bg="goldenrod1").place(x=518,y=108)
-        Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1").place(x=601,y=108)#self.add
+        Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1",command=self.add).place(x=601,y=108)#self.add
         self.items = Label(self.root,text=('{} ITEMS ON PLAYLIST'.format(len(self.audio_list))),font=("arial",10),width=39,height=2,bg="black",fg="red")
         self.items.place(x=601,y=147)
         Button(self.root,text="REMOVE PLAYLIST",width=44).place(x=601,y=220)#215
@@ -81,6 +81,48 @@ class Player:
                 self.fav_list.insert(END,(str(c)+"- "+i))
                 self.my_list.append(self.audio_list[i])
                 c+=1
+
+    def is_any_selected(self):
+        self.num_selected = 0
+        for i in range(0,self.fav_list.size()):
+            if self.fav_list.selection_includes(i):
+                self.num_selected += 1
+                sel = True
+                break
+        else:
+            sel = False
+        return sel
+
+    def add(self):
+        self.any_selected = self.is_any_selected()
+        if self.entryFile.get() != "" and self.running == False and self.any_selected == False:
+            if not self.file_path in self.audio_list.values():
+                self.fav_list.delete(0,END)
+                self.audio_list[self.filename.get()]=self.file_path
+                with open("music_favs.json", "w") as f:
+                    json.dump(self.audio_list, f)
+                self.show_list()
+                self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
+            else:
+                messagebox.showwarning("ALREADY SAVED","Selected item is already saved on playlist.")
+
+    def open_file(self):
+        try:
+            fpath = filedialog.askopenfilename(initialdir = "/",title = "Select File",
+                    filetypes = (("mp3 files","*.mp3"),("wav files","*.wav"),("ogg files",".ogg")))#,("all files","*.*")))
+ 
+            if fpath:
+                self.any_selected = self.is_any_selected()
+                if self.any_selected:
+                    self.fav_list.selection_clear(self.fav_list.curselection()[0])
+                    self.stop()
+                if self.playing == True:
+                    self.stop()
+                self.file_path = fpath
+                self.filename.set(self.file_path.split("/")[-1])
+                
+        except Exception as e:
+            messagebox.showwarning("UNEXPECECTED ERROR", str(e))
 
 if __name__ == '__main__':
     Player()
