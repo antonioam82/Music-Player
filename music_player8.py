@@ -14,6 +14,7 @@ if not "music_favs.json" in os.listdir():
         json.dump(d, f)
         print("created music_favs.json")
 
+
 class Player:
     def __init__(self):
         self.root = Tk()
@@ -55,7 +56,7 @@ class Player:
         Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1",command=self.add).place(x=601,y=108)#self.add
         self.items = Label(self.root,text=('{} ITEMS ON PLAYLIST'.format(len(self.audio_list))),font=("arial",10),width=39,height=2,bg="black",fg="red")
         self.items.place(x=601,y=147)
-        Button(self.root,text="REMOVE PLAYLIST",width=44).place(x=601,y=220)#215
+        Button(self.root,text="REMOVE PLAYLIST",width=44,command=self.remove_playlist).place(x=601,y=220)#215
         Button(self.root,text="REMOVE FROM PLAYLIST",command=self.remove_from_list,width=44).place(x=601,y=190)#249
         self.btnPlayall = Button(self.root,text="PLAY ALL",width=21,height=2)
         self.btnPlayall.place(x=601,y=254)
@@ -82,6 +83,21 @@ class Player:
                 self.fav_list.insert(END,(str(c)+"- "+i))
                 self.my_list.append(self.audio_list[i])
                 c+=1
+
+    def remove_playlist(self):
+        if self.fav_list.size() > 0:
+            message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
+            if message == "yes":
+                self.playing = False
+                self.running = False
+                self.btnPlayall.configure(state='normal')
+                self.my_list = []
+                self.fav_list.delete(0,END)
+                self.audio_list = {}
+                d = {}
+                with open("music_favs.json", "w") as f:
+                    json.dump(d, f)
+                self.items.configure(text='0 ITEMS ON PLAYLIST')
 
     def is_any_selected(self):
         self.num_selected = 0
