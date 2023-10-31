@@ -33,9 +33,9 @@ class Player:
         
         self.playing = False
         self.paused = False
-        self.stopped = False
-        self.random_mode = False
-        self.running = False
+        #self.stopped = False
+        #self.random_mode = False
+        #self.running = False
         
         self.c = 0
  
@@ -49,10 +49,10 @@ class Player:
         self.entryFile = Entry(self.root,textvariable=self.filename,width=37,font=("arial",20))
         self.entryFile.place(x=358,y=28)
         Button(self.root,text="SEARCH",width=79,bg="blue",fg="white",command=self.open_file).place(x=356,y=75)
-        Button(self.root,text="PLAY",width=10,bg="goldenrod1").place(x=356,y=108)
-        self.btnPause = Button(self.root,text="PAUSE",width=10,bg="goldenrod1")
+        Button(self.root,text="PLAY",width=10,bg="goldenrod1",command=self.init_task).place(x=356,y=108)
+        self.btnPause = Button(self.root,text="PAUSE",width=10,bg="goldenrod1",command=self.pause)
         self.btnPause.place(x=437,y=108)
-        Button(self.root,text="STOP",width=10,bg="goldenrod1").place(x=518,y=108)
+        Button(self.root,text="STOP",width=10,bg="goldenrod1",command=self.stop).place(x=518,y=108)
         Button(self.root,text="ADD TO PLAYLIST",width=44,bg="goldenrod1",command=self.add).place(x=601,y=108)#self.add
         self.items = Label(self.root,text=('{} ITEMS ON PLAYLIST'.format(len(self.audio_list))),font=("arial",10),width=39,height=2,bg="black",fg="red")
         self.items.place(x=601,y=147)
@@ -170,6 +170,65 @@ class Player:
                 
         except Exception as e:
             messagebox.showwarning("UNEXPECECTED ERROR", str(e))
+
+    def update_timer(self):
+        pos_time = mixer.music.get_pos()
+        s = pos_time//1000
+        m, s = divmod(s, 60)
+        h, m = divmod(m, 60)
+        h, m, s = int(h), int(m), int(s)
+        self.timer['text']=f"{h:01}:{m:02}:{s:02}"
+
+        self.process = self.root.after(500, self.update_timer)
+        if h == -1:
+            self.timer['text']="0:00:00"
+            self.root.after_cancel(self.process)
+            self.btnPause.configure(text="PAUSE",command=self.pause)
+            self.playing = False
+
+    def play(self):
+        self.playing = True
+        try:
+            mixer.music.load(self.file_path)
+            mixer.music.play()
+            self.update_timer()
+        except:
+            messagebox.showwarning("ERROR","Can't open the file '{}'.".format(self.entryFile.get()))
+            self.playing = False
+
+    def stop(self):
+        mixer.music.stop()
+        #self.stopped = True
+        #self.running = False
+        self.btnPlayall.configure(state="normal")
+
+    def pause(self):
+        if self.playing == True:
+            mixer.music.pause()
+            self.paused = True
+            self.btnPause.configure(text="CONTINUE",command=self.unpause)
+
+    def unpause(self):
+        mixer.music.unpause()
+        #self.stopped = False
+        self.paused = False
+        self.btnPause.configure(text="PAUSE",command=self.pause)
+
+    def init_task(self):
+        if self.playing == False:
+            self.any_selected = self.is_any_selected()
+            if self.any_selected:
+                self.file_path = self.my_list[self.fav_list.curselection() [ 0 ] ]
+                self.key = self.get_key(self.file_path)
+                self.filename.set(self.key)
+            if self.file_path:
+                if os.path.exists(self.file_path):
+                    self.timer['text']="0:00:00"
+                    t = threading.Thread(target=self.play)
+                    t.start()
+                else:
+                    messagebox.showwarning("NO FILE",'''Path not found, file may have
+been deleted or moved.''')
 
 if __name__ == '__main__':
     Player()
