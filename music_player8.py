@@ -162,7 +162,7 @@ class Player:
                 self.any_selected = self.is_any_selected()
                 if self.any_selected:
                     self.fav_list.selection_clear(self.fav_list.curselection()[0])
-                    self.stop()
+                    #self.stop()
                 if self.playing == True:
                     self.stop()
                 self.file_path = fpath
