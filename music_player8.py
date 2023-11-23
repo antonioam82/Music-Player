@@ -230,5 +230,10 @@ class Player:
                     messagebox.showwarning("NO FILE",'''Path not found, file may have
 been deleted or moved.''')
 
+    def __del__(self):
+        mixer.music.stop()
+        self.stopped = True
+        self.running = False    
+
 if __name__ == '__main__':
     Player()
