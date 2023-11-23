@@ -304,7 +304,7 @@ been deleted or moved.''')
     def __del__(self):
         mixer.music.stop()
         self.stopped = True
-        self.running = False
+        self.playing_loop = False
 
 if __name__ == '__main__':
     Player()
