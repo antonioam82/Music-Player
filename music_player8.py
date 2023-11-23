@@ -34,7 +34,8 @@ class Player:
         self.playing = False
         self.paused = False
         #self.stopped = False
-        #self.random_mode = False
+        self.random_mode = False
+        self.playing_loop = False
         #self.running = False
         
         self.c = 0
@@ -58,7 +59,7 @@ class Player:
         self.items.place(x=601,y=147)
         Button(self.root,text="REMOVE PLAYLIST",width=44,command=self.remove_playlist).place(x=601,y=220)#215
         Button(self.root,text="REMOVE FROM PLAYLIST",command=self.remove_from_list,width=44).place(x=601,y=190)#249
-        self.btnPlayall = Button(self.root,text="PLAY ALL",width=21,height=2)
+        self.btnPlayall = Button(self.root,text="PLAY ALL",command=self.init_task2,width=21,height=2)
         self.btnPlayall.place(x=601,y=254)
         self.btnRandom = Button(self.root,text="RANDOM (OFF)",width=21,height=2)
         self.btnRandom.place(x=762,y=254)
@@ -110,10 +111,79 @@ class Player:
             sel = False
         return sel
 
+    def play_loop(self):
+        self.stop()
+        self.playing_loop = True
+        self.playing = True
+        self.stopped = False
+        self.paused = False
+ 
+        self.c = 0
+        if self.random_mode == False:
+            self.playlist = self.my_list[::-1]
+        else:
+            self.listado = self.create_list(self.my_list,self.c)
+            self.playlist = self.my_list
+        #self.running = True
+ 
+        while self.playing_loop:
+            print("-->"+str(self.c))
+            if len(self.playlist) > 0 and self.stopped == False:
+                if mixer.music.get_busy() == 0 and self.paused == False:
+                    if self.random_mode == False:
+                        current = self.playlist.pop()
+                    else:
+                        current = self.playlist[self.listado[self.c]]
+ 
+                    try:
+                        mixer.music.load(current)
+                        self.filename.set(self.get_key(current))
+                        any_selected = self.is_any_selected()
+                        if any_selected:
+                            self.fav_list.selection_clear(self.fav_list.curselection()[0])
+ 
+                        if self.random_mode == False:
+                            self.fav_list.selection_set(self.c)
+                            self.fav_list.see(self.c)
+                            self.c+=1
+                        else:
+                            self.fav_list.selection_set(self.listado[self.c])
+                            self.fav_list.see(self.listado[self.c])
+                            if self.c < len(self.listado)-1:
+                                self.c+=1
+                            else:
+                                self.listado = self.create_list(self.my_list,self.listado[self.c])
+                                self.c = 0
+                        self.playing = True
+                        mixer.music.play()
+                        self.update_timer()
+                    except:
+                        if self.random_mode == False:
+                            self.c+=1
+                        else:
+                            if self.c < len(self.listado)-1:
+                                self.c += 1
+                            else:
+                                self.listado = self.create_list(self.my_list,self.listado[self.c])
+                                self.c = 0
+            else:
+                if self.c != 0:
+                    self.c = 0
+                    self.playlist = self.my_list[::-1]
+        self.playing = False
+        self.playing_loop = False
+
+
     def get_key(self,val):
         for key, value in self.audio_list.items():
             if val == value:
                 return key
+
+    def init_task2(self):
+        if len(self.audio_list)>0 and self.playing_loop == False:
+            self.btnPlayall.configure(state="disabled")
+            t2 = threading.Thread(target=self.play_loop)
+            t2.start()
 
     def remove_from_list(self):
         if self.fav_list.size() > 0:
@@ -197,8 +267,9 @@ class Player:
             self.playing = False
 
     def stop(self):
+        self.playing_loop = False
         mixer.music.stop()
-        #self.stopped = True
+        self.stopped = True
         #self.running = False
         self.btnPlayall.configure(state="normal")
 
@@ -233,7 +304,7 @@ been deleted or moved.''')
     def __del__(self):
         mixer.music.stop()
         self.stopped = True
-        self.running = False    
+        self.running = False
 
 if __name__ == '__main__':
     Player()
