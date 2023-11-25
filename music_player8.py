@@ -294,19 +294,19 @@ class Player:
         self.btnPause.configure(text="PAUSE",command=self.pause)
 
     def init_task(self):
-        if self.playing == False:
-            self.any_selected = self.is_any_selected()
-            if self.any_selected:
-                self.file_path = self.my_list[self.fav_list.curselection() [ 0 ] ]
-                self.key = self.get_key(self.file_path)
-                self.filename.set(self.key)
-            if self.file_path:
-                if os.path.exists(self.file_path):
-                    self.timer['text']="0:00:00"
-                    t = threading.Thread(target=self.play)
-                    t.start()
-                else:
-                    messagebox.showwarning("NO FILE",'''Path not found, file may have
+        self.stop()
+        self.any_selected = self.is_any_selected()
+        if self.any_selected:
+            self.file_path = self.my_list[self.fav_list.curselection() [ 0 ] ]
+            self.key = self.get_key(self.file_path)
+            self.filename.set(self.key)
+        if self.file_path:
+            if os.path.exists(self.file_path):
+                self.timer['text']="0:00:00"
+                t = threading.Thread(target=self.play)
+                t.start()
+            else:
+                messagebox.showwarning("NO FILE",'''Path not found, file may have
 been deleted or moved.''')
 
     def move_text(self):
