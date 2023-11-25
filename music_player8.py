@@ -39,6 +39,9 @@ class Player:
         #self.running = False
         
         self.c = 0
+        self.text_x = 0
+        self.text_direction = 1
+        self.sleeep = False
  
         with open("music_favs.json") as f:
             self.audio_list = json.load(f)
@@ -71,7 +74,12 @@ class Player:
         self.fav_list.pack()
         self.fav_list.config(yscrollcommand = self.scrollbar.set)
         self.scrollbar.config(command = self.fav_list.yview)
- 
+
+        self.canvas_text = Canvas(self.root, width=559, height=36, bg="white", highlightthickness=0)#width=559,
+        self.canvas_text.place(x=358, y=28)
+
+        self.move_text()
+        
         self.show_list()
  
         self.root.mainloop()
@@ -300,6 +308,27 @@ class Player:
                 else:
                     messagebox.showwarning("NO FILE",'''Path not found, file may have
 been deleted or moved.''')
+
+    def move_text(self):
+        text = self.entryFile.get()
+        canvas_width = self.canvas_text.winfo_width()
+ 
+        text_bbox = self.canvas_text.bbox(self.canvas_text.create_text(0, 0, text=text, anchor="w", font=("arial", 20)))
+        text_width = text_bbox[2] - text_bbox[0]
+ 
+        if text_width > canvas_width:
+            self.canvas_text.delete("all")
+            self.canvas_text.create_text(self.text_x, 15, text=text, anchor="w", fill="black", font=("arial", 20))
+            self.text_x -= 5
+ 
+            if self.text_x <= - text_width:
+                self.text_x = canvas_width
+        else:
+            self.canvas_text.delete("all")
+            self.canvas_text.create_text(self.text_x, 15, text=text, anchor="w", fill="black", font=("arial", 20))
+            self.text_x = 0
+ 
+        self.root.after(100, self.move_text)
 
     def __del__(self):
         mixer.music.stop()
