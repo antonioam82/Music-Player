@@ -125,6 +125,7 @@ class Player:
         self.playing = True
         self.stopped = False
         self.paused = False
+        self.btnPlayall.configure(state="disabled")
  
         self.c = 0
         if self.random_mode == False:
@@ -266,6 +267,7 @@ class Player:
 
     def play(self):
         self.playing = True
+        self.btnPlayall.configure(state="normal")
         try:
             mixer.music.load(self.file_path)
             mixer.music.play()
