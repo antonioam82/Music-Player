@@ -304,10 +304,12 @@ class Player:
         self.playing = False
         mixer.music.stop()
         self.stopped = True
-        #self.running = False
+        #self.running = False #
         self.btnPlayall.configure(state="normal")
 
     def pause(self):
+        print(self.paused)
+        print(self.playing)
         if self.playing == True:
             mixer.music.pause()
             self.paused = True
@@ -321,6 +323,8 @@ class Player:
 
     def init_task(self):
         self.stop()
+        self.playing = True
+        print(self.playing)
         self.any_selected = self.is_any_selected()
         if self.any_selected:
             self.file_path = self.my_list[self.fav_list.curselection() [ 0 ] ]
