@@ -14,7 +14,6 @@ if not "music_favs.json" in os.listdir():
         json.dump(d, f)
         print("created music_favs.json")
 
-
 class Player:
     def __init__(self):
         self.root = Tk()
@@ -367,3 +366,4 @@ been deleted or moved.''')
 
 if __name__ == '__main__':
     Player()
+
