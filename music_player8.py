@@ -36,7 +36,6 @@ class Player:
         #self.stopped = False
         self.random_mode = False
         self.playing_loop = False
-        #self.running = False
         
         self.c = 0
         self.text_x = 0
@@ -156,7 +155,6 @@ class Player:
         else:
             self.listado = self.create_list(self.my_list,self.c)
             self.playlist = self.my_list
-        #self.running = True
  
         while self.playing_loop:
             print("-->"+str(self.c))
