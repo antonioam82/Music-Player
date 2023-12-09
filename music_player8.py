@@ -227,7 +227,9 @@ class Player:
                     else:
                         self.running = False
                         self.btnPlayall.configure(state='normal')'''
- 
+                    
+                    if self.file_path == self.my_list[self.fav_list.curselection()[ 0 ] ]:######
+                        self.stop()#############################################################
                     self.file_path = self.my_list[self.fav_list.curselection()[ 0 ] ]
                     self.key = self.get_key(self.file_path)
                     del self.audio_list[self.key]
