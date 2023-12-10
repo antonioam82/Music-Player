@@ -79,6 +79,8 @@ class Player:
         self.move_text()
         
         self.show_list()
+
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
  
         self.root.mainloop()
 
@@ -90,6 +92,11 @@ class Player:
                 self.fav_list.insert(END,(str(c)+"- "+i))
                 self.my_list.append(self.audio_list[i])
                 c+=1
+
+    def on_closing(self):
+            if self.playing or self.playing_loop:
+                self.stop()
+            self.root.destroy()    
 
     def create_list(self,p,c):
         lista = []
