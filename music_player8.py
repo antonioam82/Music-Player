@@ -94,9 +94,16 @@ class Player:
                 c+=1
 
     def on_closing(self):
-            self.unpause()
-            self.stop()
-            self.root.destroy()    
+        self.stop_program()
+        self.root.destroy()
+
+    def stop_program(self):
+        self.playing_loop = False
+        self.running = False
+        self.playing = False
+        mixer.music.stop()
+        self.stopped = True
+        self.btnPlayall.configure(state="normal")
 
     def create_list(self,p,c):
         lista = []
