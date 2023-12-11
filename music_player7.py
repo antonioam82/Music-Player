@@ -69,6 +69,8 @@ class Player:
         self.scrollbar.config(command = self.fav_list.yview)
  
         self.show_list()
+
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing) 
  
         self.root.mainloop()
  
@@ -89,6 +91,11 @@ class Player:
  
         except Exception as e:
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
+
+    def on_closing(self):
+            self.unpause()
+            self.stop()
+            self.root.destroy() 
  
     def add(self):
         self.any_selected = self.is_any_selected()
@@ -311,11 +318,6 @@ been deleted or moved.''')
         for key, value in self.audio_list.items():
             if val == value:
                 return key
- 
-    def __del__(self):
-        mixer.music.stop()
-        self.stopped = True
-        self.running = False
  
 if __name__=="__main__":
     Player()
