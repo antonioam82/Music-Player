@@ -7,13 +7,13 @@ from pygame import mixer, display
 import threading
 import json
 import os
- 
+
 if not "music_favs.json" in os.listdir():
     d = {}
     with open("music_favs.json", "w") as f:
         json.dump(d, f)
         print("created music_favs.json")
- 
+
 class Player:
     def __init__(self):
         self.root = Tk()
@@ -22,7 +22,7 @@ class Player:
         self.root.geometry("928x306")
         self.root.resizable(height=FALSE,width=FALSE)
         self.CHUNK = 1024
- 
+
         self.currentDir = StringVar()
         self.currentDir.set(os.getcwd())
         self.filename = StringVar()
@@ -35,10 +35,10 @@ class Player:
         self.random_mode = False
         self.running = False
         self.c = 0
- 
+
         with open("music_favs.json") as f:
             self.audio_list = json.load(f)
- 
+
         entryDir = Entry(self.root,textvariable=self.currentDir,width=154)
         entryDir.place(x=0,y=0)
         self.timer = Label(self.root,text="0:00:00",bg="black",fg="green",font=("arial","34"),width=13,height=2)
@@ -67,18 +67,18 @@ class Player:
         self.fav_list.pack()
         self.fav_list.config(yscrollcommand = self.scrollbar.set)
         self.scrollbar.config(command = self.fav_list.yview)
- 
+
         self.show_list()
 
-        self.root.protocol("WM_DELETE_WINDOW", self.on_closing) 
- 
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
+
         self.root.mainloop()
- 
+
     def open_file(self):
         try:
             fpath = filedialog.askopenfilename(initialdir = "/",title = "Select File",
                     filetypes = (("mp3 files","*.mp3"),("wav files","*.wav"),("ogg files",".ogg")))#,("all files","*.*")))
- 
+
             if fpath:
                 self.any_selected = self.is_any_selected()
                 if self.any_selected:
@@ -88,19 +88,21 @@ class Player:
                     self.stop()
                 self.file_path = fpath
                 self.filename.set(self.file_path.split("/")[-1])
- 
+
         except Exception as e:
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
 
     def stop_program(self):
         self.running = False
         self.stopped = True
-        mixer.music.stop()
+        self.playing = False
+        self.random_mode = False
+        self.stop()
         self.btnPlayall.configure(state="normal")
+        self.root.destroy()
 
     def on_closing(self):
         self.stop_program()
-        self.root.destroy()
 
     def add(self):
         self.any_selected = self.is_any_selected()
@@ -114,20 +116,20 @@ class Player:
                 self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
             else:
                 messagebox.showwarning("ALREADY SAVED","Selected item is already saved on playlist.")
- 
+
     def random_mod(self):
         if self.random_mode == False:
             self.random_mode = True
             self.listado = self.create_list(self.my_list,self.c)
             self.playlist = self.my_list
             self.btnRandom.configure(text="RANDOM (ON)")
- 
+
         else:
             self.random_mode = False
             self.c = 0
             self.playlist = self.my_list[::-1]
             self.btnRandom.configure(text="RANDOM (OFF)")
- 
+
     def update_timer(self):
         pos_time = mixer.music.get_pos()
         s = pos_time//1000
@@ -135,14 +137,14 @@ class Player:
         h, m = divmod(m, 60)
         h, m, s = int(h), int(m), int(s)
         self.timer['text']=f"{h:01}:{m:02}:{s:02}"
- 
+
         self.process = self.root.after(500, self.update_timer)
         if h == -1:
             self.timer['text']="0:00:00"
             self.root.after_cancel(self.process)
             self.btnPause.configure(text="PAUSE",command=self.pause)
             self.playing = False
- 
+
     def show_list(self):
         if len(self.audio_list) > 0:
             self.my_list = []
@@ -151,9 +153,10 @@ class Player:
                 self.fav_list.insert(END,(str(c)+"- "+i))
                 self.my_list.append(self.audio_list[i])
                 c+=1
- 
+
     def remove_playlist(self):
         if self.fav_list.size() > 0:
+            self.stop()
             message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
             if message == "yes":
                 self.playing = False
@@ -166,9 +169,10 @@ class Player:
                 with open("music_favs.json", "w") as f:
                     json.dump(d, f)
                 self.items.configure(text='0 ITEMS ON PLAYLIST')
- 
+
     def remove_from_list(self):
         if self.fav_list.size() > 0:
+            self.stop()
             self.any_selected = self.is_any_selected()
             if self.any_selected:
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
@@ -178,7 +182,7 @@ class Player:
                     else:
                         self.running = False
                         self.btnPlayall.configure(state='normal')
- 
+
                     self.file_path = self.my_list[self.fav_list.curselection()[ 0 ] ]
                     self.key = self.get_key(self.file_path)
                     del self.audio_list[self.key]
@@ -189,7 +193,7 @@ class Player:
                     self.items.configure(text='{} ITEMS ON PLAYLIST'.format(len(self.audio_list)))
             else:
                 messagebox.showwarning("NO ITEM SELECTED","Select the item you want to delete.")
- 
+
     def is_any_selected(self):
         self.num_selected = 0
         for i in range(0,self.fav_list.size()):
@@ -200,7 +204,7 @@ class Player:
         else:
             sel = False
         return sel
- 
+
     def create_list(self,p,c):
         lista = []
         for i in range(len(p)):
@@ -209,12 +213,12 @@ class Player:
         if c == lista[0]:
             lista.append(lista.pop(lista.index(c)))
         return lista
- 
+
     def play_loop(self):
         self.playing = True
         self.stopped = False
         self.paused = False
- 
+
         self.c = 0
         if self.random_mode == False:
             self.playlist = self.my_list[::-1]
@@ -222,7 +226,7 @@ class Player:
             self.listado = self.create_list(self.my_list,self.c)
             self.playlist = self.my_list
         self.running = True
- 
+
         while self.running:
             print("-->"+str(self.c))
             if len(self.playlist) > 0 and self.stopped == False:
@@ -231,14 +235,14 @@ class Player:
                         current = self.playlist.pop()
                     else:
                         current = self.playlist[self.listado[self.c]]
- 
+
                     try:
                         mixer.music.load(current)
                         self.filename.set(self.get_key(current))
                         any_selected = self.is_any_selected()
                         if any_selected:
                             self.fav_list.selection_clear(self.fav_list.curselection()[0])
- 
+
                         if self.random_mode == False:
                             self.fav_list.selection_set(self.c)
                             self.fav_list.see(self.c)
@@ -268,13 +272,13 @@ class Player:
                     self.c = 0
                     self.playlist = self.my_list[::-1]
         self.playing = False
- 
+
     def init_task2(self):
         if len(self.audio_list)>0 and self.playing == False:
             self.btnPlayall.configure(state="disabled")
             t2 = threading.Thread(target=self.play_loop)
             t2.start()
- 
+
     def play(self):
         self.playing = True
         try:
@@ -284,7 +288,7 @@ class Player:
         except:
             messagebox.showwarning("ERROR","Can't open the file '{}'.".format(self.entryFile.get()))
             self.playing = False
- 
+
     def init_task(self):
         if self.playing == False:
             self.any_selected = self.is_any_selected()
@@ -300,29 +304,29 @@ class Player:
                 else:
                     messagebox.showwarning("NO FILE",'''Path not found, file may have
 been deleted or moved.''')
- 
+
     def stop(self):
         mixer.music.stop()
         self.stopped = True
         self.running = False
         self.btnPlayall.configure(state="normal")
- 
+
     def pause(self):
         if self.playing == True:
             mixer.music.pause()
             self.paused = True
             self.btnPause.configure(text="CONTINUE",command=self.unpause)
- 
+
     def unpause(self):
         mixer.music.unpause()
         self.stopped = False
         self.paused = False
         self.btnPause.configure(text="PAUSE",command=self.pause)
- 
+
     def get_key(self,val):
         for key, value in self.audio_list.items():
             if val == value:
                 return key
- 
+
 if __name__=="__main__":
     Player()
