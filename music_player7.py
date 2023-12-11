@@ -92,11 +92,16 @@ class Player:
         except Exception as e:
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
 
+    def stop_program(self):
+        self.running = False
+        self.stopped = True
+        mixer.music.stop()
+        self.btnPlayall.configure(state="normal")
+
     def on_closing(self):
-            self.unpause()
-            self.stop()
-            self.root.destroy() 
- 
+        self.stop_program()
+        self.root.destroy()
+
     def add(self):
         self.any_selected = self.is_any_selected()
         if self.entryFile.get() != "" and self.running == False and self.any_selected == False:
