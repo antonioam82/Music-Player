@@ -94,8 +94,7 @@ class Player:
                 c+=1
 
     def on_closing(self):
-            if self.playing or self.playing_loop:
-                self.stop()
+            self.stop()
             self.root.destroy()    
 
     def create_list(self,p,c):
