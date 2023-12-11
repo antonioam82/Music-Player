@@ -94,6 +94,7 @@ class Player:
                 c+=1
 
     def on_closing(self):
+            self.unpause()
             self.stop()
             self.root.destroy()    
 
@@ -227,11 +228,11 @@ class Player:
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
                     
-                    '''if self.running == False:
+                    if self.running == False:
                         mixer.music.stop()
                     else:
                         self.running = False
-                        self.btnPlayall.configure(state='normal')'''
+                        self.btnPlayall.configure(state='normal')
                     
                     #if self.file_path == self.my_list[self.fav_list.curselection()[ 0 ] ]:######
                         #self.stop()#############################################################
