@@ -6,6 +6,7 @@ import random
 from pygame import mixer, display
 import threading
 import json
+import time
 import os
 
 if not "music_favs.json" in os.listdir():
@@ -98,7 +99,9 @@ class Player:
         self.root.destroy()
 
     def stop_program(self):
-        self.playing_loop = False
+        if self.playing_loop == True:
+            self.playing_loop = False
+            time.sleep(1)
         self.running = False
         self.playing = False
         mixer.music.stop()
