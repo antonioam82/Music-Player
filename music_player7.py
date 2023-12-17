@@ -6,6 +6,7 @@ import random
 from pygame import mixer, display
 import threading
 import json
+import time
 import os
 
 if not "music_favs.json" in os.listdir():
@@ -93,16 +94,16 @@ class Player:
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
 
     def stop_program(self):
-        self.running = False
         self.stopped = True
         self.playing = False
-        self.random_mode = False
-        self.stop()
-        self.btnPlayall.configure(state="normal")
-        self.root.destroy()
+        mixer.music.stop()
+        if self.running == True:
+            self.running = False
+            time.sleep(1)         
 
     def on_closing(self):
         self.stop_program()
+        self.root.destroy()
 
     def add(self):
         self.any_selected = self.is_any_selected()
