@@ -172,17 +172,17 @@ class Player:
                 self.items.configure(text='0 ITEMS ON PLAYLIST')
 
     def remove_from_list(self):
-        if self.fav_list.size() > 0:
-            self.stop()
+        if self.fav_list.size() > 0 and self.playing == False and self.running == False:
+            #self.stop()
             self.any_selected = self.is_any_selected()
             if self.any_selected:
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
-                    if self.running == False:
+                    '''if self.running == False:
                         mixer.music.stop()
                     else:
                         self.running = False
-                        self.btnPlayall.configure(state='normal')
+                        self.btnPlayall.configure(state='normal')'''
 
                     self.file_path = self.my_list[self.fav_list.curselection()[ 0 ] ]
                     self.key = self.get_key(self.file_path)
