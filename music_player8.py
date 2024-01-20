@@ -99,14 +99,13 @@ class Player:
         self.root.destroy()
 
     def stop_program(self):
-        if self.playing_loop == True:
-            self.playing_loop = False
-            time.sleep(1)
         self.running = False
         self.playing = False
         mixer.music.stop()
         self.stopped = True
-        self.btnPlayall.configure(state="normal")
+        if self.playing_loop == True:
+            self.playing_loop = False
+            time.sleep(1)        
 
     def create_list(self,p,c):
         lista = []
@@ -131,13 +130,9 @@ class Player:
             self.btnRandom.configure(text="RANDOM (OFF)")
 
     def remove_playlist(self):
-        if self.fav_list.size() > 0:
+        if self.fav_list.size() > 0 and self.playing == False and self.playing_loop == False:
             message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
             if message == "yes":
-                self.stop()######
-                self.playing = False
-                self.running = False
-                self.btnPlayall.configure(state='normal')
                 self.my_list = []
                 self.fav_list.delete(0,END)
                 self.audio_list = {}
@@ -232,20 +227,11 @@ class Player:
             t2.start()
 
     def remove_from_list(self):
-        if self.fav_list.size() > 0:
+        if self.fav_list.size() > 0 and self.playing == False and self.playing_loop == False:
             self.any_selected = self.is_any_selected()
             if self.any_selected:
                 message = messagebox.askquestion("REMOVE ITEM",'Delete selected item from playlist?')
                 if message == "yes":
-                    
-                    if self.running == False:
-                        mixer.music.stop()
-                    else:
-                        self.running = False
-                        self.btnPlayall.configure(state='normal')
-                    
-                    #if self.file_path == self.my_list[self.fav_list.curselection()[ 0 ] ]:######
-                        #self.stop()#############################################################
                     self.file_path = self.my_list[self.fav_list.curselection()[ 0 ] ]
                     self.key = self.get_key(self.file_path)
                     del self.audio_list[self.key]
@@ -378,4 +364,3 @@ been deleted or moved.''')
 
 if __name__ == '__main__':
     Player()
-
