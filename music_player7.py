@@ -157,7 +157,7 @@ class Player:
 
     def remove_playlist(self):
         if self.fav_list.size() > 0 and self.playing == False and self.running == False:
-            self.stop()
+            #self.stop()
             message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
             if message == "yes":
                 '''self.playing = False
@@ -331,3 +331,4 @@ been deleted or moved.''')
 
 if __name__=="__main__":
     Player()
+
