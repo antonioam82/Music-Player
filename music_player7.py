@@ -156,13 +156,13 @@ class Player:
                 c+=1
 
     def remove_playlist(self):
-        if self.fav_list.size() > 0:
+        if self.fav_list.size() > 0 and self.playing == False and self.running == False:
             self.stop()
             message = messagebox.askquestion("REMOVE PLAYLIST",'Do you want to remove all the playlist?')
             if message == "yes":
-                self.playing = False
+                '''self.playing = False
                 self.running = False
-                self.btnPlayall.configure(state='normal')
+                self.btnPlayall.configure(state='normal')'''
                 self.my_list = []
                 self.fav_list.delete(0,END)
                 self.audio_list = {}
